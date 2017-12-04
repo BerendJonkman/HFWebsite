@@ -163,6 +163,7 @@
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Restaurant.cs" />
     <Compile Include="Models\RestaurantFoodType.cs" />
+    <Compile Include="Models\Ticket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
