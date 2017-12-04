@@ -1,0 +1,34 @@
+﻿@model HFWebsiteA7.Models.Event
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Day.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Day.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AvailableSeats)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AvailableSeats)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.EventId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
