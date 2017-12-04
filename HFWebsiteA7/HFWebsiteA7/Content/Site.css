@@ -22,3 +22,7 @@ select,
 textarea {
     max-width: 280px;
 }
+.banner {
+    background-image: url("/Content/Content-images/banner.jpg");
+    height: 300px;
+}
