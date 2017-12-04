@@ -149,6 +149,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ConcertsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -161,6 +162,7 @@
     <Compile Include="Models\Hall.cs" />
     <Compile Include="Models\Day.cs" />
     <Compile Include="Models\HFWebsiteA7Context.cs" />
+    <Compile Include="Models\JazzIndexViewModel.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Restaurant.cs" />
     <Compile Include="Models\RestaurantFoodType.cs" />
@@ -211,6 +213,16 @@
     <Content Include="Views\Admin\Details.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Concerts\Create.cshtml" />
+    <Content Include="Views\Concerts\Delete.cshtml" />
+    <Content Include="Views\Concerts\Details.cshtml" />
+    <Content Include="Views\Concerts\Edit.cshtml" />
+    <Content Include="Views\Concerts\IndexOld.cshtml" />
+    <Content Include="Views\Concerts\Index.cshtml" />
+    <Content Include="Views\Concerts\Friday.cshtml" />
+    <Content Include="Views\Concerts\Saturday.cshtml" />
+    <Content Include="Views\Concerts\Sunday.cshtml" />
+    <Content Include="Views\Concerts\Thursday.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
