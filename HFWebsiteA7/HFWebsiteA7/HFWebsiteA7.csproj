@@ -172,6 +172,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Content-images\banner.jpg" />
     <Content Include="Content\Content-images\banner.png" />
+    <Content Include="Content\Content-images\basket.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

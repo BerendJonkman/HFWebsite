@@ -22,7 +22,36 @@ select,
 textarea {
     max-width: 280px;
 }
+.navbar {
+    background-color: #92140c;
+}
+
+.nav.navbar-nav li a {
+    color: #FFFFFF;
+    font-family: Arial Bold, Arial;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 20px;
+}
+
 .banner {
     background-image: url("/Content/Content-images/banner.jpg");
+    background-repeat: round;
     height: 300px;
+}
+.navbar-inverse .navbar-nav .active a {
+    background-color: #be7c4d;
+}
+
+    .navbar-inverse .navbar-nav .active a:hover {
+         background-color: #be7c4d;
+    }
+
+a.classname
+{
+    background: url("/Content/Content-images/basket.png") no-repeat top left;
+    display: block;
+    width: 150px;
+    height: 150px;
+    text-indent: -9999px; /* hides the link text */
 }
