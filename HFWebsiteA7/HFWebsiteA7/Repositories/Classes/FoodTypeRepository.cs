@@ -6,7 +6,8 @@ using HFWebsiteA7.Models;
 
 namespace HFWebsiteA7.Repositories.Classes
 {
-    public class FoodTypeRepository : IFoodTypeRepository
+    public class FoodTypeRepository : IFoodType
+        Repository
     {
         private HFWebsiteA7Context db = new HFWebsiteA7Context();
 

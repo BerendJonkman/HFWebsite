@@ -166,9 +166,11 @@
     <Compile Include="Models\HFWebsiteA7Context.cs" />
     <Compile Include="Models\JazzIndexViewModel.cs" />
     <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Restaurant.cs" />
     <Compile Include="Models\RestaurantFoodType.cs" />
     <Compile Include="Models\Ticket.cs" />
+    <Compile Include="Models\TicketOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Classes\BandRepository.cs" />
     <Compile Include="Repositories\Classes\ConcertRepository.cs" />
@@ -178,8 +180,11 @@
     <Compile Include="Repositories\Classes\FoodTypeRepository.cs" />
     <Compile Include="Repositories\Classes\HallRepository.cs" />
     <Compile Include="Repositories\Classes\LocationRepository.cs" />
+    <Compile Include="Repositories\Classes\OrderRepository.cs" />
     <Compile Include="Repositories\Classes\RestaurantFoodTypeRepository.cs" />
     <Compile Include="Repositories\Classes\RestaurantRepository.cs" />
+    <Compile Include="Repositories\Classes\TicketOrderRepository.cs" />
+    <Compile Include="Repositories\Classes\TicketRepository.cs" />
     <Compile Include="Repositories\ConcertRepository.cs" />
     <Compile Include="Repositories\FoodTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IBandRepository.cs" />
@@ -190,8 +195,11 @@
     <Compile Include="Repositories\Interfaces\IHallRepository.cs" />
     <Compile Include="Repositories\Interfaces\ILocationRepository.cs" />
     <Compile Include="Repositories\Interfaces\IEventRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IOrderRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRestaurantFoodTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRestaurantRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ITicketOrderRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ITicketRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

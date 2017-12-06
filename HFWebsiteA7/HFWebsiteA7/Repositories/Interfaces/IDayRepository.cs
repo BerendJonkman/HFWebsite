@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HFWebsiteA7.Repositories
+namespace HFWebsiteA7.Repositories.Interfaces
 {
     interface IDayRepository
     {

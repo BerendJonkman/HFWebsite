@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace HFWebsiteA7.Repositories.Interfaces
 {
-    interface IConcertsRepository
+    interface ITicketRepository
     {
-        IEnumerable<Concert> GetAllConcerts();
-        Concert GetConcert(int concertId);
-        void AddConcert(Concert concert);
+        IEnumerable<Ticket> GetAllTickets();
+        Ticket GetTicket(int ticketId);
+        void AddTicket(Ticket ticket);
     }
 }

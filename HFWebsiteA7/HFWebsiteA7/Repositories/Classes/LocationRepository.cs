@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using HFWebsiteA7.Models;
+using HFWebsiteA7.Repositories.Interfaces;
 
 namespace HFWebsiteA7.Repositories.Classes
 {
