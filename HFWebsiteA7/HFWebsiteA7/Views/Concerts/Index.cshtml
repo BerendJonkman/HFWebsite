@@ -1,0 +1,66 @@
+﻿@model HFWebsiteA7.Models.JazzIndexViewModel
+
+
+@{
+    ViewBag.Title = "Jazz@Patronaat";
+}
+
+<h2>Jazz@Patronaat</h2>
+<p>Do you like some Jazz music? Then Jazz@Patronaat is the perfect event to go to! With over 18 bands performing in 4 days there must be something for you!</p>
+
+<div class="col-sm-3">
+    <h3>Thursday:</h3>
+    <p>
+        <b>Date:</b></p>
+    <p>
+        <b>Location:</b>
+        <b>Performing:</b>
+        @foreach (var item in Model.ThursdayConcerts)
+        {
+            @item.Band.Name@:;
+        }
+    </p>
+    <a href="@Url.Action("Thursday", "Thursday")" class="mLinkButton">More information about Thursday</a>
+</div>
+
+<div class="col-sm-3">
+    <h3>Friday:</h3>
+    <p>
+        <b>Date:</b>
+        <b>Location:</b>
+        <b>Performing:</b>
+        @foreach (var item in Model.FridayConcerts)
+        {
+            @item.Band.Name@:;
+        }
+    </p>
+    <a href="@Url.Action("Friday", "Friday")" class="mLinkButton">More information about Friday</a>
+</div>
+
+<div class="col-sm-3">
+    <h3>Saturday:</h3>
+    <p>
+        <b>Date:</b>
+        <b>Location:</b>
+        <b>Performing:</b>
+        @foreach (var item in Model.SaturdayConcerts)
+        {
+            @item.Band.Name@:;
+        }
+    </p>
+    <a href="@Url.Action("Saturday", "Saturday")" class="mLinkButton">More information about Saturday</a>
+</div>
+
+<div class="col-sm-3">
+    <h3>Sunday:</h3>
+    <p>
+        <b>Date:</b>
+        <b>Location:</b>
+        <b>Performing:</b>
+        @foreach (var item in Model.SundayConcerts)
+        {
+            @item.Band.Name@:;
+        }
+    </p>
+    @Html.ActionLink("More information about Sunday", "Sunday", null, new { @class= "mLinkButton" })
+</div>
