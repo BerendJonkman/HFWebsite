@@ -12,17 +12,18 @@ namespace HFWebsiteA7.Repositories.Classes
 
         public void AddRestaurantFoodType(RestaurantFoodType restaurantFoodType)
         {
-            throw new NotImplementedException();
+            db.RestaurantFoodType.Add(restaurantFoodType);
+            db.SaveChanges();
         }
 
         public IEnumerable<RestaurantFoodType> GetAllRestaurantFoodTypes()
         {
-            throw new NotImplementedException();
+            return db.RestaurantFoodType.ToList();
         }
 
         public RestaurantFoodType GetRestaurantFoodType(int restaurantFoodTypeId)
         {
-            throw new NotImplementedException();
+            return db.RestaurantFoodType.Find(restaurantFoodTypeId);
         }
     }
 }

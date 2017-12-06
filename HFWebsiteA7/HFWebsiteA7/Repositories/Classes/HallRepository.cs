@@ -12,17 +12,18 @@ namespace HFWebsiteA7.Repositories.Classes
 
         public void AddHall(Hall hall)
         {
-            throw new NotImplementedException();
+            db.Halls.Add(hall);
+            db.SaveChanges();
         }
 
         public IEnumerable<Hall> GetAllHalls()
         {
-            throw new NotImplementedException();
+            return db.Halls.ToList();
         }
 
         public Hall GetHall(int hallId)
         {
-            throw new NotImplementedException();
+            return db.Halls.Find(hallId);
         }
     }
 }

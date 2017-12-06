@@ -12,17 +12,18 @@ namespace HFWebsiteA7.Repositories.Classes
 
         public void AddConcert(Concert concert)
         {
-            throw new NotImplementedException();
+            db.Concerts.Add(concert);
+            db.SaveChanges();
         }
 
         public IEnumerable<Concert> GetAllConcerts()
         {
-            throw new NotImplementedException();
+            return db.Concerts.ToList();
         }
 
         public Concert GetConcert(int concertId)
         {
-            throw new NotImplementedException();
+            return db.Concerts.Find(concertId);
         }
     }
 }

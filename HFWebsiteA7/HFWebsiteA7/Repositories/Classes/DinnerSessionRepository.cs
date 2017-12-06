@@ -12,7 +12,8 @@ namespace HFWebsiteA7.Repositories.Classes
 
         public void AddDinnerSession(DinnerSession dinnerSession)
         {
-            throw new NotImplementedException();
+            db.DinnerSessions.Add(dinnerSession);
+            db.SaveChanges();
         }
 
         public IEnumerable<DinnerSession> GetAllDinnerSessions()

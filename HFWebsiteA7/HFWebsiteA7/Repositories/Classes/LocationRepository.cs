@@ -12,17 +12,18 @@ namespace HFWebsiteA7.Repositories.Classes
 
         public void AddLocation(Location location)
         {
-            throw new NotImplementedException();
+            db.Locations.Add(location);
+            db.SaveChanges();
         }
 
         public IEnumerable<Location> GetAllLocations()
         {
-            throw new NotImplementedException();
+            return db.Locations.ToList();
         }
 
         public Location GetLocation(int locationId)
         {
-            throw new NotImplementedException();
+            return db.Locations.Find(locationId);
         }
     }
 }
