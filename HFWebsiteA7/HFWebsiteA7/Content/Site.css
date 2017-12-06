@@ -1,6 +1,7 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: -50px;
     padding-bottom: 20px;
+    background-color: #C1B4AE; !important
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -22,7 +23,37 @@ select,
 textarea {
     max-width: 280px;
 }
+.navbar {
+    background-color: #92140c;
+}
+
+.nav.navbar-nav li a {
+    color: #FFFFFF;
+    font-family: Arial Bold, Arial;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 20px;
+}
+
 .banner {
     background-image: url("/Content/Content-images/banner.jpg");
+    background-repeat: round;
     height: 300px;
+}
+.navbar-inverse .navbar-nav .active a {
+    background-color: #be7c4d;
+}
+
+.navbar-inverse .navbar-nav .active a:hover {
+        background-color: #be7c4d;
+}
+.navbar-right {
+    margin: 0;
+}
+.span3 {
+
+    background-color: white;
+    padding-right: 20px;
+    padding-left: 20px;
+    outline: 1px solid black;
 }

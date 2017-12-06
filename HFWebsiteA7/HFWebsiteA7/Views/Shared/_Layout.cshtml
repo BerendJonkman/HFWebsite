@@ -10,7 +10,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #92140c;">
+    <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -18,13 +18,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Jazz@Patronaat", "About", "Home")</li>
-                    <li>@Html.ActionLink("Dinner in Haarlem", "Contact", "Home")</li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">@Html.ActionLink("Jazz@Patronaat", "Index", "ConcertsController")</li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")" style="">@Html.ActionLink("Dinner in Haarlem", "Contact", "Home")</li>
+                </ul>
+                <ul class="navbar-right">
+                    <li style="list-style: none;">
+                        <a href="@Url.Action("About", "Home")" title="Widget View" class="links">
+                            <img style="height: 40px; margin-bottom: 0px;"src="@Url.Content("/Content/Content-images/basket.png")">
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -34,11 +40,17 @@
         
     </div>
     <div class="container body-content">
+       <div class="span3 offset2">
         @RenderBody()
+       </div>
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+        <div class="span3 offset2">
+            <div class="col-sm-3">content 1</div>
+            <div class="col-sm-3">content 2</div>
+            <div class="col-sm-5"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d9741.592658248166!2d4.636317!3d52.381332!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c5ef6b924ce7ed%3A0xd9721c5337b4704!2sGrote+Markt%2C+Haarlem!5e0!3m2!1sen!2snl!4v1512568972832" width="550" height="225" frameborder="0" style="border: 0" allowfullscreen></iframe>
+            </div>
+        </div>
+
     </div>
 
     @Scripts.Render("~/bundles/jquery")
