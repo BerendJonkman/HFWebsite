@@ -4,8 +4,44 @@
     ViewBag.Title = "Friday";
 }
 
-<h2>Friday</h2>
+<div class="container">
+    <div class="col-sm-6">
+        <h2>Jazz@Patronaat - Friday</h2>
+        <p>On Friday you have got a choice of 6 different jazz bands. The 6 bands are performing over 2 Halls in the Patronaat.</p>
+    </div>
+    <div class="col-sm-2">
+        <img class="triple-img" src="~/Content/Content-images/JazzImages/Index/leftImageJazzIndex.jpg" alt="JazzInformationImage" width="150" height="150">
+    </div>
+    <div class="col-sm-2">
+        <img class="triple-img" src="~/Content/Content-images/JazzImages/DetailPage/middleImageJazzThursday.jpg" alt="JazzInformationImage" width="150" height="150">
+    </div>
+    <div class="col-sm-2">
+        <img class="triple-img" src="~/Content/Content-images/JazzImages/DetailPage/rightImageJazzThursday.jpg" alt="JazzInformationImage" width="150" height="150">
+    </div>
 
-<div>
-    @Html.ActionLink("Terug naar Jazz overzicht", "Index")
+    <div>
+        <div class="col-sm-3">
+            <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="77">
+        </div>
+        <div class="col-sm-6">
+            <img class="" src="~/Content/Content-images/JazzImages/DetailPage/JazzInformationThursday.jpg" alt="JazzInformationImage" width="515" height="77">
+        </div>
+        <div class="col-sm-3">
+            <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="77">
+        </div>
+    </div>
+
+    <div>
+        <div class="col-sm-6">
+            <h3 style="text-align: center">Main Hall</h3>
+
+        </div>
+        <div class="col-sm-6">
+            <h3 style="text-align: center">Third Hall</h3>
+        </div>
+    </div>
+
+    <div>
+        @Html.ActionLink("Terug naar Jazz overzicht", "Index")
+    </div>
 </div>
