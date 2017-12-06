@@ -39,11 +39,19 @@ namespace HFWebsiteA7.Controllers
                     case "Sunday":
                         sundayConcerts.Add(concert);
                         break;
-                }
-                             
+                }                            
             }
 
-            return View(concerts.ToList());
+            JazzIndexViewModel vm = new JazzIndexViewModel
+            {
+                ThursdayConcerts = this.thursdayConcerts,
+                FridayConcerts = this.fridayConcerts,
+                SaturdayConcerts = this.saturdayConcerts,
+                SundayConcerts = this.sundayConcerts
+            };
+
+
+            return View(vm);
         }
 
         public ActionResult Thursday()
