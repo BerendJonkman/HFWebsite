@@ -13,5 +13,6 @@ namespace HFWebsiteA7.Models
         public virtual int DayId { get; set; }
         public virtual Day Day { get; set; }
         public virtual int AvailableSeats { get; set; }
+        public virtual string Discriminator { get; set; }
     }
 }

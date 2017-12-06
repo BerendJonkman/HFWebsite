@@ -11,7 +11,7 @@ namespace HFWebsiteA7.Models
     {
         public virtual int RestaurantId { get; set; }
         public virtual Restaurant Restaurant { get; set; }
-        public virtual double Duration { get; set; }
+        public virtual decimal Duration { get; set; }
         public virtual DateTime StartTime { get; set; }
     }
 }

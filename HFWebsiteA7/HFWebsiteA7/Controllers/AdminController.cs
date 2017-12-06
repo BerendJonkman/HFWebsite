@@ -13,12 +13,13 @@ namespace HFWebsiteA7.Controllers
     public class AdminController : Controller
     {
         private HFWebsiteA7Context db = new HFWebsiteA7Context();
+        private List<Event> events;
 
         // GET: Admin
         public ActionResult Index()
         {
-            var events = db.Events;
-            return View(events.ToList());
+            events = db.Events.ToList();
+            return View(events);
         }
 
         // GET: Admin/Details/5
@@ -42,6 +43,43 @@ namespace HFWebsiteA7.Controllers
             ViewBag.DayId = new SelectList(db.Days, "Id", "Name");
             return View();
         }
+
+        public ActionResult Dinner()
+        {
+            var restaurants = db.Restaurants.ToList();
+            var dinnerSessions = db.DinnerSessions.ToList();
+            
+            var adminRestaurants = new List<AdminRestaurant>();
+            
+            foreach(var restaurant in restaurants)
+            {
+                var foodTypes = db.RestaurantFoodType.Where(l => restaurant.Id == l.RestaurantId).ToList();
+                var adminRestaurant = new AdminRestaurant
+                {
+                    Restaurant = restaurant,
+                    Sessions = getSessions(dinnerSessions, restaurant.Id),
+
+                };
+
+            }
+            DinnerAdminViewModel model = new DinnerAdminViewModel();
+            model.restaurantList = restaurants;
+            return View(model);
+        }
+
+        private int getSessions(List<DinnerSession> dinnerSessions, int restaurantId)
+        {
+            var sessionCount = 0;
+            foreach(var dinnerSession in dinnerSessions)
+            {
+                if(dinnerSession.Day.Name == "Thursday" && dinnerSession.RestaurantId == restaurantId)
+                {
+                    sessionCount++;
+                }
+            }
+            return sessionCount;
+        }
+
 
         // POST: Admin/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

@@ -15,6 +15,9 @@ namespace HFWebsiteA7.Models
         public virtual decimal Price { get; set; }
         public virtual decimal ReducedPrice { get; set; }
         public virtual int Stars { get; set; }
+        public virtual int Seats { get; set; }
         public virtual string Description { get; set; }
+        public virtual string ImagePath { get; set; }
+
     }
 }
