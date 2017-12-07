@@ -106,25 +106,11 @@
             <b>Performing:</b> Ruis Soundsystem; Wicked Jazz Sounds; Evolve; The Nordanians; Gumbo Kings; Gare du Nord
         </div>
     </div>
-
-    <div>
-        <div class="col-sm-3">
-            <a href="@Url.Action("Thursday", "Concerts")" class="mLinkButton">More information about Thursday</a>
-        </div>
-        <div class="col-sm-3">
-            <a href="@Url.Action("Friday", "Concerts")" class="mLinkButton">More information about Thursday</a>
-        </div>
-        <div class="col-sm-3">
-            <a href="@Url.Action("Saturday", "Concerts")" class="mLinkButton">More information about Thursday</a>
-        </div>
-        <div class="col-sm-3">
-            <a href="@Url.Action("Sunday", "Concerts")" class="mLinkButton">More information about Thursday</a>
-        </div>
-    </div>
+    
     <!--
         @foreach (var festivalDay in Model.FestivalDays)
     {
-        <div class="col-sm-3">
+        <div class="col-sm-3 @festivalDay.Day">
             <div class="DayHeader">
                 <h3>@festivalDay.Day:</h3>
             </div>
@@ -145,7 +131,21 @@
         </div>
     }
     -->
-
+   
+    <div>
+        <div class="col-sm-3">
+            <a href="@Url.Action("Thursday", "Concerts")" class="mLinkButton">More information about Thursday</a>
+        </div>
+        <div class="col-sm-3">
+            <a href="@Url.Action("Friday", "Concerts")" class="mLinkButton">More information about Friday</a>
+        </div>
+        <div class="col-sm-3">
+            <a href="@Url.Action("Saturday", "Concerts")" class="mLinkButton">More information about Saturday</a>
+        </div>
+        <div class="col-sm-3">
+            <a href="@Url.Action("Sunday", "Concerts")" class="mLinkButton">More information about Sunday</a>
+        </div>
+    </div>
     
 
 </div>
