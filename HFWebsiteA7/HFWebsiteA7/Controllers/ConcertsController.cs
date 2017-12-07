@@ -13,7 +13,8 @@ namespace HFWebsiteA7.Controllers
 {
     public class ConcertsController : Controller
     {
-        private HFWebsiteA7Context db = new HFWebsiteA7Context();
+        private IConcertsRepository concertRepository = new ConcertRepository();
+
         private List<Concert> thursdayConcerts= new List<Concert>();
         private List<Concert> fridayConcerts = new List<Concert>();
         private List<Concert> saturdayConcerts = new List<Concert>();
@@ -22,7 +23,7 @@ namespace HFWebsiteA7.Controllers
         // GET: Concerts
         public ActionResult Index()
         {
-            var concerts = db.Concerts.ToList();
+            var concerts = concertRepository.GetAllConcerts();
             var days = db.Days.ToList();
             foreach (Concert concert in concerts)
             {
