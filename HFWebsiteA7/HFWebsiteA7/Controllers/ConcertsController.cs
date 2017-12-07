@@ -7,13 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HFWebsiteA7.Models;
+using HFWebsiteA7.Repositories;
 
 namespace HFWebsiteA7.Controllers
 {
     public class ConcertsController : Controller
     {
         private HFWebsiteA7Context db = new HFWebsiteA7Context();
-        private List<Concert> thursdayConcerts = new List<Concert>();
+        private List<Concert> thursdayConcerts= new List<Concert>();
         private List<Concert> fridayConcerts = new List<Concert>();
         private List<Concert> saturdayConcerts = new List<Concert>();
         private List<Concert> sundayConcerts = new List<Concert>();
@@ -22,7 +23,7 @@ namespace HFWebsiteA7.Controllers
         public ActionResult Index()
         {
             var concerts = db.Concerts.ToList();
-
+            var days = db.Days.ToList();
             foreach (Concert concert in concerts)
             {
                 switch (concert.Day.Name)
@@ -42,14 +43,50 @@ namespace HFWebsiteA7.Controllers
                 }                            
             }
 
-            JazzIndexViewModel vm = new JazzIndexViewModel
-            {
-                ThursdayConcerts = this.thursdayConcerts,
-                FridayConcerts = this.fridayConcerts,
-                SaturdayConcerts = this.saturdayConcerts,
-                SundayConcerts = this.sundayConcerts
-            };
+            JazzIndexViewModel vm = new JazzIndexViewModel();
 
+            foreach (Day day in days)
+            {
+                FestivalDay festivalday = new FestivalDay();
+                vm.FestivalDays = new List<FestivalDay>();
+                festivalday.Concerts = new List<Concert>();
+            
+                switch (day.Name)
+                {
+                    case "Thursday":
+                        festivalday.Concerts.AddRange(thursdayConcerts);
+                        festivalday.Date = day.Date;
+                        festivalday.Day = day.Name;
+                        festivalday.Location = concerts[0].Location.Name;
+
+                        vm.FestivalDays.Add(festivalday);
+                        break;
+                    case "Friday":
+                        festivalday.Concerts.AddRange(fridayConcerts);
+                        festivalday.Date = day.Date;
+                        festivalday.Day = day.Name;
+                        festivalday.Location = concerts[0].Location.Name;
+
+                        vm.FestivalDays.Add(festivalday);
+                        break;
+                    case "Saturday":
+                        festivalday.Concerts.AddRange(saturdayConcerts);
+                        festivalday.Date = day.Date;
+                        festivalday.Day = day.Name;
+                        festivalday.Location = concerts[0].Location.Name;
+
+                        vm.FestivalDays.Add(festivalday);
+                        break;
+                    case "Sunday":
+                        festivalday.Concerts.AddRange(sundayConcerts);
+                        festivalday.Date = day.Date;
+                        festivalday.Day = day.Name;
+                        festivalday.Location = concerts[0].Location.Name;
+
+                        vm.FestivalDays.Add(festivalday);
+                        break;
+                }
+            }
 
             return View(vm);
         }
@@ -70,6 +107,11 @@ namespace HFWebsiteA7.Controllers
         }
 
         public ActionResult Sunday()
+        {
+            return View();
+        }
+
+        public ActionResult Reservation()
         {
             return View();
         }

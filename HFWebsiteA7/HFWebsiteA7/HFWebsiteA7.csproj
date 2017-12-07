@@ -160,6 +160,7 @@
     <Compile Include="Models\DinnerAdminViewModel.cs" />
     <Compile Include="Models\DinnerSession.cs" />
     <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\FestivalDay.cs" />
     <Compile Include="Models\FoodType.cs" />
     <Compile Include="Models\Hall.cs" />
     <Compile Include="Models\Day.cs" />
@@ -207,6 +208,19 @@
     <Content Include="Content\Content-images\banner.jpg" />
     <Content Include="Content\Content-images\banner.png" />
     <Content Include="Content\Content-images\basket.png" />
+    <Content Include="Content\Content-images\JazzImages\Index\DividerSideStripes.png" />
+    <Content Include="Content\Content-images\JazzImages\Index\JazzIndexFriday.jpg" />
+    <Content Include="Content\Content-images\JazzImages\Index\JazzIndexSaturday.jpg" />
+    <Content Include="Content\Content-images\JazzImages\Index\JazzIndexSunday.jpg" />
+    <Content Include="Content\Content-images\JazzImages\Index\JazzIndexThursday.jpg" />
+    <Content Include="Content\Content-images\JazzImages\Index\JazzInformation.jpg" />
+    <Content Include="Content\Content-images\JazzImages\Index\leftImageJazzIndex.jpg" />
+    <Content Include="Content\Content-images\JazzImages\Index\middleImageJazzIndex.jpg" />
+    <Content Include="Content\Content-images\JazzImages\Index\rightImageJazzIndex.jpg" />
+    <Content Include="Content\Content-images\JazzImages\DetailPage\DividerSideStripesBackArrow.png" />
+    <Content Include="Content\Content-images\JazzImages\DetailPage\JazzInformationThursday.jpg" />
+    <Content Include="Content\Content-images\JazzImages\DetailPage\middleImageJazzThursday.jpg" />
+    <Content Include="Content\Content-images\JazzImages\DetailPage\rightImageJazzThursday.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -258,6 +272,7 @@
     <Content Include="Views\Concerts\Saturday.cshtml" />
     <Content Include="Views\Concerts\Sunday.cshtml" />
     <Content Include="Views\Concerts\Thursday.cshtml" />
+    <Content Include="Views\Concerts\Reservation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

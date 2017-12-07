@@ -1,7 +1,7 @@
 ﻿body {
     padding-top: -50px;
     padding-bottom: 20px;
-    background-color: #C1B4AE;
+    background-color: #C1B4AE; 
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -96,4 +96,20 @@ textarea {
 .mLinkButton:active {
     position: relative;
     top: 1px;
+}
+
+.img-divide-center{
+    display: block;
+    margin: auto;
+    margin-bottom: 25px;
+}
+
+.triple-img {
+    position: relative;
+    top: -25px;
+    right: -20px;
+}
+
+.back-button-thursday {
+    background: url("~/Content/Content-images/JazzImages/DetailPage/DividerSideStripesBackArrow.png")
 }
