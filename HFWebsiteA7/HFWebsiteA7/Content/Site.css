@@ -113,3 +113,10 @@ textarea {
 .back-button-thursday {
     background: url("~/Content/Content-images/JazzImages/DetailPage/DividerSideStripesBackArrow.png")
 }
+
+.book-now-btn {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+

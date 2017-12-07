@@ -14,5 +14,9 @@ namespace HFWebsiteA7.Models
         public List<Concert> Concerts { get; set; }
 
         public string Location { get; set; }
+
+        public List<Concert> MainConcertList { get; set; }
+
+        public List<Concert> SecondConcertList { get; set; }
     }
 }

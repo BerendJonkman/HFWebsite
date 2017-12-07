@@ -1,4 +1,4 @@
-﻿@model HFWebsiteA7.Models.JazzIndexViewModel
+﻿@model HFWebsiteA7.Models.JazzViewModel
 
 
 @{
@@ -25,7 +25,7 @@
             <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="77">
         </div>
         <div class="col-sm-6">
-            <img class="" src="~/Content/Content-images/JazzImages/Index/JazzInformation.jpg" alt="JazzInformationImage" width="515" height="77">
+            <img class="" src="~/Content/Content-images/JazzImages/Index/JazzInformation.jpg" alt="JazzInformationImage" width="515" height="66">
         </div>
         <div class="col-sm-3">
             <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="77">
@@ -47,75 +47,14 @@
         </div>
     </div>
     
-    <div class="col-sm-3">
-        <div class="DayHeader">
-            <h3>Thursday</h3>
-        </div>
-        <div class="ConcertDate">
-            <b>Date:</b> Thursday - 26-07-2018
-        </div>
-        <div class="ConcertLocation">
-            <b>Location:</b> Patronaat
-        </div>
-        <div class="PerformingBands">
-            <b>Performing:</b> Gumbo Kings; Evolve; Ntjam Rosie; Wicked Jazz Sounds; Tom Thomsom Assemble; Jonna Frazer.
-        </div>
-    </div>
-
-    <div class="col-sm-3">
-        <div class="DayHeader">
-            <h3>Friday</h3>
-        </div>
-        <div class="ConcertDate">
-            <b>Date:</b> Friday - 27-07-2018
-        </div>
-        <div class="ConcertLocation">
-            <b>Location:</b> Patronaat
-        </div>
-        <div class="PerformingBands">
-            <b>Performing:</b> Fox & The Mayors; Uncle Sue; Chris Allen; Myles Sanko; Ruis Soundsystem; The Family XL
-        </div>
-    </div>
-
-    <div class="col-sm-3">
-        <div class="DayHeader">
-            <h3>Saturday</h3>
-        </div>
-        <div class="ConcertDate">
-            <b>Date:</b> Saturday - 28-07-2018
-        </div>
-        <div class="ConcertLocation">
-            <b>Location:</b> Patronaat
-        </div>
-        <div class="PerformingBands">
-            <b>Performing:</b> Gare du Nord; Rilan & The Bombadiers; Soul Six; Han Bennink; The Nordanians; Lilith Merlot
-        </div>
-    </div>
-
-    <div class="col-sm-3">
-        <div class="DayHeader">
-            <h3>Sunday</h3> Sunday - 29-07-2018
-        </div>
-        <div class="ConcertDate">
-            <b>Date:</b>
-        </div>
-        <div class="ConcertLocation">
-            <b>Location:</b> Grote markt
-        </div>
-        <div class="PerformingBands">
-            <b>Performing:</b> Ruis Soundsystem; Wicked Jazz Sounds; Evolve; The Nordanians; Gumbo Kings; Gare du Nord
-        </div>
-    </div>
-    
-    <!--
-        @foreach (var festivalDay in Model.FestivalDays)
+    @foreach (var festivalDay in Model.FestivalDays)
     {
-        <div class="col-sm-3 @festivalDay.Day">
+        <div class="col-sm-3">
             <div class="DayHeader">
-                <h3>@festivalDay.Day:</h3>
+                <h3>@festivalDay.Day</h3>
             </div>
             <div class="ConcertDate">
-                <b>Date:</b> @festivalDay.Date.ToString("dd-MM-yyyy")
+                <b>Date:</b> @festivalDay.Date.ToString("dddd dd-MM-yyyy")
             </div>
             <div class="ConcertLocation">
                 <b>Location:</b> @festivalDay.Location
@@ -127,10 +66,8 @@
                     @concert.Band.Name@:;
         }
             </div>
-            <a href="@Url.Action("Thursday", "Concerts")" class="mLinkButton">More information about Thursday</a>
         </div>
     }
-    -->
    
     <div>
         <div class="col-sm-3">

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace HFWebsiteA7.Models
 {
-    public class JazzIndexViewModel
+    public class JazzViewModel
     {
         public List<FestivalDay> FestivalDays { get; set; }
     }

@@ -165,7 +165,7 @@
     <Compile Include="Models\Hall.cs" />
     <Compile Include="Models\Day.cs" />
     <Compile Include="Models\HFWebsiteA7Context.cs" />
-    <Compile Include="Models\JazzIndexViewModel.cs" />
+    <Compile Include="Models\JazzViewModel.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Restaurant.cs" />
@@ -208,6 +208,7 @@
     <Content Include="Content\Content-images\banner.jpg" />
     <Content Include="Content\Content-images\banner.png" />
     <Content Include="Content\Content-images\basket.png" />
+    <Content Include="Content\Content-images\JazzImages\DetailPage\PlaceHolderImageConcert.jpg" />
     <Content Include="Content\Content-images\JazzImages\Index\DividerSideStripes.png" />
     <Content Include="Content\Content-images\JazzImages\Index\JazzIndexFriday.jpg" />
     <Content Include="Content\Content-images\JazzImages\Index\JazzIndexSaturday.jpg" />
