@@ -208,6 +208,10 @@
     <Content Include="Content\Content-images\banner.jpg" />
     <Content Include="Content\Content-images\banner.png" />
     <Content Include="Content\Content-images\basket.png" />
+    <Content Include="Content\Content-images\Home\HomeImage1.jpg" />
+    <Content Include="Content\Content-images\Home\HomeImage2.jpg" />
+    <Content Include="Content\Content-images\Home\HomeImage3.jpg" />
+    <Content Include="Content\Content-images\Home\HomeImage4.jpg" />
     <Content Include="Content\Content-images\JazzImages\DetailPage\PlaceHolderImageConcert.jpg" />
     <Content Include="Content\Content-images\JazzImages\Index\DividerSideStripes.png" />
     <Content Include="Content\Content-images\JazzImages\Index\JazzIndexFriday.jpg" />
@@ -253,8 +257,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\Admin\Delete.cshtml" />

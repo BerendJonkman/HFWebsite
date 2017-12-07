@@ -120,3 +120,8 @@ textarea {
     bottom: 0;
 }
 
+.home-quad-img {
+    position: relative;
+    top: -25px;
+}
+
