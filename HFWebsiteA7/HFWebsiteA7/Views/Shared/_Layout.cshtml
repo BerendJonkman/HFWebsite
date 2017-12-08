@@ -22,7 +22,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">@Html.ActionLink("Jazz@Patronaat", "Index", "ConcertsController")</li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">@Html.ActionLink("Jazz@Patronaat", "Index", "Concerts")</li>
                     <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")" style="">@Html.ActionLink("Dinner in Haarlem", "Contact", "Home")</li>
                 </ul>
                 <ul class="navbar-right">
@@ -35,7 +35,7 @@
             </div>
         </div>
     </div>
-    <div class="banner">
+    <div class="banner" style="margin-top: 50px";>
     <img src="~/Content/Content-images/banner.png" style="display: block; margin: 0 auto;"/>
         
     </div>
@@ -47,11 +47,8 @@
         <div class="span3 offset2">
             <div class="col-sm-3">content 1</div>
             <div class="col-sm-3">content 2</div>
-            <div class="col-sm-5"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d9741.592658248166!2d4.636317!3d52.381332!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c5ef6b924ce7ed%3A0xd9721c5337b4704!2sGrote+Markt%2C+Haarlem!5e0!3m2!1sen!2snl!4v1512568972832" width="550" height="225" frameborder="0" style="border: 0" allowfullscreen></iframe>
             </div>
         </div>
-
-    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
