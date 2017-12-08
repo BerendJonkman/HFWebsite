@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using HFWebsiteA7.Models;
+using HFWebsiteA7.Repositories.Interfaces;
 
 namespace HFWebsiteA7.Repositories.Classes
 {
@@ -12,17 +13,18 @@ namespace HFWebsiteA7.Repositories.Classes
 
         public void AddEvent(Event myEvent)
         {
-            throw new NotImplementedException();
+            db.Events.Add(myEvent);
+            db.SaveChanges();
         }
 
         public IEnumerable<Event> GetAllEvents()
         {
-            throw new NotImplementedException();
+            return db.Events.ToList();
         }
 
         public Event GetEvent(int eventId)
         {
-            throw new NotImplementedException();
+            return db.Events.Find(eventId);
         }
     }
 }

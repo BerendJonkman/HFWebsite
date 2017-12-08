@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using HFWebsiteA7.Models;
+using HFWebsiteA7.Repositories.Interfaces;
 
 namespace HFWebsiteA7.Repositories.Classes
 {
@@ -12,17 +13,18 @@ namespace HFWebsiteA7.Repositories.Classes
 
         public void AddRestaurant(Restaurant restaurant)
         {
-            throw new NotImplementedException();
+            db.Restaurants.Add(restaurant);
+            db.SaveChanges();
         }
 
         public IEnumerable<Restaurant> GetAllRestaurants()
         {
-            throw new NotImplementedException();
+            return db.Restaurants.ToList();
         }
 
         public Restaurant GetRestaurant(int restaurantId)
         {
-            throw new NotImplementedException();
+            return db.Restaurants.Find(restaurantId);
         }
     }
 }

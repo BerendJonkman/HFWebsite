@@ -1,0 +1,92 @@
+﻿@model HFWebsiteA7.Models.JazzViewModel
+
+
+@{
+    ViewBag.Title = "Jazz@Patronaat";
+}
+
+<div class="container">
+    <div class="col-sm-6">
+        <h2>Jazz@Patronaat</h2>
+        <p>Do you like some Jazz music? Then Jazz@Patronaat is the perfect event to go to! With over 18 bands performing in 4 days there must be something for you!</p>
+    </div>
+    <div class="col-sm-2">
+        <img class="triple-img" src="~/Content/Content-images/JazzImages/Index/leftImageJazzIndex.jpg" alt="JazzInformationImage" width="150" height="150">
+    </div>
+    <div class="col-sm-2">
+        <img class="triple-img" src="~/Content/Content-images/JazzImages/Index/middleImageJazzIndex.jpg" alt="JazzInformationImage" width="150" height="150">
+    </div>
+    <div class="col-sm-2">
+        <img class="triple-img" src="~/Content/Content-images/JazzImages/Index/rightImageJazzIndex.jpg" alt="JazzInformationImage" width="150" height="150">
+    </div>
+
+    <div>
+        <div class="col-sm-3">
+            <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="77">
+        </div>
+        <div class="col-sm-6">
+            <img class="" src="~/Content/Content-images/JazzImages/Index/JazzInformation.jpg" alt="JazzInformationImage" width="515" height="66">
+        </div>
+        <div class="col-sm-3">
+            <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="77">
+        </div>
+    </div>
+
+    <div style="margin-top: 250px">
+        <div class="col-sm-3">
+            <img class="" src="~/Content/Content-images/JazzImages/Index/JazzIndexThursday.jpg" alt="JazzInformationImage" width="250" height="175">
+        </div>
+        <div class="col-sm-3">
+            <img class="" src="~/Content/Content-images/JazzImages/Index/JazzIndexFriday.jpg" alt="JazzInformationImage" width="250" height="175">
+        </div>
+        <div class="col-sm-3">
+            <img class="" src="~/Content/Content-images/JazzImages/Index/JazzIndexSaturday.jpg" alt="JazzInformationImage" width="250" height="175">
+        </div>
+        <div class="col-sm-3">
+            <img class="" src="~/Content/Content-images/JazzImages/Index/JazzIndexSunday.jpg" alt="JazzInformationImage" width="250" height="175">
+        </div>
+    </div>
+    
+    @foreach (var festivalDay in Model.FestivalDays)
+    {
+        <div class="col-sm-3">
+            <div class="DayHeader">
+                <h3>@festivalDay.Day</h3>
+            </div>
+            <div class="ConcertDate">
+                <b>Date:</b> @festivalDay.Date.ToString("dddd dd-MM-yyyy")
+            </div>
+            <div class="ConcertLocation">
+                <b>Location:</b> @festivalDay.Location
+            </div>
+            <div class="PerformingBands">
+                <b>Performing:</b>
+                @foreach (var concert in festivalDay.Concerts)
+                {
+                    @concert.Band.Name@:;
+        }
+            </div>
+        </div>
+    }
+   
+    <div>
+        <div class="col-sm-3">
+            <a href="@Url.Action("Thursday", "Concerts")" class="mLinkButton">More information about Thursday</a>
+        </div>
+        <div class="col-sm-3">
+            <a href="@Url.Action("Friday", "Concerts")" class="mLinkButton">More information about Friday</a>
+        </div>
+        <div class="col-sm-3">
+            <a href="@Url.Action("Saturday", "Concerts")" class="mLinkButton">More information about Saturday</a>
+        </div>
+        <div class="col-sm-3">
+            <a href="@Url.Action("Sunday", "Concerts")" class="mLinkButton">More information about Sunday</a>
+        </div>
+    </div>
+    
+
+</div>
+    
+
+
+   

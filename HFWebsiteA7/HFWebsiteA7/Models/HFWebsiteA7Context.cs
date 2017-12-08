@@ -32,5 +32,8 @@ namespace HFWebsiteA7.Models
         public DbSet<FoodType> FoodTypes { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<TicketOrder> TicketOrder { get; set; }
+
     }
 }

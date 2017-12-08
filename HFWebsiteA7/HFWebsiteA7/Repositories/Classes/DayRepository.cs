@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using HFWebsiteA7.Models;
+using HFWebsiteA7.Repositories.Interfaces;
 
 namespace HFWebsiteA7.Repositories.Classes
 {
@@ -13,16 +14,17 @@ namespace HFWebsiteA7.Repositories.Classes
         public void AddDay(Day day)
         {
             db.Days.Add(day);
+            db.SaveChanges();
         }
 
         public IEnumerable<Day> GetAllDays()
         {
-            throw new NotImplementedException();
+            return db.Days.ToList();
         }
 
         public Day GetDay(int dayId)
         {
-            throw new NotImplementedException();
+            return db.Days.Find(dayId);
         }
     }
 }
