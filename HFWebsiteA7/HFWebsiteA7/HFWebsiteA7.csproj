@@ -208,6 +208,7 @@
     <Content Include="Content\Content-images\banner.jpg" />
     <Content Include="Content\Content-images\banner.png" />
     <Content Include="Content\Content-images\basket.png" />
+    <Content Include="Content\Content-images\homepage-welcome-image.png" />
     <Content Include="Content\Content-images\Home\HomeImage1.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage2.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage3.jpg" />
@@ -226,6 +227,7 @@
     <Content Include="Content\Content-images\JazzImages\DetailPage\JazzInformationThursday.jpg" />
     <Content Include="Content\Content-images\JazzImages\DetailPage\middleImageJazzThursday.jpg" />
     <Content Include="Content\Content-images\JazzImages\DetailPage\rightImageJazzThursday.jpg" />
+    <Content Include="Content\Content-images\separatingline.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

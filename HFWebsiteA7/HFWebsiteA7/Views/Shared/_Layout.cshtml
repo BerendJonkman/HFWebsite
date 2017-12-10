@@ -36,19 +36,43 @@
         </div>
     </div>
     <div class="banner" style="margin-top: 50px";>
-    <img src="~/Content/Content-images/banner.png" style="display: block; margin: 0 auto;"/>
-        
+        <img src="~/Content/Content-images/banner.png" style="display: block; margin: 0 auto;"/>
     </div>
     <div class="container body-content">
-       <div class="span3 offset2">
+       <div class="span3 offset2" style="margin-top:-50px">
         @RenderBody()
        </div>
-        <hr />
-        <div class="span3 offset2">
-            <div class="col-sm-3">content 1</div>
-            <div class="col-sm-3">content 2</div>
+        <div class="span3 offset2" style="margin-top: 25px;">
+            <div class="container">
+                <div class="col-sm-3">
+                    <h2>Navigation</h2>
+                    <ul>
+                        <li><a href="~/Views/Home/Index.cshtml">Home</a></li>
+                        <li><a href="~/Views/Concerts/Index.cshtml"</a>Jazz@Patronaat</li>
+                        <li><a href="~/Views/Dinner/index.cshtml"</a>Dinner in Haarlem</li>
+                        <li><a href="~/Views/Home/Contact.cshtml"</a>Contact</li>
+                        <li><a href="~/Views/Admin/Index.cshtml">Admin</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h2>Contact</h2>
+                    <a href="mailto:info@haarlemfestival.nl">info@haarlemfestival.nl</a>
+                    <br />
+                    +31 023 - 5241020
+                    <br />
+                    Head Office
+                    <br />
+                    Zijlweg 7
+                    <br />
+                    1234 AA Haarlem
+                </div>
+                <div class="col-sm-5" style="padding-top: 15px; padding-bottom: 15px;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2435.398012644264!2d4.634128115966924!3d52.38133475424855!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c5ef6b924ce7ed%3A0xd9721c5337b4704!2sGrote+Markt%2C+Haarlem!5e0!3m2!1sen!2snl!4v1512939802859" width="500" height="180" frameborder="0" style="border:0" allowfullscreen></iframe>
+                </div>
             </div>
         </div>
+        
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
