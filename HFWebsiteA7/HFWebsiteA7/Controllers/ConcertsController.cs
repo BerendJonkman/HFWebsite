@@ -28,11 +28,11 @@ namespace HFWebsiteA7.Controllers
             List<Concert> concerts = concertRepository.GetAllConcerts().ToList();
             List<Day> days = dayRepository.GetAllDays().ToList();
 
-            FillConcertLists(concerts, days);
+            FillConcertLists();
 
             JazzViewModel vm = new JazzViewModel();
 
-            FillFestivalDays(concerts, days, vm);
+            FillFestivalDays(vm);
             SplitConcertListIntoTwoHalls(vm.FestivalDays);
 
             return View(vm);
@@ -59,8 +59,11 @@ namespace HFWebsiteA7.Controllers
             }
         }
 
-        private void FillConcertLists(List<Concert> concerts, List<Day> days)
+        private void FillConcertLists()
         {
+            List<Concert> concerts = concertRepository.GetAllConcerts().ToList();
+            List<Day> days = dayRepository.GetAllDays().ToList();
+
             foreach (Concert concert in concerts)
             {
                 switch (concert.Day.Name)
@@ -81,9 +84,11 @@ namespace HFWebsiteA7.Controllers
             }
         }
 
-        private void FillFestivalDays(List<Concert> concerts, List<Day> days, JazzViewModel vm)
+        private void FillFestivalDays(JazzViewModel vm)
         {
             vm.FestivalDays = new List<FestivalDay>();
+            List<Concert> concerts = concertRepository.GetAllConcerts().ToList();
+            List<Day> days = dayRepository.GetAllDays().ToList();
 
             foreach (Day day in days)
             {
@@ -132,14 +137,11 @@ namespace HFWebsiteA7.Controllers
 
         public ActionResult Thursday()
         {
-            List<Concert> concerts = concertRepository.GetAllConcerts().ToList();
-            List<Day> days = dayRepository.GetAllDays().ToList();
-
-            FillConcertLists(concerts, days);
+            FillConcertLists();
 
             JazzViewModel vm = new JazzViewModel();
 
-            FillFestivalDays(concerts, days, vm);
+            FillFestivalDays(vm);
             SplitConcertListIntoTwoHalls(vm.FestivalDays);
 
             return View(vm);
@@ -147,14 +149,11 @@ namespace HFWebsiteA7.Controllers
 
         public ActionResult Friday()
         {
-            List<Concert> concerts = concertRepository.GetAllConcerts().ToList();
-            List<Day> days = dayRepository.GetAllDays().ToList();
-
-            FillConcertLists(concerts, days);
+           FillConcertLists();
 
             JazzViewModel vm = new JazzViewModel();
 
-            FillFestivalDays(concerts, days, vm);
+            FillFestivalDays(vm);
             SplitConcertListIntoTwoHalls(vm.FestivalDays);
 
             return View(vm);
@@ -162,14 +161,11 @@ namespace HFWebsiteA7.Controllers
 
         public ActionResult Saturday()
         {
-            List<Concert> concerts = concertRepository.GetAllConcerts().ToList();
-            List<Day> days = dayRepository.GetAllDays().ToList();
-
-            FillConcertLists(concerts, days);
+            FillConcertLists();
 
             JazzViewModel vm = new JazzViewModel();
 
-            FillFestivalDays(concerts, days, vm);
+            FillFestivalDays(vm);
             SplitConcertListIntoTwoHalls(vm.FestivalDays);
 
             return View(vm);
@@ -177,22 +173,43 @@ namespace HFWebsiteA7.Controllers
 
         public ActionResult Sunday()
         {
-            List<Concert> concerts = concertRepository.GetAllConcerts().ToList();
-            List<Day> days = dayRepository.GetAllDays().ToList();
-
-            FillConcertLists(concerts, days);
+            FillConcertLists();
 
             JazzViewModel vm = new JazzViewModel();
 
-            FillFestivalDays(concerts, days, vm);
+            FillFestivalDays(vm);
             SplitConcertListIntoTwoHalls(vm.FestivalDays);
 
             return View(vm);
         }
 
-        public ActionResult Reservation()
+        [HttpGet]
+        public ActionResult Reservation(string Day)
         {
-            return View();
+            ReservationViewModel vm = new ReservationViewModel
+            {
+                Day = Day
+            };
+            vm.Concerts = new List<Concert>();
+            FillConcertLists();
+
+            switch(Day)
+            {
+                case "Thursday":
+                    vm.Concerts = thursdayConcerts;
+                    break;
+                case "Friday":
+                    vm.Concerts = fridayConcerts;
+                    break;
+                case "Saturday":
+                    vm.Concerts = saturdayConcerts;
+                    break;
+                case "Sunday":
+                    vm.Concerts = sundayConcerts;
+                    break;
+            }
+            
+            return View(vm);
         }
     }
 }
