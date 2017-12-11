@@ -52,8 +52,9 @@
                         <div>
                             <b>Price:</b> Free
                         </div>
-                        @Html.ActionLink("Book now", "Reservation", "Concerts", new { Day = concert.Day.Name }, new { @class = "mLinkButton" })
-                    </p>
+                        <div style="margin-top: 10px">
+                            @Html.ActionLink("Book now", "Reservation", "Concerts", new { Day = concert.Day.Name }, new { @class = "mLinkButton" })
+                        </div>                    </p>
                 </div>
             </div>
         }

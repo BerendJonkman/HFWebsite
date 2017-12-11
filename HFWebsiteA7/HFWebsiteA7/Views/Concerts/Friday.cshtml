@@ -59,8 +59,9 @@
                             <div>
                                 <b>Price:</b> €@concert.Hall.Price,00
                             </div>
-                            @Html.ActionLink("Book now", "Reservation", "Concerts", new { Day = concert.Day.Name }, new { @class = "mLinkButton" })
-                        </p>
+                            <div style="margin-top: 10px">
+                                @Html.ActionLink("Book now", "Reservation", "Concerts", new { Day = concert.Day.Name }, new { @class = "mLinkButton" })
+                            </div>                        </p>
                     </div>
                 }
             </div>
@@ -78,8 +79,9 @@
                             <div>
                                 <b>Price:</b> €@concert.Hall.Price,00
                             </div>
-                            @Html.ActionLink("Book now", "Reservation", "Concerts", new { Day = concert.Day.Name }, new { @class = "mLinkButton" })
-                        </p>
+                            <div style="margin-top: 10px">
+                                @Html.ActionLink("Book now", "Reservation", "Concerts", new { Day = concert.Day.Name }, new { @class = "mLinkButton" })
+                            </div>                        </p>
                     </div>
                 }
             </div>
