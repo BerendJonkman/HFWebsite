@@ -168,6 +168,7 @@
     <Compile Include="Models\JazzViewModel.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\ReservationViewModel.cs" />
     <Compile Include="Models\Restaurant.cs" />
     <Compile Include="Models\RestaurantFoodType.cs" />
     <Compile Include="Models\Ticket.cs" />

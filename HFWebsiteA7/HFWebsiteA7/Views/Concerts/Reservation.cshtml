@@ -1,11 +1,12 @@
-﻿
+﻿@model HFWebsiteA7.Models.ReservationViewModel
+
 @{
     ViewBag.Title = "Reservation";
 }
 
 <div class="container">
-    <h2>Ticket information - Saturday</h2>
-    <p>There are multiple types of tickets available for  Jazz@Patronaat. You can buy one of the 2 types of tickets: passe-partout tickets or a single tickets for a concert.</p>
+    <h2>Ticket information - @Html.DisplayFor(x => x.Day) </h2>
+    <p>There are multiple types of tickets available for Jazz@Patronaat. You can buy one of the 2 types of tickets: passe-partout tickets or a single tickets for a concert.</p>
 
     <h3>Passe-partout tickets</h3>
     <p>A passe-partout ticket for a day cost €35. If you want a passe-partout ticket for Thursday, Friday and Saturday the price is €80.</p>
@@ -29,28 +30,72 @@
             </tr>
 
             <tr>
-                <th>
-                    0
-                </th>
-                <th>
+                <td>
+                    <input type="number" name="numberOfTickets" min="0" max="99" value="0"/>
+                </td>
+                <td>
                     <p>Passe-partout for a day</p>
-                </th>
-                <th>
+                </td>
+                <td>
                     €35,00
-                </th>
+                </td>
             </tr>
 
             <tr>
-                <th>
-                    0
-                </th>
-                <th>
+                <td>
+                    <input type="number" name="numberOfTickets" min="0" max="99" value="0"/>
+                </td>
+                <td>
                     <p>Passe-partout for Thursday, Friday and Saturday</p>
-                </th>
-                <th>
+                </td>
+                <td>
                     €80,00
-                </th>
+                </td>
             </tr>
         </table>
-    </div>
+
+        <h3>Insert amount of regular tickets</h3>
+        <div class="col-cm-6">
+            <table class="table">
+                <tr>
+                    <th>
+                        <b>Tickets</b>
+                    </th>
+                    <th>
+                        <b>Artist</b>
+                    </th>
+                    <th>
+                        <b>Price per ticket</b>
+                    </th>
+                    <th>
+                        <b>Date & Time</b>
+                    </th>
+                    <th>
+                        <b>Location</b>
+                    </th>
+                </tr>
+
+                @foreach (var concert in Model.Concerts)
+                {
+                    <tr>
+                        <td>
+                            <input type="number" name="numberOfTickets" min="0" max="99" value="0"/>
+                        </td>
+                        <td>
+                            @concert.Band.Name
+                        </td>
+                        <td>
+                            €@concert.Hall.Price,00
+                        </td>
+                        <td>
+                            @concert.Day.Date.ToString("dddd dd-MM-yyyy") | @concert.StartTime.ToString("H:mm")
+                        </td>
+                        <td>
+                            @concert.Location.Name - @concert.Hall.Name
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        @Html.ActionLink("Terug naar overzicht", "index")
 </div>

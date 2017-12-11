@@ -52,7 +52,7 @@
                         <div>
                             <b>Price:</b> Free
                         </div>
-                        <a style="margin-top: 15px" href="@Url.Action("Sunday", "Concerts")" class="mLinkButton">Book now</a>
+                        @Html.ActionLink("Book now", "Reservation", "Concerts", new { Day = concert.Day.Name }, new { @class = "mLinkButton" })
                     </p>
                 </div>
             </div>
