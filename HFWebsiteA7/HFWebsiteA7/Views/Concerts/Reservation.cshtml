@@ -73,13 +73,16 @@
                     <th>
                         <b>Location</b>
                     </th>
+                    <th>
+                        <b>Available seats</b>
+                    </th>
                 </tr>
 
                 @foreach (var concert in Model.Concerts)
                 {
                     <tr>
                         <td>
-                            <input type="number" name="numberOfTickets" min="0" max="99" value="0"/>
+                            <input type="number" name="numberOfTickets" min="0" max="@concert.AvailableSeats" value="0"/>
                         </td>
                         <td>
                             @concert.Band.Name
@@ -92,6 +95,9 @@
                         </td>
                         <td>
                             @concert.Location.Name - @concert.Hall.Name
+                        </td>
+                        <td>
+                            @concert.AvailableSeats
                         </td>
                     </tr>
                 }
