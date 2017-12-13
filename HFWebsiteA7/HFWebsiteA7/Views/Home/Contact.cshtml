@@ -45,7 +45,8 @@
                 <input type="text" name="subject"><br>
                 <label>Question:</label><br>
                 <textarea name="question" rows="5" cols="100"></textarea><br/>
-                <input style="margin-top: 15px" type="submit" value="Send" class="mLinkButton">	
+                @Html.ActionLink("Send", "ContactSend", "Home", null , new { @class = "mLinkButton" })
+
             </form>
         </div>
         <div class="col-sm-2 text-center">

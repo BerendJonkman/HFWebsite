@@ -18,8 +18,11 @@ namespace HFWebsiteA7.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            return View();
+        }
 
+        public ActionResult ContactSend()
+        {
             return View();
         }
     }
