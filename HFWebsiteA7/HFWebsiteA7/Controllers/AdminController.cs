@@ -12,14 +12,10 @@ namespace HFWebsiteA7.Controllers
 {
     public class AdminController : Controller
     {
-        private HFWebsiteA7Context db = new HFWebsiteA7Context();
-        private List<Event> events;
-
         // GET: Admin
         public ActionResult Index()
         {
-            events = db.Events.ToList();
-            return View(events);
+            return View();
         }
 
         // GET: Admin/Details/5
