@@ -210,10 +210,12 @@
     <Content Include="Content\Content-images\banner.png" />
     <Content Include="Content\Content-images\basket.png" />
     <Content Include="Content\Content-images\homepage-welcome-image.png" />
+    <Content Include="Content\Content-images\Home\ContactInformation.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage1.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage2.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage3.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage4.jpg" />
+    <Content Include="Content\Content-images\Home\VerticalLine.jpg" />
     <Content Include="Content\Content-images\JazzImages\DetailPage\PlaceHolderImageConcert.jpg" />
     <Content Include="Content\Content-images\JazzImages\Index\DividerSideStripes.png" />
     <Content Include="Content\Content-images\JazzImages\Index\JazzIndexFriday.jpg" />
@@ -279,6 +281,7 @@
     <Content Include="Views\Concerts\Sunday.cshtml" />
     <Content Include="Views\Concerts\Thursday.cshtml" />
     <Content Include="Views\Concerts\Reservation.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
