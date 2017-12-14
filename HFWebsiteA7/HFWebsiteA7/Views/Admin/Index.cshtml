@@ -4,40 +4,16 @@
     ViewBag.Title = "Index";
 }
 
-<button>Jazz</button>
-@Html.ActionLink("Dinner", "Dinner")
+<div class="container" style="padding-top: 70px; padding-bottom: 50px">
+    <div class="inner">
+        <h1>Admin Login</h1>
+        <h3 style="font-size: 23px">Enter your login information below.</h3>
+        <form>
+            <input name="emailField" type="email"  value="Email address" /><br />
+            <input name="passwordField" type="password" value="Password" /><br />
+            <br />
+            @Html.ActionLink("Login", "AdminSelectionScreen", "Admin", null, new { @class = "mLinkButton" })<br />
+        </form>
+    </div>
+</div>
 
-
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Day.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AvailableSeats)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Day.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AvailableSeats)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EventId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EventId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EventId })
-        </td>
-    </tr>
-}
-
-</table>

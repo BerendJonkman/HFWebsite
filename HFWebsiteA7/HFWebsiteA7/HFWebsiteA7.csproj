@@ -206,6 +206,8 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Content-images\Admin\AdminSelectionLeft.jpg" />
+    <Content Include="Content\Content-images\Admin\AdminSelectionRight.jpg" />
     <Content Include="Content\Content-images\banner.jpg" />
     <Content Include="Content\Content-images\banner.png" />
     <Content Include="Content\Content-images\basket.png" />
@@ -283,6 +285,7 @@
     <Content Include="Views\Concerts\Reservation.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\ContactSend.cshtml" />
+    <Content Include="Views\Admin\AdminSelectionScreen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

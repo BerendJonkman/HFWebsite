@@ -106,3 +106,12 @@ textarea {
     top: -25px;
 }
 
+.inner {
+    margin: auto;
+    text-align: center;
+}
+
+.adminSelection{
+    margin-top: 25px;
+    margin-bottom: 25px;
+}

@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "AdminSelectionScreen";
+}
+<div class="container">
+    <div class="container col-sm-5 adminSelection">
+        <div class="inner">
+            <img src="~/Content/Content-images/Admin/AdminSelectionLeft.jpg" alt="JazzInformationImage" width="400" height="52">
+        </div>
+        <p style="margin-top: 20px" class="text-center">
+            By clicking on one of these buttons you will be navigated to another page where you can Add, Update and Delete data of the chosen event.
+        </p>
+        <div class="text-center" style="margin-top: 25px">
+            <div class="col-sm-6 text-center">
+                <div>
+                    <a href="@Url.Action("JazzAdminScreen", "Admin")" class="mLinkButton">Jazz@Patronaat</a>
+                </div>
+            </div>
+            <div class="col-sm-6 text-center">
+                <div>
+                    <a href="@Url.Action("Dinner", "Admin")" class="mLinkButton">Dinner in Haarlem</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-sm-offset-2 container col-sm-5 adminSelection">
+        <div class="inner">
+            <img src="~/Content/Content-images/Admin/AdminSelectionRight.jpg" alt="JazzInformationImage" width="400" height="52">
+        </div>
+        <p style="margin-top: 20px">
+            By clicking the Download button you will download an excel file which contains all information about tickets availability and sales. The information per event is distributed over different sheets.
+        </p>
+        <div class="inner" style="margin-top: 30px">
+            <a class="mLinkButton">Download</a> <!-- Download action toevoegen -->
+        </div>
+    </div>
+
+</div>
