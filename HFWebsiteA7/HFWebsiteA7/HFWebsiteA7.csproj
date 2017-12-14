@@ -204,8 +204,10 @@
     <Compile Include="Repositories\Interfaces\ITicketRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AdminStylesheet.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ConcertsStylesheet.css" />
     <Content Include="Content\Content-images\Admin\AdminSelectionLeft.jpg" />
     <Content Include="Content\Content-images\Admin\AdminSelectionRight.jpg" />
     <Content Include="Content\Content-images\banner.jpg" />
@@ -218,6 +220,7 @@
     <Content Include="Content\Content-images\Home\HomeImage3.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage4.jpg" />
     <Content Include="Content\Content-images\Home\VerticalLine.jpg" />
+    <Content Include="Content\Content-images\JazzImages\ConcertsBanner.jpg" />
     <Content Include="Content\Content-images\JazzImages\DetailPage\PlaceHolderImageConcert.jpg" />
     <Content Include="Content\Content-images\JazzImages\Index\DividerSideStripes.png" />
     <Content Include="Content\Content-images\JazzImages\Index\JazzIndexFriday.jpg" />
@@ -232,7 +235,9 @@
     <Content Include="Content\Content-images\JazzImages\DetailPage\JazzInformationThursday.jpg" />
     <Content Include="Content\Content-images\JazzImages\DetailPage\middleImageJazzThursday.jpg" />
     <Content Include="Content\Content-images\JazzImages\DetailPage\rightImageJazzThursday.jpg" />
+    <Content Include="Content\Content-images\RestaurantsImages\DinnerBanner.jpg" />
     <Content Include="Content\Content-images\separatingline.png" />
+    <Content Include="Content\RestaurantsStylesheet.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -269,7 +274,7 @@
     <Content Include="Views\Admin\Delete.cshtml" />
     <Content Include="Views\Admin\Details.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Admin.cshtml" />
     <Content Include="Views\Admin\Concert.cshtml" />
     <Content Include="Views\Admin\Dinner.cshtml" />
     <Content Include="Views\Concerts\Create.cshtml" />
@@ -277,7 +282,7 @@
     <Content Include="Views\Concerts\Details.cshtml" />
     <Content Include="Views\Concerts\Edit.cshtml" />
     <Content Include="Views\Concerts\IndexOld.cshtml" />
-    <Content Include="Views\Concerts\Index.cshtml" />
+    <Content Include="Views\Concerts\Concerts.cshtml" />
     <Content Include="Views\Concerts\Friday.cshtml" />
     <Content Include="Views\Concerts\Saturday.cshtml" />
     <Content Include="Views\Concerts\Sunday.cshtml" />

@@ -5,6 +5,11 @@
     ViewBag.Title = "Jazz@Patronaat";
 }
 
+@section Styles {
+    <link href="@Url.Content("~/Content/ConcertsStylesheet.css")" rel="stylesheet" type="text/css" />
+}
+
+
 <div class="container">
     <div class="col-sm-6">
         <h2>Jazz@Patronaat</h2>
@@ -46,7 +51,7 @@
             <img class="" src="~/Content/Content-images/JazzImages/Index/JazzIndexSunday.jpg" alt="JazzInformationImage" width="250" height="175">
         </div>
     </div>
-    
+
     @foreach (var festivalDay in Model.FestivalDays)
     {
         <div class="col-sm-3">
@@ -64,11 +69,11 @@
                 @foreach (var concert in festivalDay.Concerts)
                 {
                     @concert.Band.Name@:;
-        }
+                }
             </div>
         </div>
     }
-   
+
     <div style="margin-top: 615px">
         <div class="col-sm-3">
             <a href="@Url.Action("Thursday", "Concerts")" class="mLinkButton">More information about Thursday</a>
@@ -83,10 +88,9 @@
             <a href="@Url.Action("Sunday", "Concerts")" class="mLinkButton">More information about Sunday</a>
         </div>
     </div>
-    
+
 
 </div>
-    
 
 
-   
+
