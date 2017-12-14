@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "AdminSelectionScreen";
+    ViewBag.Title = "AdminSelection";
 }
 <div class="container">
     <div class="container col-sm-5 adminSelection">
@@ -13,17 +13,18 @@
         <div class="text-center" style="margin-top: 25px">
             <div class="col-sm-6 text-center">
                 <div>
-                    <a href="@Url.Action("JazzAdminScreen", "Admin")" class="mLinkButton">Jazz@Patronaat</a>
+                    @Html.ActionLink("Jazz@Patronaat", "AdminEventEdit", "Admin", new { Type = "Jazz" }, new { @class = "mLinkButton" })
+
+
                 </div>
             </div>
             <div class="col-sm-6 text-center">
                 <div>
-                    <a href="@Url.Action("Dinner", "Admin")" class="mLinkButton">Dinner in Haarlem</a>
+                    @Html.ActionLink("Dinner in Haarlem", "AdminEventEdit", "Admin", new { Type = "Dinner" }, new { @class = "mLinkButton" })
                 </div>
             </div>
         </div>
     </div>
-
 
     <div class="col-sm-offset-2 container col-sm-5 adminSelection">
         <div class="inner">

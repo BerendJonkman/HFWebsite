@@ -26,5 +26,21 @@ namespace HFWebsiteA7.Repositories.Classes
         {
             return db.Concerts.Find(concertId);
         }
+
+        public List<Concert> GetConcertsByDay(string day)
+        {
+            List<Concert> allConcerts = db.Concerts.ToList();
+            List<Concert> dayConcerts = new List<Concert>();
+
+            foreach (Concert concert in allConcerts)
+            {
+                if (concert.Day.Name.Equals(day))
+                {
+                    dayConcerts.Add(concert);
+                }
+            }
+
+            return dayConcerts;
+        }
     }
 }

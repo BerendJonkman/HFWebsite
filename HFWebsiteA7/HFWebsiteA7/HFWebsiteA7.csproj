@@ -157,18 +157,20 @@
     <Compile Include="Models\AdminRestaurant.cs" />
     <Compile Include="Models\Band.cs" />
     <Compile Include="Models\Concert.cs" />
-    <Compile Include="Models\DinnerAdminViewModel.cs" />
+    <Compile Include="ViewModels\DayViewModel.cs" />
+    <Compile Include="ViewModels\DinnerAdminViewModel.cs" />
     <Compile Include="Models\DinnerSession.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\FestivalDay.cs" />
+    <Compile Include="Models\IndexFestivalDay.cs" />
     <Compile Include="Models\FoodType.cs" />
     <Compile Include="Models\Hall.cs" />
     <Compile Include="Models\Day.cs" />
     <Compile Include="Models\HFWebsiteA7Context.cs" />
-    <Compile Include="Models\JazzViewModel.cs" />
+    <Compile Include="ViewModels\IndexViewModel.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Order.cs" />
-    <Compile Include="Models\ReservationViewModel.cs" />
+    <Compile Include="ViewModels\ReservationViewModel.cs" />
     <Compile Include="Models\Restaurant.cs" />
     <Compile Include="Models\RestaurantFoodType.cs" />
     <Compile Include="Models\Ticket.cs" />
@@ -187,8 +189,6 @@
     <Compile Include="Repositories\Classes\RestaurantRepository.cs" />
     <Compile Include="Repositories\Classes\TicketOrderRepository.cs" />
     <Compile Include="Repositories\Classes\TicketRepository.cs" />
-    <Compile Include="Repositories\ConcertRepository.cs" />
-    <Compile Include="Repositories\FoodTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IBandRepository.cs" />
     <Compile Include="Repositories\Interfaces\IConcertsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IDayRepository.cs" />
@@ -253,7 +253,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -285,7 +287,8 @@
     <Content Include="Views\Concerts\Reservation.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\ContactSend.cshtml" />
-    <Content Include="Views\Admin\AdminSelectionScreen.cshtml" />
+    <Content Include="Views\Admin\AdminSelection.cshtml" />
+    <Content Include="Views\Admin\AdminEventEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

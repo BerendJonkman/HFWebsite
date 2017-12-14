@@ -1,4 +1,4 @@
-﻿@model HFWebsiteA7.Models.JazzViewModel
+﻿@model HFWebsiteA7.ViewModels.DayViewModel
 
 @{
     ViewBag.Title = "Sunday";
@@ -36,7 +36,7 @@
     </div>
 
     @{
-        var festivalDay = Model.FestivalDays.FirstOrDefault(x => x.Day.Equals("Sunday"));
+        var festivalDay = Model.FestivalDay;
 
         foreach (var concert in festivalDay.SecondConcertList)
         {

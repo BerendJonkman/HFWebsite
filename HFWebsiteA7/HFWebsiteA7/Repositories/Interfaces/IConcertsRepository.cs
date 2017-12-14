@@ -10,7 +10,11 @@ namespace HFWebsiteA7.Repositories.Interfaces
     interface IConcertsRepository
     {
         IEnumerable<Concert> GetAllConcerts();
+
         Concert GetConcert(int concertId);
+
         void AddConcert(Concert concert);
+
+        List<Concert> GetConcertsByDay(string day);
     }
 }
