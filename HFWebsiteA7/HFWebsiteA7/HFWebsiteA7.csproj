@@ -274,7 +274,7 @@
     <Content Include="Views\Admin\Delete.cshtml" />
     <Content Include="Views\Admin\Details.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
-    <Content Include="Views\Admin\Admin.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Concert.cshtml" />
     <Content Include="Views\Admin\Dinner.cshtml" />
     <Content Include="Views\Concerts\Create.cshtml" />
@@ -282,7 +282,7 @@
     <Content Include="Views\Concerts\Details.cshtml" />
     <Content Include="Views\Concerts\Edit.cshtml" />
     <Content Include="Views\Concerts\IndexOld.cshtml" />
-    <Content Include="Views\Concerts\Concerts.cshtml" />
+    <Content Include="Views\Concerts\Index.cshtml" />
     <Content Include="Views\Concerts\Friday.cshtml" />
     <Content Include="Views\Concerts\Saturday.cshtml" />
     <Content Include="Views\Concerts\Sunday.cshtml" />
