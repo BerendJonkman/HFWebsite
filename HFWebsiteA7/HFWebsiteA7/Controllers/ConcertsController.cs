@@ -18,7 +18,6 @@ namespace HFWebsiteA7.Controllers
         private IConcertsRepository concertRepository = new ConcertRepository();
         private IDayRepository dayRepository = new DayRepository();
 
-        // GET: Concerts
         public ActionResult Index()
         {
             return View(CreateIndexViewModel());
