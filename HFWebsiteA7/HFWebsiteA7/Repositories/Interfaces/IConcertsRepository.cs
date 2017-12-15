@@ -16,5 +16,7 @@ namespace HFWebsiteA7.Repositories.Interfaces
         void AddConcert(Concert concert);
 
         List<Concert> GetConcertsByDay(string day);
+
+        FestivalDay CreateFestivalDay(string day);
     }
 }

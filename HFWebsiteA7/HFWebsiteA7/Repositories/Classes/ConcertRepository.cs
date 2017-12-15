@@ -17,6 +17,31 @@ namespace HFWebsiteA7.Repositories.Classes
             db.SaveChanges();
         }
 
+        public FestivalDay CreateFestivalDay(string day)
+        {
+            FestivalDay festivalDay = new FestivalDay
+            {
+                MainConcertList = new List<Concert>(),
+                SecondConcertList = new List<Concert>()
+            };
+
+            List<Concert> concerts = GetConcertsByDay(day);
+
+            foreach (Concert concert in concerts)
+            {
+                if (concert.Hall.Name.Equals("Main Hall"))
+                {
+                    festivalDay.MainConcertList.Add(concert);
+                }
+                else
+                {
+                    festivalDay.SecondConcertList.Add(concert);
+                }
+            }
+
+            return festivalDay;
+        }
+
         public IEnumerable<Concert> GetAllConcerts()
         {
             return db.Concerts.ToList();

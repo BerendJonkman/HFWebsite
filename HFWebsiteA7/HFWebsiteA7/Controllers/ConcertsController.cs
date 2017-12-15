@@ -21,98 +21,58 @@ namespace HFWebsiteA7.Controllers
         // GET: Concerts
         public ActionResult Index()
         {
-            IndexViewModel vm = new IndexViewModel();
-
-            FillViewModel(vm);
-
-            return View(vm);
+            return View(CreateIndexViewModel());
         }
 
-        private void FillViewModel(IndexViewModel vm)
+        private IndexViewModel CreateIndexViewModel()
         {
-            vm.IndexFestivalDays = new List<IndexFestivalDay>();
-            List<Day> days = dayRepository.GetAllDays().ToList();
+            IndexViewModel vm = new IndexViewModel
+            {
+                IndexFestivalDays = new List<IndexFestivalDay>()
+            };
 
-            foreach (Day day in days)
+            foreach (Day day in dayRepository.GetAllDays().ToList())
             {
                 IndexFestivalDay indexfestivalday = new IndexFestivalDay
                 {
                     Concerts = new List<Concert>()
                 };
 
-                switch (day.Name)
-                {
-                    case "Thursday":
-                        FillIndexFestivalDay(indexfestivalday, day, vm);
-                        break;
-                    case "Friday":
-                        FillIndexFestivalDay(indexfestivalday, day, vm);
-                        break;
-                    case "Saturday":
-                        FillIndexFestivalDay(indexfestivalday, day, vm);
-                        break;
-                    case "Sunday":
-                        FillIndexFestivalDay(indexfestivalday, day, vm);
-                        break;
-                }
+                List<Concert> dayConcerts = concertRepository.GetConcertsByDay(day.Name);
+                indexfestivalday.Concerts.AddRange(dayConcerts);
+                indexfestivalday.Date = day.Date;
+                indexfestivalday.Day = day.Name;
+                indexfestivalday.Location = dayConcerts[0].Location.Name;
+
+                vm.IndexFestivalDays.Add(indexfestivalday);
             }
-        }
 
-        private void FillIndexFestivalDay(IndexFestivalDay indexfestivalday, Day day, IndexViewModel vm)
-        {
-            List<Concert> dayConcerts = concertRepository.GetConcertsByDay(day.Name);
-            indexfestivalday.Concerts.AddRange(dayConcerts);
-            indexfestivalday.Date = day.Date;
-            indexfestivalday.Day = day.Name;
-            indexfestivalday.Location = dayConcerts[0].Location.Name;
-
-            vm.IndexFestivalDays.Add(indexfestivalday);
+            return vm;
         }
 
         public ActionResult Thursday()
         {
-            return View(FillDayViewModel(concertRepository.GetConcertsByDay("Thursday")));
+            return View(MakeDayViewModel("Thursday"));
         }
 
         public ActionResult Friday()
         {
-            return View(FillDayViewModel(concertRepository.GetConcertsByDay("Friday")));
+            return View(MakeDayViewModel("Friday"));
         }
 
         public ActionResult Saturday()
         {
-            return View(FillDayViewModel(concertRepository.GetConcertsByDay("Saturday")));
+            return View(MakeDayViewModel("Saturday"));
         }
 
         public ActionResult Sunday()
         {        
-            return View(FillDayViewModel(concertRepository.GetConcertsByDay("Sunday")));
+            return View(MakeDayViewModel("Sunday"));
         }
 
-        private DayViewModel FillDayViewModel(List<Concert> concerts)
+        private DayViewModel MakeDayViewModel(string day)
         {
-            DayViewModel vm = new DayViewModel
-            {
-                FestivalDay = new FestivalDay
-                {
-                    MainConcertList = new List<Concert>(),
-                    SecondConcertList = new List<Concert>()
-                }
-            };
-
-            foreach (Concert concert in concerts)
-            {
-                if (concert.Hall.Name.Equals("Main Hall"))
-                {
-                    vm.FestivalDay.MainConcertList.Add(concert);
-                }
-                else
-                {
-                    vm.FestivalDay.SecondConcertList.Add(concert);
-                }
-            }
-
-            return vm;
+            return new DayViewModel { FestivalDay = concertRepository.CreateFestivalDay(day) };
         }
 
         [HttpGet]
