@@ -23,7 +23,7 @@ namespace HFWebsiteA7.Controllers
         private List<Concert> sundayConcerts = new List<Concert>();
 
         // GET: Concerts
-        public ActionResult Concerts()
+        public ActionResult Index()
         {
             List<Concert> concerts = concertRepository.GetAllConcerts().ToList();
             List<Day> days = dayRepository.GetAllDays().ToList();

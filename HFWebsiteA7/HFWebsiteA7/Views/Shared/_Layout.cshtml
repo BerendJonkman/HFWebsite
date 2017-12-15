@@ -23,9 +23,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Concerts" ? "active" : "")">@Html.ActionLink("Jazz@Patronaat", "Concerts", "Concerts")</li>
-                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Dinner" ? "active" : "")">@Html.ActionLink("Dinner in Haarlem", "Restaurants", "Dinner")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Concerts" ? "active" : "")">@Html.ActionLink("Jazz@Patronaat", "Index", "Concerts")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Dinner" ? "active" : "")">@Html.ActionLink("Dinner in Haarlem", "Index", "Dinner")</li>
                     <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")">@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
                 <ul class="navbar-right">
@@ -51,11 +51,11 @@
                 <div class="col-sm-3">
                     <h2>Navigation</h2>
                     <ul>
-                        <li><a href="~/Home/Index.cshtml">Home</a></li>
-                        <li><a href="~/Concerts/Concerts">Jazz@Patronaat</a></li>
-                        <li><a href="~/Dinner/index">Dinner in Haarlem</a></li>
+                        <li><a href="~/Home">Home</a></li>
+                        <li><a href="~/Concerts">Jazz@Patronaat</a></li>
+                        <li><a href="~/Dinner">Dinner in Haarlem</a></li>
                         <li><a href="~/Home/Contact">Contact</a></li>
-                        <li><a href="~/Admin/Admin">Admin</a></li>
+                        <li><a href="~/Admin">Admin</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-3">
