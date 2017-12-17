@@ -6,8 +6,10 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
 
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("Styles", false)
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -21,14 +23,16 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")">@Html.ActionLink("Jazz@Patronaat", "Index", "Concerts")</li>
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")">@Html.ActionLink("Dinner in Haarlem", "Contact", "Home")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Concerts" ? "active" : "")">@Html.ActionLink("Jazz@Patronaat", "Index", "Concerts")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Dinner" ? "active" : "")">@Html.ActionLink("Dinner in Haarlem", "Index", "Dinner")</li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")">@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
                 <ul class="navbar-right">
                     <li style="list-style: none;">
                         <a href="@Url.Action("About", "Home")" title="Widget View" class="links">
                             <img style="height: 40px; margin-bottom: 0;"src="@Url.Content("/Content/Content-images/basket.png")">
+                            <p style="color: #FFFFFF; font-family: Arial Bold, Arial; font-weight: 700; font-style: normal; font-size: 20px; float:right; margin-top:10px; margin-left:5px;">Basket</p>
                         </a>
                     </li>
                 </ul>
@@ -47,11 +51,11 @@
                 <div class="col-sm-3">
                     <h2>Navigation</h2>
                     <ul>
-                        <li><a href="~/Home/Index.cshtml">Home</a></li>
-                        <li><a href="~/Concerts/Index"></a>Jazz@Patronaat</li>
-                        <li><a href="~/Dinner/index"></a>Dinner in Haarlem</li>
-                        <li><a href="~/Home/Contact"></a>Contact</li>
-                        <li><a href="~/Admin/Index">Admin</a></li>
+                        <li><a href="~/Home">Home</a></li>
+                        <li><a href="~/Concerts">Jazz@Patronaat</a></li>
+                        <li><a href="~/Dinner">Dinner in Haarlem</a></li>
+                        <li><a href="~/Home/Contact">Contact</a></li>
+                        <li><a href="~/Admin">Admin</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-3">

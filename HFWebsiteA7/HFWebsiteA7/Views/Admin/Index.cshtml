@@ -3,13 +3,16 @@
 @{
     ViewBag.Title = "Index";
 }
+@section Styles {
+    <link href="@Url.Content("~/Styles/admincss.css")" rel="stylesheet" type="text/css" />
+}
 
 <div class="container" style="padding-top: 70px; padding-bottom: 50px">
     <div class="inner">
         <h1>Admin Login</h1>
         <h3 style="font-size: 23px">Enter your login information below.</h3>
         <form>
-            <input name="emailField" type="email"  value="Email address" /><br />
+            <input name="emailField" type="email" value="Email address" /><br />
             <input name="passwordField" type="password" value="Password" /><br />
             <br />
             @Html.ActionLink("Login", "AdminSelection", "Admin", null, new { @class = "mLinkButton" })<br />
