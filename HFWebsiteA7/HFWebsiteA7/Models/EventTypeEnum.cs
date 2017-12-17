@@ -5,8 +5,8 @@ using System.Web;
 
 namespace HFWebsiteA7.Models
 {
-    public class AdminEventEditViewModel
+    public enum EventTypeEnum
     {
-
+        Jazz, Dinner
     }
 }

@@ -154,7 +154,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AdminEventEditViewModel.cs" />
+    <Compile Include="Models\EventTypeEnum.cs" />
+    <Compile Include="ViewModels\AdminEventEditViewModel.cs" />
     <Compile Include="Models\AdminRestaurant.cs" />
     <Compile Include="Models\Band.cs" />
     <Compile Include="Models\Concert.cs" />
@@ -215,6 +216,7 @@
     <Content Include="Content\Content-images\banner.png" />
     <Content Include="Content\Content-images\basket.png" />
     <Content Include="Content\Content-images\homepage-welcome-image.png" />
+    <Content Include="Content\Content-images\Home\BasketInformation.jpg" />
     <Content Include="Content\Content-images\Home\ContactInformation.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage1.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage2.jpg" />
@@ -295,6 +297,7 @@
     <Content Include="Views\Home\ContactSend.cshtml" />
     <Content Include="Views\Admin\AdminSelection.cshtml" />
     <Content Include="Views\Admin\AdminEventEdit.cshtml" />
+    <Content Include="Views\Home\Basket.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,7 +1,151 @@
-﻿
+﻿@using HFWebsiteA7.Models
+@model HFWebsiteA7.ViewModels.AdminEventEditViewModel
+
 @{
     ViewBag.Title = "AdminEventEdit";
 }
 
-<a href="@Url.Action("Index", "Concerts")" class="mLinkButton">Back to admin overview</a>
+<a href="@Url.Action("Index", "Admin")" class="mLinkButton">Back to admin overview</a>
+<div>
+    <h1>Choose an event:</h1>
+    <select>
+        <option value="Dinner">Dinner in Haarlem</option>
+        <option value="Jazz">Jazz@Patronaat</option>
+    </select>
+</div>
+
+<div class="container">
+    @if (Model.EventType.Equals(EventTypeEnum.Dinner))
+    {
+        foreach (DinnerSession dinnerSession in Model.EventList)
+        {
+            <hr />
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4>Restaurant Name</h4>
+                                <p>@dinnerSession.Restaurant.Location.Name</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Address</h4>
+                                <p>@dinnerSession.Restaurant.Location.Street, @dinnerSession.Restaurant.Location.ZipCode, Haarlem, Netherlands</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Cuisines</h4>
+                                <p><!-- Todo Cuisines bepalen --></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Description</h4>
+                                <p>@dinnerSession.Restaurant.Description</p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h4>Sessions</h4>
+                                        <p><!-- Todo Sessions berekenen --></p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h4>First Session</h4>
+                                        <p>@dinnerSession.StartTime.ToString("H:mm")</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4>Seats</h4>
+                                        <p>@dinnerSession.Restaurant.Seats</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h4>Duration</h4>
+                                        <p>@dinnerSession.Duration</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h4>Stars</h4>
+                                        <p>@dinnerSession.Restaurant.Stars</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h4>Price</h4>
+                                        <p>@dinnerSession.Restaurant.Price</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h4>Price (12-)</h4>
+                                        <p>@dinnerSession.Restaurant.ReducedPrice</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Image</h4>
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else if (Model.EventType.Equals(EventTypeEnum.Jazz))
+    {
+        foreach (Concert concert in Model.EventList)
+        {
+            <hr />
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4>Name</h4>
+                                <p>@concert.Band.Name</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Date</h4>
+                                <p>@concert.Day.Date.ToString("dddd dd-MM-yyyy")</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Time</h4>
+                                <p>@concert.StartTime.ToString("H:mm")</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h4>Description</h4>
+                                <p>@concert.Band.Description</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h4>Location</h4>
+                                        @concert.Location.Name
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4>Hall</h4>
+                                        @concert.Hall.Name
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h4>Price</h4>
+                                        @concert.Hall.Price
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4>Seats</h4>
+                                        @concert.Hall.Seats
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Image</h4>
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
 

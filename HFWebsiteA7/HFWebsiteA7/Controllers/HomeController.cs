@@ -25,5 +25,10 @@ namespace HFWebsiteA7.Controllers
         {
             return View();
         }
+
+        public ActionResult Basket()
+        {
+            return View();
+        }
     }
 }

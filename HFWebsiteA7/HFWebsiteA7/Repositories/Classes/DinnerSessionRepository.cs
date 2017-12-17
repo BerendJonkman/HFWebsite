@@ -19,7 +19,7 @@ namespace HFWebsiteA7.Repositories.Classes
 
         public IEnumerable<DinnerSession> GetAllDinnerSessions()
         {
-            throw new NotImplementedException();
+            return db.DinnerSessions.ToList();
         }
 
         public DinnerSession GetDinnerSession(int dinnerSessionId)

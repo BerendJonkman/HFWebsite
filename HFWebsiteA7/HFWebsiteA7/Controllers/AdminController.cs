@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using HFWebsiteA7.Models;
 using HFWebsiteA7.Repositories.Interfaces;
 using HFWebsiteA7.Repositories.Classes;
+using HFWebsiteA7.ViewModels;
 
 namespace HFWebsiteA7.Controllers
 {
@@ -28,17 +29,26 @@ namespace HFWebsiteA7.Controllers
             return View();
         }
 
-        public ActionResult AdminEventEdit(string Type)
+        public ActionResult AdminEventEdit(EventTypeEnum Type)
         {
-            if (Type.Equals("Dinner"))
-            {
+           return View(MakeAdminEventEditViewModel(Type));
+        }
 
-            }
-            else
-            {
+        public AdminEventEditViewModel MakeAdminEventEditViewModel(EventTypeEnum Type)
+        {
+            AdminEventEditViewModel vm = new AdminEventEditViewModel();
 
+            if (Type.Equals(EventTypeEnum.Dinner))
+            {
+                vm.EventType = Type;
+                vm.EventList = dinnerSessionRepository.GetAllDinnerSessions().ToList<object>();
+            }else 
+            if (Type.Equals(EventTypeEnum.Jazz))
+            {
+                vm.EventType = Type;
+                vm.EventList = concertRepository.GetAllConcerts().ToList<object>();
             }
-            return View();
+            return vm;
         }
     }
 }
