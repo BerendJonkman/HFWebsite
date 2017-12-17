@@ -206,24 +206,25 @@
     <Compile Include="Repositories\Interfaces\ITicketRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\AdminStylesheet.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\ConcertsStylesheet.css" />
     <Content Include="Content\Content-images\Admin\AdminSelectionLeft.jpg" />
     <Content Include="Content\Content-images\Admin\AdminSelectionRight.jpg" />
-    <Content Include="Content\Content-images\banner.jpg" />
-    <Content Include="Content\Content-images\banner.png" />
+    <Content Include="Content\Content-images\Home\BasketBanner.jpg" />
+    <Content Include="Content\Content-images\Home\IndexBanner.jpg" />
+    <Content Include="Content\Content-images\Home\IndexBannerTransparantText.png" />
     <Content Include="Content\Content-images\basket.png" />
     <Content Include="Content\Content-images\homepage-welcome-image.png" />
     <Content Include="Content\Content-images\Home\BasketInformation.jpg" />
+    <Content Include="Content\Content-images\Home\ContactBanner.jpg" />
     <Content Include="Content\Content-images\Home\ContactInformation.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage1.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage2.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage3.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage4.jpg" />
     <Content Include="Content\Content-images\Home\VerticalLine.jpg" />
-    <Content Include="Content\Content-images\JazzImages\ConcertsBanner.jpg" />
+    <Content Include="Content\Content-images\JazzImages\ConcertBannerDetail.jpg" />
+    <Content Include="Content\Content-images\JazzImages\ConcertsBannerIndex.jpg" />
     <Content Include="Content\Content-images\JazzImages\DetailPage\PlaceHolderImageConcert.jpg" />
     <Content Include="Content\Content-images\JazzImages\Index\DividerSideStripes.png" />
     <Content Include="Content\Content-images\JazzImages\Index\JazzIndexFriday.jpg" />

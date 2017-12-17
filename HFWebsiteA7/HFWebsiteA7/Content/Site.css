@@ -40,10 +40,9 @@ textarea {
     }
     
 .banner {
-        background-image: url("/Content/Content-images/banner.jpg");
-        background-repeat: round;
-        height: 300px;
+        
     }
+
 .navbar-inverse .navbar-nav .active a {
     background-color: #be7c4d;
 }
