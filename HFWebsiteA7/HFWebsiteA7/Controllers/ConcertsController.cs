@@ -17,6 +17,7 @@ namespace HFWebsiteA7.Controllers
     {
         private IConcertsRepository concertRepository = new ConcertRepository();
         private IDayRepository dayRepository = new DayRepository();
+        private IEventRepository eventRepository = new EventRepository();
 
         public ActionResult Index()
         {
@@ -82,9 +83,36 @@ namespace HFWebsiteA7.Controllers
                 Day = Day
             };
 
-            vm.Concerts = new List<Concert>(concertRepository.GetConcertsByDay(Day));
+            vm.ConcertTickets = new List<ConcertTicket>();
+            int i = 0;
+            foreach (Concert concert in concertRepository.GetConcertsByDay(Day))
+            {
+                ConcertTicket concertTicket = new ConcertTicket();
+                concertTicket.Ticket = new Ticket
+                {
+                    Id = i,
+                    EventId = concert.EventId,
+                    Event = eventRepository.GetEvent(concert.EventId),
+                    Count = 0
+                };
+
+                concertTicket.Concert = concert;
+                vm.ConcertTickets.Add(concertTicket);
+                i++;
+            }
             
             return View(vm);
+        }
+
+        [HttpPost]
+        public ActionResult Reservation(ConcertTicket concertTicket)
+        {
+            ConcertTicket mconcertTicket = concertTicket;
+
+
+
+            RedirectToAction("Basket");
+            return View();
         }
     }
 }

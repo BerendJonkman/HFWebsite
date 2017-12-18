@@ -31,7 +31,7 @@
 
             <tr>
                 <td>
-                    <input type="number" name="numberOfTickets" min="0" max="99" value="0"/>
+                    <input type="number" name="numberOfDayPartoutTickets" min="0" max="99" value="0"/>
                 </td>
                 <td>
                     <p>Passe-partout for a day</p>
@@ -43,7 +43,7 @@
 
             <tr>
                 <td>
-                    <input type="number" name="numberOfTickets" min="0" max="99" value="0"/>
+                    <input type="number" name="numberOfTotalParToutTickets" min="0" max="99" value="0"/>
                 </td>
                 <td>
                     <p>Passe-partout for Thursday, Friday and Saturday</p>
@@ -78,31 +78,43 @@
                     </th>
                 </tr>
 
-                @foreach (var concert in Model.Concerts)
-                {
-                    <tr>
-                        <td>
-                            <input type="number" name="numberOfTickets" min="0" max="@concert.AvailableSeats" value="0"/>
-                        </td>
-                        <td>
-                            @concert.Band.Name
-                        </td>
-                        <td>
-                            €@concert.Hall.Price,00
-                        </td>
-                        <td>
-                            @concert.Day.Date.ToString("dddd dd-MM-yyyy") | @concert.StartTime.ToString("H:mm")
-                        </td>
-                        <td>
-                            @concert.Location.Name - @concert.Hall.Name
-                        </td>
-                        <td>
-                            @concert.AvailableSeats
-                        </td>
-                    </tr>
+               
+                @{
+                    int i = 0;
+                    foreach (var concertTicket in Model.ConcertTickets.ToList())
+                    {
+                        <tr>
+                            <td>
+                                @Html.EditorFor(t => t.ConcertTickets[i].Ticket.Count, new { @id = "NumberOfTickets_" + i })
+                            </td>
+                            <td>
+                                @concertTicket.Concert.Band.Name
+                            </td>
+                            <td>
+                                €@concertTicket.Concert.Hall.Price,00
+                            </td>
+                            <td>
+                                @concertTicket.Concert.Day.Date.ToString("dddd dd-MM-yyyy") | @concertTicket.Concert.StartTime.ToString("H:mm")
+                            </td>
+                            <td>
+                                @concertTicket.Concert.Location.Name - @concertTicket.Concert.Hall.Name
+                            </td>
+                            <td>
+                                @concertTicket.Concert.AvailableSeats
+                            </td>
+                        </tr>
+                        i++;
+                    }
                 }
             </table>
+            <div>
+                <div class="col-sm-2" style="margin-top:18px">
+                    @Html.ActionLink("Terug naar overzicht", "index", null, new { @class = "mLinkButton" })
+                </div>
+                <div class="col-sm-offset-8 col-sm-2">
+                    <input type="submit" value="Place Order" class="mLinkButton" />
+                </div>
+            </div>  
         </div>
-        @Html.ActionLink("Terug naar overzicht", "index")
     </div>
 </div>

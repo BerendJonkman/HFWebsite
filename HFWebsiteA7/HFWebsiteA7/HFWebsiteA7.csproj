@@ -159,6 +159,7 @@
     <Compile Include="Models\AdminRestaurant.cs" />
     <Compile Include="Models\Band.cs" />
     <Compile Include="Models\Concert.cs" />
+    <Compile Include="Models\ConcertTicket.cs" />
     <Compile Include="ViewModels\DayViewModel.cs" />
     <Compile Include="ViewModels\DinnerAdminViewModel.cs" />
     <Compile Include="Models\DinnerSession.cs" />
@@ -241,7 +242,6 @@
     <Content Include="Content\Content-images\JazzImages\DetailPage\rightImageJazzThursday.jpg" />
     <Content Include="Content\Content-images\RestaurantsImages\DinnerBanner.jpg" />
     <Content Include="Content\Content-images\separatingline.png" />
-    <Content Include="Content\RestaurantsStylesheet.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

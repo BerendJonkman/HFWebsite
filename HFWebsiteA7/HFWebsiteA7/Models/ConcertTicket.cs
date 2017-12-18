@@ -6,10 +6,9 @@ using System.Web;
 
 namespace HFWebsiteA7.ViewModels
 {
-    public class ReservationViewModel
+    public class ConcertTicket
     {
-        public string Day { get; set; }
-
-        public List<ConcertTicket> ConcertTickets { get; set; }
+        public Ticket Ticket { get; set; }
+        public Concert Concert { get; set; }
     }
 }
