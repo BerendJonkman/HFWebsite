@@ -10,6 +10,7 @@ using HFWebsiteA7.Models;
 using HFWebsiteA7.Repositories.Interfaces;
 using HFWebsiteA7.Repositories.Classes;
 using HFWebsiteA7.ViewModels;
+using System.Web.Security;
 
 namespace HFWebsiteA7.Controllers
 {
@@ -17,6 +18,7 @@ namespace HFWebsiteA7.Controllers
     {
         private IDinnerSessionRepository dinnerSessionRepository = new DinnerSessionRepository();
         private IConcertsRepository concertRepository = new ConcertRepository();
+        private IAdminUserRepository adminUserRepository = new AdminUserRepository();
 
         // GET: Admin
         public ActionResult Index()
@@ -24,17 +26,38 @@ namespace HFWebsiteA7.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Index(AdminUser user)
+        {
+            var adminUser = adminUserRepository.GetAdminUserByUser(user);
+            if (adminUser != null)
+            {
+                FormsAuthentication.SetAuthCookie(user.Username, false);
+
+                Session["loggidin_account"] = user;
+
+                return RedirectToAction("AdminSelection");
+
+            }
+            else
+            {
+                ModelState.AddModelError("login-error", "The username or password provided is incorrect.");
+                return View();
+            }
+        }
+
         public ActionResult AdminSelection()
         {
             return View();
         }
 
-        public ActionResult AdminEventEdit(EventTypeEnum Type)
+        public ActionResult AdminEventEdit(EventTypeEnum type)
         {
-           return View(MakeAdminEventEditViewModel(Type));
+            var adminEventEditViewModel = CreateAdminEventEditViewModel(type);
+            return View(adminEventEditViewModel);
         }
 
-        public AdminEventEditViewModel MakeAdminEventEditViewModel(EventTypeEnum Type)
+        public AdminEventEditViewModel CreateAdminEventEditViewModel(EventTypeEnum Type)
         {
             AdminEventEditViewModel vm = new AdminEventEditViewModel();
 
@@ -42,7 +65,8 @@ namespace HFWebsiteA7.Controllers
             {
                 vm.EventType = Type;
                 vm.EventList = dinnerSessionRepository.GetAllDinnerSessions().ToList<object>();
-            }else 
+            }
+            else
             if (Type.Equals(EventTypeEnum.Jazz))
             {
                 vm.EventType = Type;
