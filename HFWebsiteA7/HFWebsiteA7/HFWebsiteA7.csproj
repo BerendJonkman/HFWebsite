@@ -154,7 +154,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdminUser.cs" />
     <Compile Include="Models\EventTypeEnum.cs" />
+    <Compile Include="Repositories\Classes\AdminUserRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IAdminUserRepository.cs" />
     <Compile Include="ViewModels\AdminEventEditViewModel.cs" />
     <Compile Include="Models\AdminRestaurant.cs" />
     <Compile Include="Models\Band.cs" />
@@ -189,7 +192,6 @@
     <Compile Include="Repositories\Classes\OrderRepository.cs" />
     <Compile Include="Repositories\Classes\RestaurantFoodTypeRepository.cs" />
     <Compile Include="Repositories\Classes\RestaurantRepository.cs" />
-    <Compile Include="Repositories\Classes\TicketOrderRepository.cs" />
     <Compile Include="Repositories\Classes\TicketRepository.cs" />
     <Compile Include="Repositories\Interfaces\IBandRepository.cs" />
     <Compile Include="Repositories\Interfaces\IConcertsRepository.cs" />
@@ -202,7 +204,6 @@
     <Compile Include="Repositories\Interfaces\IOrderRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRestaurantFoodTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRestaurantRepository.cs" />
-    <Compile Include="Repositories\Interfaces\ITicketOrderRepository.cs" />
     <Compile Include="Repositories\Interfaces\ITicketRepository.cs" />
   </ItemGroup>
   <ItemGroup>

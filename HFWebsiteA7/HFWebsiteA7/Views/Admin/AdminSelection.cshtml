@@ -14,14 +14,29 @@
         <div class="text-center" style="margin-top: 25px">
             <div class="col-sm-6 text-center">
                 <div>
-                    @Html.ActionLink("Jazz@Patronaat", "AdminEventEdit", "Admin", new { Type = EventTypeEnum.Jazz }, new { @class = "mLinkButton" })
+                    @Html.ActionLink("Concerts", "AdminEventEdit", "Admin", new { Type = EventTypeEnum.Concert }, new { @class = "mLinkButton" })
 
 
                 </div>
             </div>
             <div class="col-sm-6 text-center">
                 <div>
-                    @Html.ActionLink("Dinner in Haarlem", "AdminEventEdit", "Admin", new { Type = EventTypeEnum.Dinner }, new { @class = "mLinkButton" })
+                    @Html.ActionLink("Dinners", "AdminEventEdit", "Admin", new { Type = EventTypeEnum.Dinner }, new { @class = "mLinkButton" })
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center" style="margin-top: 25px">
+            <div class="col-sm-6 text-center">
+                <div>
+                    @Html.ActionLink("Bands", "AdminEventEdit", "Admin", new { Type = EventTypeEnum.Band }, new { @class = "mLinkButton" })
+
+
+                </div>
+            </div>
+            <div class="col-sm-6 text-center">
+                <div>
+                    @Html.ActionLink("Locations", "AdminEventEdit", "Admin", new { Type = EventTypeEnum.Location }, new { @class = "mLinkButton" })
                 </div>
             </div>
         </div>
