@@ -11,6 +11,7 @@ using HFWebsiteA7.Repositories.Interfaces;
 using HFWebsiteA7.Repositories.Classes;
 using HFWebsiteA7.ViewModels;
 using System.Web.Security;
+using HFWebsiteA7.Repositories;
 
 namespace HFWebsiteA7.Controllers
 {
@@ -18,6 +19,8 @@ namespace HFWebsiteA7.Controllers
     {
         private IDinnerSessionRepository dinnerSessionRepository = new DinnerSessionRepository();
         private IConcertsRepository concertRepository = new ConcertRepository();
+        private IBandRepository bandRepository = new BandRepository();
+        private ILocationRepository locationRepository = new LocationRepository();
         private IAdminUserRepository adminUserRepository = new AdminUserRepository();
 
         // GET: Admin
@@ -57,21 +60,26 @@ namespace HFWebsiteA7.Controllers
             return View(adminEventEditViewModel);
         }
 
-        public AdminEventEditViewModel CreateAdminEventEditViewModel(EventTypeEnum Type)
+        public AdminEventEditViewModel CreateAdminEventEditViewModel(EventTypeEnum type)
         {
             AdminEventEditViewModel vm = new AdminEventEditViewModel();
+            vm.EventType = type;
+            switch (type)
+            {
+                case EventTypeEnum.Band:
+                    vm.ObjectList = bandRepository.GetAllBands().ToList<object>(); 
+                    break;
+                case EventTypeEnum.Concert:
+                    vm.ObjectList = concertRepository.GetAllConcerts().ToList<object>();
+                    break;
+                case EventTypeEnum.Dinner:
+                    vm.ObjectList = dinnerSessionRepository.GetAllDinnerSessions().ToList<object>();
+                    break;
+                case EventTypeEnum.Location:
+                    vm.ObjectList = locationRepository.GetAllLocations().ToList<object>();
+                    break;
+            }
 
-            if (Type.Equals(EventTypeEnum.Dinner))
-            {
-                vm.EventType = Type;
-                vm.EventList = dinnerSessionRepository.GetAllDinnerSessions().ToList<object>();
-            }
-            else
-            if (Type.Equals(EventTypeEnum.Jazz))
-            {
-                vm.EventType = Type;
-                vm.EventList = concertRepository.GetAllConcerts().ToList<object>();
-            }
             return vm;
         }
     }

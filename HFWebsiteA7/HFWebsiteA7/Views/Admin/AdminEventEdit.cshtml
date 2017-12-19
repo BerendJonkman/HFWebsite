@@ -17,7 +17,7 @@
 <div class="container">
     @if (Model.EventType.Equals(EventTypeEnum.Dinner))
     {
-        foreach (DinnerSession dinnerSession in Model.EventList)
+        foreach (DinnerSession dinnerSession in Model.ObjectList)
         {
             <hr />
             <div class="container-fluid">
@@ -87,9 +87,9 @@
             </div>
         }
     }
-    else if (Model.EventType.Equals(EventTypeEnum.Jazz))
+    else if (Model.EventType.Equals(EventTypeEnum.Concert))
     {
-        foreach (Concert concert in Model.EventList)
+        foreach (Concert concert in Model.ObjectList)
         {
             <hr />
             <div class="container-fluid">
