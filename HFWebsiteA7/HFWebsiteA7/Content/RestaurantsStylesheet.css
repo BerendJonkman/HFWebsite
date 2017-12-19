@@ -1,4 +1,5 @@
 ﻿
 .banner {
     background-image: url("/Content/Content-images/JazzImages/ConcertsBanner.jpg");
+    outline: 1px solid black;
 }

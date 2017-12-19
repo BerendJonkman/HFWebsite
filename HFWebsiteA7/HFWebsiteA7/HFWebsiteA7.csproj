@@ -150,6 +150,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ConcertsController.cs" />
+    <Compile Include="Controllers\DinnerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -326,6 +327,11 @@
     <Content Include="Views\Admin\AdminSelection.cshtml" />
     <Content Include="Views\Admin\AdminEventEdit.cshtml" />
     <Content Include="Views\Home\Basket.cshtml" />
+    <Content Include="Views\Dinner\Create.cshtml" />
+    <Content Include="Views\Dinner\Delete.cshtml" />
+    <Content Include="Views\Dinner\Details.cshtml" />
+    <Content Include="Views\Dinner\Edit.cshtml" />
+    <Content Include="Views\Dinner\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
