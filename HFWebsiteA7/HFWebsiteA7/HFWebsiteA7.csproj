@@ -253,6 +253,7 @@
     <Content Include="Content\Content-images\JazzImages\BandImages\wickedjazzsounds.jpg" />
     <Content Include="Content\Content-images\JazzImages\ConcertBannerDetail.jpg" />
     <Content Include="Content\Content-images\JazzImages\ConcertsBannerIndex.jpg" />
+    <Content Include="Content\Content-images\JazzImages\DetailPage\JazzBackButton.jpg" />
     <Content Include="Content\Content-images\JazzImages\DetailPage\PlaceHolderImageConcert.jpg" />
     <Content Include="Content\Content-images\JazzImages\Index\DividerSideStripes.png" />
     <Content Include="Content\Content-images\JazzImages\Index\JazzIndexFriday.jpg" />

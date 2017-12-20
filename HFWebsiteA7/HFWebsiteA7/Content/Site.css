@@ -134,3 +134,11 @@ a.mLinkButton {
     max-height: 142px;
     text-overflow: ellipsis;
 }
+
+a.imgbuttonJazz {
+    background: url(Content-images/JazzImages/DetailPage/JazzBackButton.jpg) no-repeat top left;
+    display: block;
+    width: 250px;
+    height: 75px;
+    text-indent: -9999px; /* hides the link text */
+}
