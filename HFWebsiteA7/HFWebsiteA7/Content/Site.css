@@ -125,3 +125,12 @@ textarea {
 a.mLinkButton {
     color:white;
 }
+
+.concertTextBody {
+    overflow: hidden;
+    margin-top: 15px;
+    max-width: 505px;
+    min-height: 139px;
+    max-height: 142px;
+    text-overflow: ellipsis;
+}

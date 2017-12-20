@@ -65,9 +65,12 @@
                     @concert.Band.Name@:;
                 }
             </div>
-            <div>
-                @Html.ActionLink("More information about " + festivalDay.Day.Name, "ConcertOverview", "Concerts", new { dayId = festivalDay.Day.Id }, new { @class = "mLinkButton" })
-            </div>
         </div>
     } 
+    @foreach (var festivalDay in Model.IndexFestivalDays)
+    {
+        <div style="margin-top: 10px" class="col-sm-3">
+            @Html.ActionLink("More information about " + festivalDay.Day.Name, "ConcertOverview", "Concerts", new { dayId = festivalDay.Day.Id }, new { @class = "mLinkButton" })
+        </div>
+    }
 </div>
