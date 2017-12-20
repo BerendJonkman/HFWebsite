@@ -157,8 +157,14 @@
     </Compile>
     <Compile Include="Models\AdminUser.cs" />
     <Compile Include="Models\EventTypeEnum.cs" />
+    <Compile Include="Models\PassPartoutOrder.cs" />
+    <Compile Include="Models\PassPartoutType.cs" />
     <Compile Include="Repositories\Classes\AdminUserRepository.cs" />
+    <Compile Include="Repositories\Classes\PassPartoutOrderRepository.cs" />
+    <Compile Include="Repositories\Classes\PassPartoutTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IAdminUserRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPassPartoutOrderRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPassPartoutTypeRepository.cs" />
     <Compile Include="ViewModels\AdminEventEditViewModel.cs" />
     <Compile Include="Models\AdminRestaurant.cs" />
     <Compile Include="Models\Band.cs" />
