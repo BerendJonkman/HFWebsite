@@ -17,6 +17,6 @@ namespace HFWebsiteA7.Repositories.Interfaces
 
         List<Concert> GetConcertsByDay(int dayId);
 
-        FestivalDay CreateFestivalDay(int dayId);
+        FestivalDay CreateFestivalDay(Day day);
     }
 }

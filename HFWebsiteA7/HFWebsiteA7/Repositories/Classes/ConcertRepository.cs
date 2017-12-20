@@ -17,15 +17,16 @@ namespace HFWebsiteA7.Repositories.Classes
             db.SaveChanges();
         }
 
-        public FestivalDay CreateFestivalDay(int dayId)
+        public FestivalDay CreateFestivalDay(Day day)
         {
             FestivalDay festivalDay = new FestivalDay
             {
                 MainConcertList = new List<Concert>(),
-                SecondConcertList = new List<Concert>()
+                SecondConcertList = new List<Concert>(),
+                Day = day
             };
 
-            List<Concert> concerts = GetConcertsByDay(dayId);
+            List<Concert> concerts = GetConcertsByDay(day.Id);
 
             foreach (Concert concert in concerts)
             {

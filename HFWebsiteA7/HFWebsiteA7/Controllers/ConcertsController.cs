@@ -52,7 +52,9 @@ namespace HFWebsiteA7.Controllers
 
         public ActionResult ConcertOverview(int dayId)
         {
-            return View(concertRepository.CreateFestivalDay(dayId));
+            Day day = dayRepository.GetDay(dayId);
+
+            return View(concertRepository.CreateFestivalDay(day));
         }
 
         public ActionResult Reservation(int dayId)

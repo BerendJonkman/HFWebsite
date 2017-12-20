@@ -324,10 +324,6 @@
     <Content Include="Views\Concerts\Edit.cshtml" />
     <Content Include="Views\Concerts\IndexOld.cshtml" />
     <Content Include="Views\Concerts\Index.cshtml" />
-    <Content Include="Views\Concerts\Friday.cshtml" />
-    <Content Include="Views\Concerts\Saturday.cshtml" />
-    <Content Include="Views\Concerts\Sunday.cshtml" />
-    <Content Include="Views\Concerts\Thursday.cshtml" />
     <Content Include="Views\Concerts\Reservation.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\ContactSend.cshtml" />
@@ -339,6 +335,7 @@
     <Content Include="Views\Dinner\Details.cshtml" />
     <Content Include="Views\Dinner\Edit.cshtml" />
     <Content Include="Views\Dinner\Index.cshtml" />
+    <Content Include="Views\Concerts\ConcertOverview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
