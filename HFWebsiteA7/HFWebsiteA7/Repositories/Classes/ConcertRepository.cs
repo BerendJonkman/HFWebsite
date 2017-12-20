@@ -17,7 +17,7 @@ namespace HFWebsiteA7.Repositories.Classes
             db.SaveChanges();
         }
 
-        public FestivalDay CreateFestivalDay(string day)
+        public FestivalDay CreateFestivalDay(int dayId)
         {
             FestivalDay festivalDay = new FestivalDay
             {
@@ -25,7 +25,7 @@ namespace HFWebsiteA7.Repositories.Classes
                 SecondConcertList = new List<Concert>()
             };
 
-            List<Concert> concerts = GetConcertsByDay(day);
+            List<Concert> concerts = GetConcertsByDay(dayId);
 
             foreach (Concert concert in concerts)
             {
@@ -52,14 +52,14 @@ namespace HFWebsiteA7.Repositories.Classes
             return db.Concerts.Find(concertId);
         }
 
-        public List<Concert> GetConcertsByDay(string day)
+        public List<Concert> GetConcertsByDay(int dayId)
         {
             List<Concert> allConcerts = db.Concerts.ToList();
             List<Concert> dayConcerts = new List<Concert>();
 
             foreach (Concert concert in allConcerts)
             {
-                if (concert.Day.Name.Equals(day))
+                if (concert.Day.Id == dayId)
                 {
                     dayConcerts.Add(concert);
                 }

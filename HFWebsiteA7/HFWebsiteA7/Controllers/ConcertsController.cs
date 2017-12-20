@@ -38,10 +38,10 @@ namespace HFWebsiteA7.Controllers
                     Concerts = new List<Concert>()
                 };
 
-                List<Concert> dayConcerts = concertRepository.GetConcertsByDay(day.Name);
+                List<Concert> dayConcerts = concertRepository.GetConcertsByDay(day.Id);
                 indexfestivalday.Concerts.AddRange(dayConcerts);
                 indexfestivalday.Date = day.Date;
-                indexfestivalday.Day = day.Name;
+                indexfestivalday.Day = day;
                 indexfestivalday.Location = dayConcerts[0].Location.Name;
 
                 vm.IndexFestivalDays.Add(indexfestivalday);
@@ -50,53 +50,34 @@ namespace HFWebsiteA7.Controllers
             return vm;
         }
 
-        public ActionResult Thursday()
+        public ActionResult ConcertOverview(int dayId)
         {
-            return View(MakeDayViewModel("Thursday"));
+            return View(concertRepository.CreateFestivalDay(dayId));
         }
 
-        public ActionResult Friday()
-        {
-            return View(MakeDayViewModel("Friday"));
-        }
-
-        public ActionResult Saturday()
-        {
-            return View(MakeDayViewModel("Saturday"));
-        }
-
-        public ActionResult Sunday()
-        {        
-            return View(MakeDayViewModel("Sunday"));
-        }
-
-        private DayViewModel MakeDayViewModel(string day)
-        {
-            return new DayViewModel { FestivalDay = concertRepository.CreateFestivalDay(day) };
-        }
-
-        [HttpGet]
-        public ActionResult Reservation(string Day)
+        public ActionResult Reservation(int dayId)
         {
             ReservationViewModel vm = new ReservationViewModel
             {
-                Day = Day
+                Day = dayRepository.GetDay(dayId).Name
             };
 
             vm.ConcertTickets = new List<ConcertTicket>();
             int i = 0;
-            foreach (Concert concert in concertRepository.GetConcertsByDay(Day))
+            foreach (Concert concert in concertRepository.GetConcertsByDay(dayId))
             {
-                ConcertTicket concertTicket = new ConcertTicket();
-                concertTicket.Ticket = new Ticket
+                ConcertTicket concertTicket = new ConcertTicket
                 {
-                    Id = i,
-                    EventId = concert.EventId,
-                    Event = eventRepository.GetEvent(concert.EventId),
-                    Count = 0
-                };
+                    Ticket = new Ticket
+                    {
+                        Id = i,
+                        EventId = concert.EventId,
+                        Event = eventRepository.GetEvent(concert.EventId),
+                        Count = 0
+                    },
 
-                concertTicket.Concert = concert;
+                    Concert = concert
+                };
                 vm.ConcertTickets.Add(concertTicket);
                 i++;
             }
@@ -105,14 +86,36 @@ namespace HFWebsiteA7.Controllers
         }
 
         [HttpPost]
-        public ActionResult Reservation(ConcertTicket concertTicket)
+        public ActionResult Reservation(ReservationViewModel reservationViewModel)
         {
-            ConcertTicket mconcertTicket = concertTicket;
+            List<Ticket> tickets = new List<Ticket>();
+            foreach(ConcertTicket concertTicket in reservationViewModel.ConcertTickets)
+            {
+                if(concertTicket.Ticket.Count != 0)
+                {
+                    Ticket ticket = new Ticket
+                    {
+                        EventId = concertTicket.Ticket.EventId,
+                        Count = concertTicket.Ticket.Count
+                    };
+
+                    tickets.Add(ticket);
+                }
+            }
+
+            if (Session["Tickets"] == null)
+            {
+                Session["Tickets"] = tickets;
+            }
+            else
+            {
+                List<Ticket> ticketsInSession = (List<Ticket>) Session["Tickets"];
+                ticketsInSession.AddRange(tickets);
+                Session["Tickets"] = ticketsInSession;
+            }
 
 
-
-            RedirectToAction("Basket");
-            return View();
+            return RedirectToAction("Basket", "Home");
         }
     }
 }

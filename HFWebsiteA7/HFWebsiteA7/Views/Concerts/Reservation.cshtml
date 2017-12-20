@@ -4,6 +4,7 @@
     ViewBag.Title = "Reservation";
 }
 
+
 <div class="container">
     <h2>Ticket information - @Html.DisplayFor(x => x.Day) </h2>
     <p>There are multiple types of tickets available for Jazz@Patronaat. You can buy one of the 2 types of tickets: passe-partout tickets or a single tickets for a concert.</p>
@@ -52,69 +53,75 @@
                     €80,00
                 </td>
             </tr>
+
         </table>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
         <h3>Insert amount of regular tickets</h3>
-        <div class="col-cm-6">
-            <table class="table">
-                <tr>
-                    <th>
-                        <b>Tickets</b>
-                    </th>
-                    <th>
-                        <b>Artist</b>
-                    </th>
-                    <th>
-                        <b>Price per ticket</b>
-                    </th>
-                    <th>
-                        <b>Date & Time</b>
-                    </th>
-                    <th>
-                        <b>Location</b>
-                    </th>
-                    <th>
-                        <b>Available seats</b>
-                    </th>
-                </tr>
-
-               
-                @{
-                    int i = 0;
-                    foreach (var concertTicket in Model.ConcertTickets.ToList())
-                    {
-                        <tr>
-                            <td>
-                                @Html.EditorFor(t => t.ConcertTickets[i].Ticket.Count, new { @id = "NumberOfTickets_" + i })
-                            </td>
-                            <td>
-                                @concertTicket.Concert.Band.Name
-                            </td>
-                            <td>
-                                €@concertTicket.Concert.Hall.Price,00
-                            </td>
-                            <td>
-                                @concertTicket.Concert.Day.Date.ToString("dddd dd-MM-yyyy") | @concertTicket.Concert.StartTime.ToString("H:mm")
-                            </td>
-                            <td>
-                                @concertTicket.Concert.Location.Name - @concertTicket.Concert.Hall.Name
-                            </td>
-                            <td>
-                                @concertTicket.Concert.AvailableSeats
-                            </td>
-                        </tr>
-                        i++;
+        <div class="form-group col-cm-6">
+            <form>
+                <table class="table">
+                    <tr>
+                        <th>
+                            <b>Tickets</b>
+                        </th>
+                        <th>
+                            <b>Artist</b>
+                        </th>
+                        <th>
+                            <b>Price per ticket</b>
+                        </th>
+                        <th>
+                            <b>Date & Time</b>
+                        </th>
+                        <th>
+                            <b>Location</b>
+                        </th>
+                        <th>
+                            <b>Available seats</b>
+                        </th>
+                    </tr>
+                    @{ 
+                        int i = 0;
+                        foreach (var concertTicket in Model.ConcertTickets.ToList())
+                        {
+                            @Html.HiddenFor(t => t.ConcertTickets[i].Ticket.EventId)
+                            <tr>
+                                <td>
+                                    @Html.EditorFor(t => t.ConcertTickets[i].Ticket.Count)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(t => t.ConcertTickets[i].Concert.Band.Name)
+                                </td>
+                                <td>
+                                    €@Html.DisplayFor(t => t.ConcertTickets[i].Concert.Hall.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(t => t.ConcertTickets[i].Concert.Day.Date) | @Html.DisplayFor(t => t.ConcertTickets[i].Concert.StartTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(t => t.ConcertTickets[i].Concert.Location.Name) - @Html.DisplayFor(t => t.ConcertTickets[i].Concert.Hall.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(t => t.ConcertTickets[i].Concert.AvailableSeats)
+                                </td>
+                            </tr>
+                            i++;
+                        }
                     }
-                }
-            </table>
+                </table>
+            </form>
             <div>
                 <div class="col-sm-2" style="margin-top:18px">
                     @Html.ActionLink("Terug naar overzicht", "index", null, new { @class = "mLinkButton" })
                 </div>
-                <div class="col-sm-offset-8 col-sm-2">
+                <div class=" form-group col-sm-offset-8 col-sm-2">
                     <input type="submit" value="Place Order" class="mLinkButton" />
                 </div>
             </div>  
         </div>
+        }
     </div>
 </div>

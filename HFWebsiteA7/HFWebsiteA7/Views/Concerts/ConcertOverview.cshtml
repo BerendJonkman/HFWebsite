@@ -1,17 +1,13 @@
 ﻿@model HFWebsiteA7.Models.FestivalDay
 
-@{
-    ViewBag.Title = "Thursday";
-}
-
 @section Banner {
     <div style="margin-top: 50px; background-image: url(../../Content/Content-images/JazzImages/ConcertBannerDetail.jpg); background-repeat: round; height: 300px"></div>
 }
 
 <div class="container">
     <div class="col-sm-6">
-        <h2>Jazz@Patronaat - Thursday</h2>
-        <p>On Thursday you have got a choice of 6 different jazz bands. The 6 bands are performing over 2 Halls in the Patronaat.</p>
+        <h2>Jazz@Patronaat - @Model.Day.Name</h2>
+        <p><!-- Model.FestivalDay.Day.Description --></p>
     </div>
     <div class="col-sm-2">
         <img class="triple-img" src="~/Content/Content-images/JazzImages/Index/leftImageJazzIndex.jpg" alt="JazzInformationImage" width="150" height="150">
@@ -37,11 +33,11 @@
 
     <div>
         <div class="col-sm-6">
-            <h3 style="text-align: center">Main Hall</h3>
+            <h3 style="text-align: center">@Model.MainConcertList[0].Hall.Name</h3>
 
         </div>
         <div class="col-sm-6">
-            <h3 style="text-align: center">Second Hall</h3>
+            <h3 style="text-align: center">@Model.SecondConcertList[0].Hall.Name</h3>
         </div>
     </div>
 
@@ -55,15 +51,15 @@
                         <h3>@concert.Band.Name</h3>
                         <p style="margin-top: 15px; max-width: 505px; min-height: 150px">
                             @concert.Band.Description
-                        <div>
-                            <b>Time:</b> @concert.StartTime.ToString("H:mm")
-                        </div>
-                        <div>
-                            <b>Price:</b> €@concert.Hall.Price,00
-                        </div>
+                            <div>
+                                <b>Time:</b> @concert.StartTime.ToString("H:mm")
+                            </div>
+                            <div>
+                                <b>Price:</b> €@concert.Hall.Price,00
+                            </div>
                             <div style="margin-top: 10px">
-                                @Html.ActionLink("Book now", "Reservation", "Concerts", new { Day = concert.Day.Name, Concert = concert.EventId }, new { @class = "mLinkButton" })
-                            </div>                        
+                                @Html.ActionLink("Book now", "Reservation", "Concerts", new { Day = concert.Day.Id }, new { @class = "mLinkButton" })
+                            </div>
                         </p>
                     </div>
                 }
@@ -90,8 +86,8 @@
                 }
             </div>
         </div>
-         }
-        
+    }
+
     <div>
         @Html.ActionLink("Terug naar Jazz overzicht", "Index")
     </div>

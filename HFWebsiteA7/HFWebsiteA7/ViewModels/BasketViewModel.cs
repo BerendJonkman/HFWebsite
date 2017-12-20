@@ -6,8 +6,8 @@ using System.Web;
 
 namespace HFWebsiteA7.ViewModels
 {
-    public class DinnerAdminViewModel
+    public class BasketViewModel
     {
-        public List<DinnerSession> dinnerSessionList;
+        public List<Ticket> Tickets { get; set; }
     }
 }
