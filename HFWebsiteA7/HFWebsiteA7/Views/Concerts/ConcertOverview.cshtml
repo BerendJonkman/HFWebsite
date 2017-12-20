@@ -49,7 +49,7 @@
                 @foreach (var concert in Model.MainConcertList)
                 {
                     <div style="min-height: 475px">
-                        <img src="~/Content/Content-images/JazzImages/DetailPage/PlaceHolderImageConcert.jpg" alt="JazzInformationImage" width="510" height="150">
+                        <img src=@Url.Content(concert.Band.ImagePath) alt="JazzInformationImage" width="510" height="150">
                         <h3>@concert.Band.Name</h3>
                         <p style="margin-top: 15px; max-width: 505px; min-height: 150px">
                             @concert.Band.Description
@@ -70,7 +70,7 @@
                 @foreach (var concert in Model.SecondConcertList)
                 {
                     <div style="min-height: 475px">
-                        <img src="~/Content/Content-images/JazzImages/DetailPage/PlaceHolderImageConcert.jpg" alt="JazzInformationImage" width="510" height="150">
+                        <img src=@Url.Content(concert.Band.ImagePath) alt="JazzInformationImage" width="510" height="150">
                         <h3>@concert.Band.Name</h3>
                         <p style="margin-top: 15px; max-width: 505px; min-height: 150px">
                             @concert.Band.Description
@@ -95,7 +95,7 @@
             {
                 <div class="col-sm-6">
                     <div style="min-height: 475px">
-                        <img src="~/Content/Content-images/JazzImages/DetailPage/PlaceHolderImageConcert.jpg" alt="JazzInformationImage" width="510" height="150">
+                        <img src=@Url.Content(concert.Band.ImagePath) alt="JazzInformationImage" width="510" height="150">
                         <h3>@concert.Band.Name</h3>
                         <p style="margin-top: 15px; max-width: 505px; min-height: 150px">
                             @concert.Band.Description
@@ -103,7 +103,7 @@
                                 <b>Time:</b> @concert.StartTime.ToString("H:mm")
                             </div>
                             <div>
-                                <b>Price:</b> Free
+                                <b>Price:</b> Free 
                             </div>
                             <div style="margin-top: 10px">
                                 @Html.ActionLink("Book now", "Reservation", "Concerts", new { dayId = concert.Day.Id }, new { @class = "mLinkButton" })

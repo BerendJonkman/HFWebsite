@@ -39,7 +39,6 @@ namespace HFWebsiteA7.Repositories.Classes
                     festivalDay.SecondConcertList.Add(concert);
                 }
             }
-
             return festivalDay;
         }
 
