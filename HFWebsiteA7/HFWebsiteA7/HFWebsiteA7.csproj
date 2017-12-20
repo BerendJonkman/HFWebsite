@@ -150,12 +150,22 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ConcertsController.cs" />
+    <Compile Include="Controllers\DinnerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DayEnum.cs" />
+    <Compile Include="Models\AdminUser.cs" />
     <Compile Include="Models\EventTypeEnum.cs" />
+    <Compile Include="Models\PassPartoutOrder.cs" />
+    <Compile Include="Models\PassPartoutType.cs" />
+    <Compile Include="Repositories\Classes\AdminUserRepository.cs" />
+    <Compile Include="Repositories\Classes\PassPartoutOrderRepository.cs" />
+    <Compile Include="Repositories\Classes\PassPartoutTypeRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IAdminUserRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPassPartoutOrderRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPassPartoutTypeRepository.cs" />
     <Compile Include="ViewModels\AdminEventEditViewModel.cs" />
     <Compile Include="Models\AdminRestaurant.cs" />
     <Compile Include="Models\Band.cs" />
@@ -191,7 +201,6 @@
     <Compile Include="Repositories\Classes\OrderRepository.cs" />
     <Compile Include="Repositories\Classes\RestaurantFoodTypeRepository.cs" />
     <Compile Include="Repositories\Classes\RestaurantRepository.cs" />
-    <Compile Include="Repositories\Classes\TicketOrderRepository.cs" />
     <Compile Include="Repositories\Classes\TicketRepository.cs" />
     <Compile Include="Repositories\Interfaces\IBandRepository.cs" />
     <Compile Include="Repositories\Interfaces\IConcertsRepository.cs" />
@@ -204,7 +213,6 @@
     <Compile Include="Repositories\Interfaces\IOrderRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRestaurantFoodTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRestaurantRepository.cs" />
-    <Compile Include="Repositories\Interfaces\ITicketOrderRepository.cs" />
     <Compile Include="Repositories\Interfaces\ITicketRepository.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +233,24 @@
     <Content Include="Content\Content-images\Home\HomeImage3.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage4.jpg" />
     <Content Include="Content\Content-images\Home\VerticalLine.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\chrisalain.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\evolve.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\foxandthemayors.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\garedunord.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\gumbokings.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\hanbennink.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\jonnafraser.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\lillithmerlot.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\mylessanko.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\ntjamrosie.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\rilanandthebombadiers.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\ruissoundsystem.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\soulsix.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\thefamilyxl.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\thenordians.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\thomthomsom.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\unclesue.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\wickedjazzsounds.jpg" />
     <Content Include="Content\Content-images\JazzImages\ConcertBannerDetail.jpg" />
     <Content Include="Content\Content-images\JazzImages\ConcertsBannerIndex.jpg" />
     <Content Include="Content\Content-images\JazzImages\DetailPage\PlaceHolderImageConcert.jpg" />
@@ -242,6 +268,14 @@
     <Content Include="Content\Content-images\JazzImages\DetailPage\middleImageJazzThursday.jpg" />
     <Content Include="Content\Content-images\JazzImages\DetailPage\rightImageJazzThursday.jpg" />
     <Content Include="Content\Content-images\RestaurantsImages\DinnerBanner.jpg" />
+    <Content Include="Content\Content-images\RestaurantsImages\Restaurants\gandcafebrinkman.jpg" />
+    <Content Include="Content\Content-images\RestaurantsImages\Restaurants\ratatouille.jpg" />
+    <Content Include="Content\Content-images\RestaurantsImages\Restaurants\restaurantfris.jpg" />
+    <Content Include="Content\Content-images\RestaurantsImages\Restaurants\restaurantml.jpg" />
+    <Content Include="Content\Content-images\RestaurantsImages\Restaurants\restaurantmrenmrs.jpg" />
+    <Content Include="Content\Content-images\RestaurantsImages\Restaurants\specktakel.jpg" />
+    <Content Include="Content\Content-images\RestaurantsImages\Restaurants\thegoldenbull.jpg" />
+    <Content Include="Content\Content-images\RestaurantsImages\Restaurants\urbanfrenchybistrotoujours.jpg" />
     <Content Include="Content\Content-images\separatingline.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -300,7 +334,11 @@
     <Content Include="Views\Admin\AdminSelection.cshtml" />
     <Content Include="Views\Admin\AdminEventEdit.cshtml" />
     <Content Include="Views\Home\Basket.cshtml" />
-    <Content Include="Views\Concerts\ConcertOverview.cshtml" />
+    <Content Include="Views\Dinner\Create.cshtml" />
+    <Content Include="Views\Dinner\Delete.cshtml" />
+    <Content Include="Views\Dinner\Details.cshtml" />
+    <Content Include="Views\Dinner\Edit.cshtml" />
+    <Content Include="Views\Dinner\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

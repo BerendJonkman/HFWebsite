@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HFWebsiteA7.Models.Event>
+﻿@model HFWebsiteA7.Models.AdminUser
 
 @{
     ViewBag.Title = "Index";
@@ -11,12 +11,21 @@
     <div class="inner">
         <h1>Admin Login</h1>
         <h3 style="font-size: 23px">Enter your login information below.</h3>
-        <form>
-            <input name="emailField" type="email" value="Email address" /><br />
-            <input name="passwordField" type="password" value="Password" /><br />
-            <br />
-            @Html.ActionLink("Login", "AdminSelection", "Admin", null, new { @class = "mLinkButton" })<br />
-        </form>
+        @Html.ValidationSummary()
+        @using (Html.BeginForm())
+        {
+            @Html.LabelFor(m => m.Username)
+            @Html.TextBoxFor(m => m.Username)
+            @Html.ValidationMessageFor(m => m.Username)
+            <br/>
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password)
+            @Html.ValidationMessageFor(m => m.Password)
+            <br/>
+
+            <input type="submit" value="Log in"/>
+        }
+         
     </div>
 </div>
 

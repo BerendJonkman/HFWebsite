@@ -6,12 +6,11 @@ using System.Web;
 
 namespace HFWebsiteA7.Models
 {
-    public class Day
+    public class PassPartoutType
     {
         [Key]
         public virtual int Id { get; set; }
-        public virtual DateTime Date { get; set; }
-        public virtual String Name { get; set; }
-        public virtual String ConcertDescription { get; set; }
+        public virtual string Name { get; set; }
+        public virtual decimal Price { get; set; }
     }
 }

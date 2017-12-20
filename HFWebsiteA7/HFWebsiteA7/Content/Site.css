@@ -35,13 +35,11 @@ textarea {
     font-size: 20px;
     
 }
-    .nav.navbar-nav li a:hover {
+    
+.nav.navbar-nav li a:hover {
         background-color: #cc3300;
     }
     
-.banner {
-        
-    }
 
 .navbar-inverse .navbar-nav .active a {
     background-color: #be7c4d;

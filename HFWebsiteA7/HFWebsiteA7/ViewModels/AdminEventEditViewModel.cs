@@ -9,6 +9,6 @@ namespace HFWebsiteA7.ViewModels
     public class AdminEventEditViewModel
     {
         public EventTypeEnum EventType { get; set; }
-        public List<object> EventList { get; set; }
+        public List<object> ObjectList { get; set; }
     }
 }
