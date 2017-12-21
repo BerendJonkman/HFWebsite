@@ -136,9 +136,9 @@ a.mLinkButton {
 }
 
 a.imgbuttonJazz {
-    background: url(Content-images/JazzImages/DetailPage/JazzBackButton.jpg) no-repeat top left;
+    background: url(Content-images/JazzImages/DetailPage/JazzBackButton.jpg) no-repeat center left;
     display: block;
-    width: 250px;
-    height: 75px;
+    width: 240px;
+    height: 66px;
     text-indent: -9999px; /* hides the link text */
 }
