@@ -1,4 +1,5 @@
 ﻿@model HFWebsiteA7.Models.FestivalDay
+@using HFWebsiteA7.Models
 
 @section Banner {
     <div style="margin-top: 50px; background-image: url(../../Content/Content-images/JazzImages/ConcertBannerDetail.jpg); background-repeat: round; height: 300px"></div>
@@ -27,7 +28,7 @@
             <img class="" src="~/Content/Content-images/JazzImages/DetailPage/JazzInformationThursday.jpg" alt="JazzInformationImage" width="515" height="66">
         </div>
         <div class="col-sm-3" style="margin-bottom: 20px">
-            <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="77">
+            <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="66">
         </div>
     </div>
     
@@ -46,12 +47,13 @@
 
         <div class="row">
             <div class="column col-sm-6">
-                @foreach (var concert in Model.MainConcertList)
+
+                @foreach (Concert concert in Model.MainConcertList)
                 {
                     <div style="min-height: 475px">
                         <img src=@Url.Content(concert.Band.ImagePath) alt="JazzInformationImage" width="510" height="150">
-                        <h3>@concert.Band.Name</h3>
-                        <p style="margin-top: 15px; max-width: 505px; min-height: 139px; max-height:142px; text-overflow:ellipsis; overflow:hidden">
+                        <h3 style="font-size: 28px">@concert.Band.Name</h3>
+                        <p style="margin-top: 15px; font-family: Arial; font-size: 13px; max-width: 505px; min-height: 139px; max-height:142px; overflow:hidden">
                             @concert.Band.Description
                             <div>
                                 <b>Time:</b> @concert.StartTime.ToString("H:mm")
@@ -67,12 +69,12 @@
                 }
             </div>
             <div class="column col-sm-6">
-                @foreach (var concert in Model.SecondConcertList)
+                @foreach (Concert concert in Model.SecondConcertList)
                 {
                     <div style="min-height: 475px">
                         <img src=@Url.Content(concert.Band.ImagePath) alt="JazzInformationImage" width="510" height="150">
-                        <h3>@concert.Band.Name</h3>
-                        <p style="margin-top: 15px; max-width: 505px; min-height: 145px; max-height:145px; text-overflow:ellipsis; overflow:hidden">
+                        <h3 style="font-size: 28px">@concert.Band.Name</h3>
+                        <p style="margin-top: 15px; font-family: Arial; font-size: 13px; max-width: 505px; min-height: 139px; max-height:142px; overflow:hidden">
                             @concert.Band.Description
                             <div>
                                 <b>Time:</b> @concert.StartTime.ToString("H:mm")
@@ -91,30 +93,26 @@
         }
         else
         {
-            foreach (var concert in Model.SecondConcertList)
+            foreach (Concert concert in Model.SecondConcertList)
             {
-                <div class="col-sm-6">
-                    <div style="min-height: 475px">
-                        <img src=@Url.Content(concert.Band.ImagePath) alt="JazzInformationImage" width="510" height="150">
-                        <h3>@concert.Band.Name</h3>
-                        <p style="margin-top: 15px; max-width: 505px; min-height: 145px; max-height:145px; text-overflow:ellipsis; overflow:hidden">
-                            @concert.Band.Description
-                            <div>
-                                <b>Time:</b> @concert.StartTime.ToString("H:mm")
-                            </div>
-                            <div>
-                                <b>Price:</b> Free 
-                            </div>
-                            <div style="margin-top: 10px">
-                                @Html.ActionLink("Book now", "Reservation", "Concerts", new { dayId = concert.Day.Id }, new { @class = "mLinkButton" })
-                            </div>
-                        </p>
-                    </div>
+                <div style="min-height: 475px">
+                    <img src=@Url.Content(concert.Band.ImagePath) alt="JazzInformationImage" width="510" height="150">
+                    <h3 style="font-size: 28px">@concert.Band.Name</h3>
+                    <p style="margin-top: 15px; font-family: Arial; font-size: 13px; max-width: 505px; min-height: 139px; max-height:142px; overflow:hidden">
+                        @concert.Band.Description
+                        <div>
+                            <b>Time:</b> @concert.StartTime.ToString("H:mm")
+                        </div>
+                        <div>
+                            <b>Price:</b> €@concert.Hall.Price,00
+                        </div>
+                        <div style="margin-top: 10px">
+                            @Html.ActionLink("Book now", "Reservation", "Concerts", new { dayId = concert.Day.Id }, new { @class = "mLinkButton" })
+                        </div>
+                    </p>
                 </div>
             }
         }
     }
-    <div>
-        @Html.ActionLink("Terug naar Jazz overzicht", "Index")
-    </div>
 </div>
+
