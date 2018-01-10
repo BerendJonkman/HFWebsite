@@ -1,4 +1,6 @@
-﻿
+﻿@model HFWebsiteA7.ViewModels.BasketViewModel
+@using HFWebsiteA7.Models
+
 @{
     ViewBag.Title = "Basket";
 }
@@ -50,9 +52,33 @@
                     <b>Price</b>
                 </th>
             </tr>
+            @foreach (Ticket ticket in Model.Tickets)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayForModel(ticket.Count)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayForModel(ticket.Event.Discriminator)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayForModel(ticket.Event.Day.Date.Date) | @Html.DisplayForModel(ticket.Event.Day.Date.TimeOfDay)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayForModel(ticket.Event.AvailableSeats)
+                    </td>
+                </tr>
+            }
+            
         </table>
     </div>
-
+    
     <div>
         <h4>You could also:</h4>
     </div>

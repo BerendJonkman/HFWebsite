@@ -155,6 +155,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DayEnum.cs" />
     <Compile Include="Models\AdminUser.cs" />
     <Compile Include="Models\EventTypeEnum.cs" />
     <Compile Include="Models\PassPartoutOrder.cs" />
@@ -169,8 +170,9 @@
     <Compile Include="Models\AdminRestaurant.cs" />
     <Compile Include="Models\Band.cs" />
     <Compile Include="Models\Concert.cs" />
+    <Compile Include="Models\ConcertTicket.cs" />
+    <Compile Include="ViewModels\BasketViewModel.cs" />
     <Compile Include="ViewModels\DayViewModel.cs" />
-    <Compile Include="ViewModels\DinnerAdminViewModel.cs" />
     <Compile Include="Models\DinnerSession.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\FestivalDay.cs" />
@@ -251,6 +253,7 @@
     <Content Include="Content\Content-images\JazzImages\BandImages\wickedjazzsounds.jpg" />
     <Content Include="Content\Content-images\JazzImages\ConcertBannerDetail.jpg" />
     <Content Include="Content\Content-images\JazzImages\ConcertsBannerIndex.jpg" />
+    <Content Include="Content\Content-images\JazzImages\DetailPage\JazzBackButton.jpg" />
     <Content Include="Content\Content-images\JazzImages\DetailPage\PlaceHolderImageConcert.jpg" />
     <Content Include="Content\Content-images\JazzImages\Index\DividerSideStripes.png" />
     <Content Include="Content\Content-images\JazzImages\Index\JazzIndexFriday.jpg" />
@@ -275,7 +278,6 @@
     <Content Include="Content\Content-images\RestaurantsImages\Restaurants\thegoldenbull.jpg" />
     <Content Include="Content\Content-images\RestaurantsImages\Restaurants\urbanfrenchybistrotoujours.jpg" />
     <Content Include="Content\Content-images\separatingline.png" />
-    <Content Include="Content\RestaurantsStylesheet.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -317,16 +319,7 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Concert.cshtml" />
     <Content Include="Views\Admin\Dinner.cshtml" />
-    <Content Include="Views\Concerts\Create.cshtml" />
-    <Content Include="Views\Concerts\Delete.cshtml" />
-    <Content Include="Views\Concerts\Details.cshtml" />
-    <Content Include="Views\Concerts\Edit.cshtml" />
-    <Content Include="Views\Concerts\IndexOld.cshtml" />
     <Content Include="Views\Concerts\Index.cshtml" />
-    <Content Include="Views\Concerts\Friday.cshtml" />
-    <Content Include="Views\Concerts\Saturday.cshtml" />
-    <Content Include="Views\Concerts\Sunday.cshtml" />
-    <Content Include="Views\Concerts\Thursday.cshtml" />
     <Content Include="Views\Concerts\Reservation.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\ContactSend.cshtml" />
@@ -338,6 +331,7 @@
     <Content Include="Views\Dinner\Details.cshtml" />
     <Content Include="Views\Dinner\Edit.cshtml" />
     <Content Include="Views\Dinner\Index.cshtml" />
+    <Content Include="Views\Concerts\ConcertOverview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

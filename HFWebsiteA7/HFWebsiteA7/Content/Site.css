@@ -125,3 +125,20 @@ textarea {
 a.mLinkButton {
     color:white;
 }
+
+.concertTextBody {
+    overflow: hidden;
+    margin-top: 15px;
+    max-width: 505px;
+    min-height: 139px;
+    max-height: 142px;
+    text-overflow: ellipsis;
+}
+
+a.imgbuttonJazz {
+    background: url(Content-images/JazzImages/DetailPage/JazzBackButton.jpg) no-repeat center left;
+    display: block;
+    width: 240px;
+    height: 66px;
+    text-indent: -9999px; /* hides the link text */
+}

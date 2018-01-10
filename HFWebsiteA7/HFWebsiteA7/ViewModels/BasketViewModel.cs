@@ -6,10 +6,8 @@ using System.Web;
 
 namespace HFWebsiteA7.ViewModels
 {
-    public class ReservationViewModel
+    public class BasketViewModel
     {
-        public string Day { get; set; }
-
-        public List<ConcertTicket> ConcertTickets { get; set; }
+        public List<Ticket> Tickets { get; set; }
     }
 }
