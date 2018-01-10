@@ -21,13 +21,13 @@
 
     <div>
         <div class="col-sm-3">
-            <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="77">
+            <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="66">
         </div>
         <div class="col-sm-6">
             <img class="" src="~/Content/Content-images/JazzImages/Index/JazzInformation.jpg" alt="JazzInformationImage" width="515" height="66">
         </div>
         <div class="col-sm-3">
-            <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="77">
+            <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="66">
         </div>
     </div>
 
@@ -65,9 +65,12 @@
                     @concert.Band.Name@:;
                 }
             </div>
-            <div>
-                @Html.ActionLink("More information about " + festivalDay.Day.Name, "ConcertOverview", "Concerts", new { dayId = festivalDay.Day.Id }, new { @class = "mLinkButton" })
-            </div>
         </div>
     } 
+    @foreach (var festivalDay in Model.IndexFestivalDays)
+    {
+        <div style="margin-top: 10px" class="col-sm-3">
+            @Html.ActionLink("More information about " + festivalDay.Day.Name, "ConcertOverview", "Concerts", new { dayId = festivalDay.Day.Id }, new { @class = "mLinkButton" })
+        </div>
+    }
 </div>

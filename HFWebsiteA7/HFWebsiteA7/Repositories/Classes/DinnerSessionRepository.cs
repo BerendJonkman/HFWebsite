@@ -17,6 +17,11 @@ namespace HFWebsiteA7.Repositories.Classes
             db.SaveChanges();
         }
 
+        public int CountDinnerSessions(int restaurantId)
+        {
+            return db.DinnerSessions.GroupBy(d => d.RestaurantId == restaurantId).Count();
+        }
+
         public IEnumerable<DinnerSession> GetAllDinnerSessions()
         {
             return db.DinnerSessions.ToList();
@@ -24,7 +29,12 @@ namespace HFWebsiteA7.Repositories.Classes
 
         public DinnerSession GetDinnerSession(int dinnerSessionId)
         {
-            throw new NotImplementedException();
+            return db.DinnerSessions.Find(dinnerSessionId);
+        }
+
+        public DinnerSession GetDinnerSessionByRestaurantId(int restaurantId)
+        {
+            return db.DinnerSessions.FirstOrDefault(d => d.RestaurantId == restaurantId);
         }
     }
 }

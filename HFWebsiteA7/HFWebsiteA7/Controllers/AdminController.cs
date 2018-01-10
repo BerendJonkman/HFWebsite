@@ -62,8 +62,10 @@ namespace HFWebsiteA7.Controllers
 
         public AdminEventEditViewModel CreateAdminEventEditViewModel(EventTypeEnum type)
         {
-            AdminEventEditViewModel vm = new AdminEventEditViewModel();
-            vm.EventType = type;
+            AdminEventEditViewModel vm = new AdminEventEditViewModel
+            {
+                EventType = type
+            };
             switch (type)
             {
                 case EventTypeEnum.Band:
