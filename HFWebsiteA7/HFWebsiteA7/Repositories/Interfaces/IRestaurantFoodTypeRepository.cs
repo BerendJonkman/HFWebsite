@@ -12,5 +12,6 @@ namespace HFWebsiteA7.Repositories.Interfaces
         IEnumerable<RestaurantFoodType> GetAllRestaurantFoodTypes();
         RestaurantFoodType GetRestaurantFoodType(int restaurantFoodTypeId);
         void AddRestaurantFoodType(RestaurantFoodType restaurantFoodType);
+        IEnumerable<FoodType> GetFoodTypeByRestaurantId(int restaurantId);
     }
 }
