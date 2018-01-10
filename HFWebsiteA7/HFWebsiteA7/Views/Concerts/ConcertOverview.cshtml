@@ -81,7 +81,7 @@
                                 <b>Price:</b> €@concert.Hall.Price,00
                             </div>
                             <div style="margin-top: 10px">
-                                @Html.ActionLink("Book now", "Reservation", "Concerts", new { dayId = concert.Day.Id }, new { @class = "mLinkButton" })
+                                @Html.ActionLink("Book now", "Reservation", "Concerts", new { dayId = concert.Day.Id, concertId = concert.BandId }, new { @class = "mLinkButton" })
                             </div>
                         </p>
                     </div>

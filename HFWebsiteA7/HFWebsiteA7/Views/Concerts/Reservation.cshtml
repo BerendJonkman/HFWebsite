@@ -85,10 +85,15 @@
                         </tr>
                         @{
                             int i = 0;
+                            string bgColor = "#FFFFFF";
                             foreach (var concertTicket in Model.ConcertTickets.ToList())
                             {
+                                if (concertTicket.Selected)
+                                {
+                                    bgColor = "FF0000";
+                                }
                                 @Html.HiddenFor(t => t.ConcertTickets[i].Ticket.EventId)
-                                <tr>
+                                <tr style="background-color : @bgColor">
                                     <td>
                                         @Html.EditorFor(t => t.ConcertTickets[i].Ticket.Count)
                                     </td>
@@ -122,6 +127,6 @@
                     </div>
                 </div>
             </div>
-                            }
+         }
     </div>
 </div>
