@@ -33,7 +33,10 @@ namespace HFWebsiteA7.Controllers
 
         public ActionResult Basket()
         {
-            if((List<Ticket>)Session["Tickets"] != null)
+            BasketViewModel vm = new BasketViewModel();
+
+
+            if ((List<Ticket>)Session["Tickets"] != null)
             {
                 List<Ticket> tickets = new List<Ticket>();
 
@@ -42,18 +45,20 @@ namespace HFWebsiteA7.Controllers
                     ticket.Event = eventRepository.GetEvent(ticket.EventId);
                 }
 
-                BasketViewModel vm = new BasketViewModel
-                {
-                    Tickets = tickets
-                };
-
-                return View(vm);
-
+                vm.Tickets = tickets;
             }
-            else
+
+            if((List<PassParToutDay>)Session["PassParToutDay"] != null)
             {
-                return View();
+                vm.Partoutdays = (List<PassParToutDay>)Session["PassParToutDay"];
             }
+
+            if ((PassParToutWeek)Session["PassParToutWeek"] != null)
+            {
+                vm.ParToutWeek = (PassParToutWeek)Session["PassParToutWeek"];
+            }
+
+            return View();
         }
     }
 }

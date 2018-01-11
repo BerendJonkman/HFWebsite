@@ -158,8 +158,10 @@
     <Compile Include="Models\DayEnum.cs" />
     <Compile Include="Models\AdminUser.cs" />
     <Compile Include="Models\EventTypeEnum.cs" />
+    <Compile Include="Models\PassParToutDay.cs" />
     <Compile Include="Models\PassPartoutOrder.cs" />
     <Compile Include="Models\PassPartoutType.cs" />
+    <Compile Include="Models\PassParToutWeek.cs" />
     <Compile Include="Repositories\Classes\AdminUserRepository.cs" />
     <Compile Include="Repositories\Classes\PassPartoutOrderRepository.cs" />
     <Compile Include="Repositories\Classes\PassPartoutTypeRepository.cs" />

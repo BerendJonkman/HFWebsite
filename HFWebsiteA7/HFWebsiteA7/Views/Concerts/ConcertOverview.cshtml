@@ -56,13 +56,13 @@
                         <p style="margin-top: 15px; font-family: Arial; font-size: 13px; max-width: 505px; min-height: 139px; max-height:142px; overflow:hidden">
                             @concert.Band.Description
                             <div>
-                                <b>Time:</b> @concert.StartTime.ToString("H:mm")
+                                <b>Time:</b> @concert.StartTime.ToString("H:mm") - @{ concert.StartTime += TimeSpan.FromHours((double)concert.Duration); } @concert.StartTime.ToString("H:mm")
                             </div>
                             <div>
                                 <b>Price:</b> €@concert.Hall.Price,00
                             </div>
                             <div style="margin-top: 10px">
-                                @Html.ActionLink("Book now", "Reservation", "Concerts", new { dayId = concert.Day.Id }, new { @class = "mLinkButton" })
+                                @Html.ActionLink("Book now", "Reservation", "Concerts", new { dayId = concert.Day.Id, concertId = concert.BandId }, new { @class = "mLinkButton" })
                             </div>
                         </p>
                     </div>
@@ -77,7 +77,7 @@
                         <p style="margin-top: 15px; font-family: Arial; font-size: 13px; max-width: 505px; min-height: 139px; max-height:142px; overflow:hidden">
                             @concert.Band.Description
                             <div>
-                                <b>Time:</b> @concert.StartTime.ToString("H:mm")
+                                <b>Time:</b> @concert.StartTime.ToString("H:mm") - @{ concert.StartTime += TimeSpan.FromHours((double)concert.Duration); } @concert.StartTime.ToString("H:mm")
                             </div>
                             <div>
                                 <b>Price:</b> €@concert.Hall.Price,00
@@ -101,13 +101,13 @@
                     <p style="margin-top: 15px; font-family: Arial; font-size: 13px; max-width: 505px; min-height: 139px; max-height:142px; overflow:hidden">
                         @concert.Band.Description
                         <div>
-                            <b>Time:</b> @concert.StartTime.ToString("H:mm")
+                            <b>Time:</b> @concert.StartTime.ToString("H:mm") - @{ concert.StartTime += TimeSpan.FromHours((double)concert.Duration); } @concert.StartTime.ToString("H:mm")
                         </div>
                         <div>
                             <b>Price:</b> €@concert.Hall.Price,00
                         </div>
                         <div style="margin-top: 10px">
-                            @Html.ActionLink("Book now", "Reservation", "Concerts", new { dayId = concert.Day.Id }, new { @class = "mLinkButton" })
+                            @Html.ActionLink("Book now", "Reservation", "Concerts", new { dayId = concert.Day.Id, concertId = concert.BandId }, new { @class = "mLinkButton" })
                         </div>
                     </p>
                 </div>

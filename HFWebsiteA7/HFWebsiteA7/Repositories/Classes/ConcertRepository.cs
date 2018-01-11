@@ -21,6 +21,7 @@ namespace HFWebsiteA7.Repositories.Classes
         {
             FestivalDay festivalDay = new FestivalDay
             {
+                //De concerten zijn verdeeld over twee zalen, de main hall en een secundaire hall.
                 MainConcertList = new List<Concert>(),
                 SecondConcertList = new List<Concert>(),
                 Day = day
@@ -28,6 +29,7 @@ namespace HFWebsiteA7.Repositories.Classes
 
             List<Concert> concerts = GetConcertsByDay(day.Id);
 
+            //Hier wordt alleen gecontrolleerd op de main hall, de rest kan in de secundaire lijst, of dat nou second of third hall is
             foreach (Concert concert in concerts)
             {
                 if (concert.Hall.Name.Equals("Main Hall"))

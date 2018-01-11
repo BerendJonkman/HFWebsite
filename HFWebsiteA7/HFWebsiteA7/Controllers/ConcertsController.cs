@@ -24,6 +24,7 @@ namespace HFWebsiteA7.Controllers
             return View(CreateIndexViewModel());
         }
 
+        //Hier halen we alle informatie op die nodig is voor de concert index
         private IndexViewModel CreateIndexViewModel()
         {
             IndexViewModel vm = new IndexViewModel
@@ -42,6 +43,7 @@ namespace HFWebsiteA7.Controllers
                 indexfestivalday.Concerts.AddRange(dayConcerts);
                 indexfestivalday.Date = day.Date;
                 indexfestivalday.Day = day;
+                //Hier halen we even de locatie uit de eerste dayConcert omdat ze per dag hetzelfde zijn
                 indexfestivalday.Location = dayConcerts[0].Location.Name;
 
                 vm.IndexFestivalDays.Add(indexfestivalday);
@@ -50,6 +52,7 @@ namespace HFWebsiteA7.Controllers
             return vm;
         }
 
+        //Nadat op de index op een dag is geklikt kom die hier binnen en wordt voor die dag een festivalDay gemaakt
         public ActionResult ConcertOverview(int dayId)
         {
             Day day = dayRepository.GetDay(dayId);
@@ -66,6 +69,7 @@ namespace HFWebsiteA7.Controllers
 
             vm.ConcertTickets = new List<ConcertTicket>();
             int i = 0;
+
             foreach (Concert concert in concertRepository.GetConcertsByDay(dayId))
             {
                 ConcertTicket concertTicket = new ConcertTicket
@@ -86,7 +90,15 @@ namespace HFWebsiteA7.Controllers
                 vm.ConcertTickets.Add(concertTicket);
                 i++;
             }
-            
+
+            PassParToutDay passParToutDay = new PassParToutDay
+            {
+                Day = vm.Day
+            };
+
+            vm.PassParToutDay = passParToutDay;
+
+
             return View(vm);
         }
 
@@ -108,6 +120,52 @@ namespace HFWebsiteA7.Controllers
                 }
             }
 
+            if (Session["PassParToutDay"] == null)
+            {
+                List<PassParToutDay> passParToutDaysList = new List<PassParToutDay>
+                {
+                    reservationViewModel.PassParToutDay
+                };
+                Session["PassParToutDay"] = passParToutDaysList;
+            }
+            else
+            {
+                List<PassParToutDay> passParToutDaysInSession = (List<PassParToutDay>)Session["PassParToutDay"];
+                bool found = false;
+                foreach(PassParToutDay passParTout in passParToutDaysInSession)
+                {
+                    if (passParTout.Day.Equals(reservationViewModel.Day))
+                    {
+                        passParTout.Count += reservationViewModel.ConcertTickets.Count;
+                        found = true;
+                        break;
+                    }
+                    else
+                    {
+                        found = false;
+                    }
+                }
+
+                //Loop door alle passPartouts in de session heen, als hij er niet tussen staat voeg hem toe
+                if (!found)
+                {
+                    passParToutDaysInSession.Add(reservationViewModel.PassParToutDay);
+                }
+
+                Session["PassParToutDay"] = passParToutDaysInSession;
+            }
+
+            if (Session["PassParToutWeek"] == null)
+            {
+                Session["PassParToutWeek"] = reservationViewModel.PassParToutWeek;
+            }
+            else
+            {
+                PassParToutWeek parToutWeekFromSession = (PassParToutWeek)Session["PassParToutWeek"];
+                parToutWeekFromSession.count += reservationViewModel.PassParToutWeek.count;
+                Session["PassParToutWeek"] = parToutWeekFromSession;
+            }
+            
             if (Session["Tickets"] == null)
             {
                 Session["Tickets"] = tickets;
