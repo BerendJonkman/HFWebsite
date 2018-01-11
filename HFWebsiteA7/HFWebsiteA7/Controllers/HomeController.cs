@@ -58,7 +58,7 @@ namespace HFWebsiteA7.Controllers
                 vm.ParToutWeek = (PassParToutWeek)Session["PassParToutWeek"];
             }
 
-            return View();
+            return View(vm);
         }
     }
 }
