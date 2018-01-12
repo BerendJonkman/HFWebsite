@@ -15,6 +15,9 @@ namespace HFWebsiteA7.Controllers
     public class HomeController : Controller
     {
         IEventRepository eventRepository = new EventRepository();
+        IConcertsRepository concertsRepository = new ConcertRepository();
+
+        private Reservation reservation;
 
         public ActionResult Index()
         {
@@ -35,27 +38,56 @@ namespace HFWebsiteA7.Controllers
         {
             BasketViewModel vm = new BasketViewModel();
 
-
-            if ((List<Ticket>)Session["Tickets"] != null)
+            if((Reservation)Session["Reservation"] != null)
             {
-                List<Ticket> tickets = new List<Ticket>();
+                reservation = (Reservation)Session["Reservation"];
+            }
 
-                foreach (Ticket ticket in tickets)
+            if (reservation.Tickets != null)
+            {
+                foreach (Ticket ticket in reservation.Tickets)
                 {
-                    ticket.Event = eventRepository.GetEvent(ticket.EventId);
+                    ConcertTicket concertTicket = new ConcertTicket();
+                    if (ticket.Event.Discriminator.Equals("Concert"))
+                    {
+                        bool found = false;
+                        if (vm.Tickets != null)
+                        {
+                            foreach (Ticket t in vm.Tickets)
+                            {
+                                concertTicket.Ticket = t;
+                                concertTicket.Concert = concertsRepository.GetConcert(t.EventId);
+                                if (ticket.EventId == t.EventId)
+                                {
+                                    found = true;
+                                    t.Count += ticket.Count;
+                                    break;
+                                }
+                            }
+                            if (found)
+                            {
+                                vm.Tickets.Add(concertTicket);
+                            }
+                        }
+                        else
+                        {
+                            vm.Tickets = new List<object>
+                            {
+                                ticket
+                            };
+                        }
+                    }
                 }
-
-                vm.Tickets = tickets;
             }
 
-            if((List<PassParToutDay>)Session["PassParToutDay"] != null)
+            if(reservation.PassParToutDays != null)
             {
-                vm.Partoutdays = (List<PassParToutDay>)Session["PassParToutDay"];
+                vm.Partoutdays = reservation.PassParToutDays;
             }
 
-            if ((PassParToutWeek)Session["PassParToutWeek"] != null)
+            if (reservation.PassParToutWeek != null)
             {
-                vm.ParToutWeek = (PassParToutWeek)Session["PassParToutWeek"];
+                vm.ParToutWeek = reservation.PassParToutWeek;
             }
 
             return View(vm);

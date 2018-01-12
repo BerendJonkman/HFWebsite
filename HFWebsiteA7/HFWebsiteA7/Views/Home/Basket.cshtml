@@ -55,28 +55,26 @@
             @{
                 if (Model.Tickets != null)
                 {
-                    foreach (Ticket ticket in Model.Tickets)
+                    foreach (object ticket in Model.Tickets)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayForModel(ticket.Count)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                @Html.DisplayForModel(ticket.Event.Discriminator)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                @Html.DisplayForModel(ticket.Event.Day.Date.Date) | @Html.DisplayForModel(ticket.Event.Day.Date.TimeOfDay)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                @Html.DisplayForModel(ticket.Event.AvailableSeats)
-                            </td>
-                        </tr>
+                        if (ticket is ConcertTicket)
+                        {
+                            var t = (ConcertTicket)ticket;
+                            <tr>
+                                <td>
+                                    @t.Ticket.Count
+                                </td>
+                                <td>
+                                    @t.Concert.Band.Name
+                                </td>
+                                <td>
+                                    @t.Concert.Day.Date.ToString("dd/MM/yy")
+                                </td>
+                                <td>
+                                    @{ var Price = t.Concert.Hall.Price * t.Ticket.Count;} €@Price,00
+                                </td>
+                            </tr>
+                        }
                     }
                 }
 
@@ -84,20 +82,14 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayForModel(Model.ParToutWeek.count)
+                            @Model.ParToutWeek.count
                         </td>
-                    </tr>
-                    <tr>
                         <td>
                             Pass par Tout for all concerts
                         </td>
-                    </tr>
-                    <tr>
                         <td>
                             The whole week, all concerts
                         </td>
-                    </tr>
-                    <tr>
                         <td>
                             Not applicable
                         </td>
@@ -110,20 +102,14 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayForModel(parToutDay.Count)
+                                @parToutDay.Count
                             </td>
-                        </tr>
-                        <tr>
                             <td>
                                 Pass par tout for @parToutDay.Day
                             </td>
-                        </tr>
-                        <tr>
                             <td>
                                 All concerts on @parToutDay.Day
                             </td>
-                        </tr>
-                        <tr>
                             <td>
                                 Not applicable
                             </td>
@@ -132,8 +118,6 @@
                 }
 
             }
-            
-            
         </table>
     </div>
     

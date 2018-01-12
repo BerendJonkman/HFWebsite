@@ -162,6 +162,7 @@
     <Compile Include="Models\PassPartoutOrder.cs" />
     <Compile Include="Models\PassPartoutType.cs" />
     <Compile Include="Models\PassParToutWeek.cs" />
+    <Compile Include="Models\Reservation.cs" />
     <Compile Include="Repositories\Classes\AdminUserRepository.cs" />
     <Compile Include="Repositories\Classes\PassPartoutOrderRepository.cs" />
     <Compile Include="Repositories\Classes\PassPartoutTypeRepository.cs" />
