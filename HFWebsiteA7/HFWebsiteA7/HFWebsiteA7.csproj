@@ -156,15 +156,20 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AdminUser.cs" />
+    <Compile Include="Models\ConcertTicket.cs" />
     <Compile Include="Models\EventTypeEnum.cs" />
+    <Compile Include="Models\PassParToutDay.cs" />
+    <Compile Include="Models\PassPartoutOrder.cs" />
+    <Compile Include="Models\PassPartoutType.cs" />
+    <Compile Include="Models\PassParToutWeek.cs" />
     <Compile Include="Repositories\Classes\AdminUserRepository.cs" />
     <Compile Include="Repositories\Interfaces\IAdminUserRepository.cs" />
     <Compile Include="ViewModels\AdminEventEditViewModel.cs" />
     <Compile Include="Models\AdminRestaurant.cs" />
     <Compile Include="Models\Band.cs" />
     <Compile Include="Models\Concert.cs" />
+    <Compile Include="ViewModels\BasketViewModel.cs" />
     <Compile Include="ViewModels\DayViewModel.cs" />
-    <Compile Include="ViewModels\DinnerAdminViewModel.cs" />
     <Compile Include="Models\DinnerSession.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\FestivalDay.cs" />
