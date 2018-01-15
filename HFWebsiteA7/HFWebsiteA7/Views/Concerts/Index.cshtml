@@ -1,14 +1,8 @@
 ﻿@model HFWebsiteA7.ViewModels.IndexViewModel
 
-@{
-    ViewBag.Title = "Jazz@Patronaat";
-}
-
 @section Banner {
     <div style="margin-top: 50px; background-image: url(../../Content/Content-images/JazzImages/ConcertsBannerIndex.jpg); background-repeat: round; height: 300px"></div>
 }
-
-
 
 <div class="container">
     <div class="col-sm-6">
@@ -27,13 +21,13 @@
 
     <div>
         <div class="col-sm-3">
-            <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="77">
+            <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="66">
         </div>
         <div class="col-sm-6">
             <img class="" src="~/Content/Content-images/JazzImages/Index/JazzInformation.jpg" alt="JazzInformationImage" width="515" height="66">
         </div>
         <div class="col-sm-3">
-            <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="77">
+            <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="66">
         </div>
     </div>
 
@@ -56,7 +50,7 @@
     {
         <div class="col-sm-3">
             <div class="DayHeader">
-                <h3>@festivalDay.Day</h3>
+                <h3>@festivalDay.Day.Name</h3>
             </div>
             <div class="ConcertDate">
                 <b>Date:</b> @festivalDay.Date.ToString("dddd dd-MM-yyyy")
@@ -69,25 +63,14 @@
                 @foreach (var concert in festivalDay.Concerts)
                 {
                     @concert.Band.Name@:;
-        }
+                }
             </div>
         </div>
+    } 
+    @foreach (var festivalDay in Model.IndexFestivalDays)
+    {
+        <div style="margin-top: 10px" class="col-sm-3">
+            @Html.ActionLink("More information about " + festivalDay.Day.Name, "ConcertOverview", "Concerts", new { dayId = festivalDay.Day.Id }, new { @class = "mLinkButton" })
+        </div>
     }
-   
-    <div style="margin-top: 615px">
-        <div class="col-sm-3">
-            <a href="@Url.Action("Thursday", "Concerts")" class="mLinkButton">More information about Thursday</a>
-        </div>
-        <div class="col-sm-3">
-            <a href="@Url.Action("Friday", "Concerts")" class="mLinkButton">More information about Friday</a>
-        </div>
-        <div class="col-sm-3">
-            <a href="@Url.Action("Saturday", "Concerts")" class="mLinkButton">More information about Saturday</a>
-        </div>
-        <div class="col-sm-3">
-            <a href="@Url.Action("Sunday", "Concerts")" class="mLinkButton">More information about Sunday</a>
-        </div>
-    </div>
-    
-
 </div>

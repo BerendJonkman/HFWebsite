@@ -23,6 +23,19 @@ namespace HFWebsiteA7.Repositories.Classes
 
         }
 
+        public IEnumerable<FoodType> GetFoodTypeByRestaurantId(int restaurantId)
+        {
+            var foodTypeList = new List<FoodType>();
+            foreach(var restaurantFoodType in GetAllRestaurantFoodTypes())
+            {
+                if(restaurantFoodType.RestaurantId == restaurantId)
+                {
+                    foodTypeList.Add(restaurantFoodType.FoodType);
+                }
+            }
+            return foodTypeList;
+        }
+
         public RestaurantFoodType GetRestaurantFoodType(int restaurantFoodTypeId)
         {
             return db.RestaurantFoodType.Find(restaurantFoodTypeId);

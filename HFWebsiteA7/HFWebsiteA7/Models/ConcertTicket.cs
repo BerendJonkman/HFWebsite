@@ -6,8 +6,10 @@ using System.Web;
 
 namespace HFWebsiteA7.ViewModels
 {
-    public class DinnerAdminViewModel
+    public class ConcertTicket
     {
-        public List<DinnerSession> dinnerSessionList;
+        public Ticket Ticket { get; set; }
+        public Concert Concert { get; set; }
+        public bool Selected { get; set; }
     }
 }

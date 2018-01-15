@@ -12,5 +12,6 @@ namespace HFWebsiteA7.Models
         public virtual int Id { get; set; }
         public virtual DateTime Date { get; set; }
         public virtual String Name { get; set; }
+        public virtual String ConcertDescription { get; set; }
     }
 }

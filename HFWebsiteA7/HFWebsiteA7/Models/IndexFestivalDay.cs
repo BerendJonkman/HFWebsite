@@ -7,7 +7,7 @@ namespace HFWebsiteA7.Models
 {
     public class IndexFestivalDay
     {
-        public string Day { get; set;}
+        public Day Day { get; set;}
 
         public DateTime Date { get; set; }
 

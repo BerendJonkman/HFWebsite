@@ -17,16 +17,19 @@ namespace HFWebsiteA7.Repositories.Classes
             db.SaveChanges();
         }
 
-        public FestivalDay CreateFestivalDay(string day)
+        public FestivalDay CreateFestivalDay(Day day)
         {
             FestivalDay festivalDay = new FestivalDay
             {
+                //De concerten zijn verdeeld over twee zalen, de main hall en een secundaire hall.
                 MainConcertList = new List<Concert>(),
-                SecondConcertList = new List<Concert>()
+                SecondConcertList = new List<Concert>(),
+                Day = day
             };
 
-            List<Concert> concerts = GetConcertsByDay(day);
+            List<Concert> concerts = GetConcertsByDay(day.Id);
 
+            //Hier wordt alleen gecontrolleerd op de main hall, de rest kan in de secundaire lijst, of dat nou second of third hall is
             foreach (Concert concert in concerts)
             {
                 if (concert.Hall.Name.Equals("Main Hall"))
@@ -38,7 +41,6 @@ namespace HFWebsiteA7.Repositories.Classes
                     festivalDay.SecondConcertList.Add(concert);
                 }
             }
-
             return festivalDay;
         }
 
@@ -52,14 +54,14 @@ namespace HFWebsiteA7.Repositories.Classes
             return db.Concerts.Find(concertId);
         }
 
-        public List<Concert> GetConcertsByDay(string day)
+        public List<Concert> GetConcertsByDay(int dayId)
         {
             List<Concert> allConcerts = db.Concerts.ToList();
             List<Concert> dayConcerts = new List<Concert>();
 
             foreach (Concert concert in allConcerts)
             {
-                if (concert.Day.Name.Equals(day))
+                if (concert.Day.Id == dayId)
                 {
                     dayConcerts.Add(concert);
                 }

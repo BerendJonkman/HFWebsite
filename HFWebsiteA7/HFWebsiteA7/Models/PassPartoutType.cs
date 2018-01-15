@@ -6,11 +6,11 @@ using System.Web;
 
 namespace HFWebsiteA7.Models
 {
-    public class Band
+    public class PassPartoutType
     {
+        [Key]
         public virtual int Id { get; set; }
         public virtual string Name { get; set; }
-        public virtual string Description { get; set; }
-        public virtual string ImagePath { get; set; }
+        public virtual decimal Price { get; set; }
     }
 }

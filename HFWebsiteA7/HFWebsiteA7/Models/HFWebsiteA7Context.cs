@@ -19,6 +19,7 @@ namespace HFWebsiteA7.Models
             modelBuilder.Entity<Event>().ToTable("Events");
             modelBuilder.Entity<DinnerSession>().ToTable("DinnerSessions");
             modelBuilder.Entity<Concert>().ToTable("Concerts");
+            modelBuilder.Entity<RestaurantFoodType>().ToTable("RestaurantFoodType");
         }
 
         public DbSet<Band> Bands { get; set; }
@@ -34,6 +35,7 @@ namespace HFWebsiteA7.Models
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<AdminUser> AdminUsers { get; set; }
-
+        public DbSet<PassPartoutOrder> PassPartoutOrder { get; set; }
+        public DbSet<PassPartoutType> PassPartoutTypes { get; set; }
     }
 }
