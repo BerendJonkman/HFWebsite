@@ -1,7 +1,11 @@
-﻿@model IEnumerable<HFWebsiteA7.Models.DinnerSession>
+﻿@model HFWebsiteA7.ViewModels.IndexViewModel
 
 @{
     ViewBag.Title = "Dinner in Haarlem";
+}
+
+@section Banner {
+    <div style="margin-top: 50px; background-image: url(../../Content/Content-images/RestaurantsImages/Index/DinnerBanner.jpg); background-repeat: round; height: 300px"></div>
 }
 
 <div class="container">
@@ -9,8 +13,54 @@
         <h2>Dinner in Haarlem</h2>
         Dinner in Haarlem makes it easy for you to find a restaurant in the centrum of Haarlem. On this page you will find all the participating restaurants and a little bit of information about them. For each restaurant there are three timeslots, which can be found by pressing the information button of your desired restaurant. The price shown on this page is the normal price, for children under 12 years there is a reduced price. This price can also be found by pressing the information button.
     </div>
+    <div class="col-sm-2">
+        <img class="triple-img" src="~/Content/Content-images/RestaurantsImages/Index/IndexDinner1.png" />
+    </div>
+    <div class="col-sm-2">
+        <img class="triple-img" src="~/Content/Content-images/RestaurantsImages/Index/IndexDinner2.png" />
+    </div>
+    <div class="col-sm-2">
+        <img class="triple-img" src="~/Content/Content-images/RestaurantsImages/Index/IndexDinner3.png" />
+    </div>
+</div>
+<div class="container">
+    <div class="col-sm-3">
+        <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="77">
+    </div>
+    <div class="col-sm-6">
+        <img class="" src="~/Content/Content-images/RestaurantsImages/Index/RestaurantInfo.png" alt="JazzInformationImage" width="515" height="66">
+    </div>
+    <div class="col-sm-3">
+        <img class="" src="~/Content/Content-images/JazzImages/Index/DividerSideStripes.png" alt="JazzInformationImage" width="240" height="77">
+    </div>
+</div>
+<div class="container">
+    @foreach (var Restaurant in Model.RestaurantList)
+    {
+
+    <div class="col-sm-3" style="margin-bottom: 15px; margin-top: 15px;">
+        <div class="restaurantimage"><img class="restaurantimage" src="@Url.Content(@Restaurant.ImagePath)" ; /></div>
+        <div class="restauranttitle">@Restaurant.Name</div>
+        <div class="row">
+            <div class="col-sm-6 restaurantboldarial">Cuisine: </div>
+            <span class="col-sm-6 restaurantarial">foodtype</span>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 restaurantboldarial">Rating: </div>
+            <span class="col-sm-6 restaurantarial">@Restaurant.Stars/5</span>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 restaurantboldarial">Price:  </div>
+            <span class="restaurantarial">€@Restaurant.Price</span>
+        </div>
+        <div class="container" style="float:right; margin-top:5px; padding:0;">
+            @Html.ActionLink("Information", "DetailsPage", "Dinner", new { Id = Restaurant.Id }, new { @class = "mLinkButton" })
+            @Html.ActionLink("Make Reservation", "OrderPage", "Dinner", new { Id = Restaurant.Id}, new {@class = "mLinkButton" })
+            
+        </div>
+    </div>
+    }
 </div>
 
 
 
-</table>

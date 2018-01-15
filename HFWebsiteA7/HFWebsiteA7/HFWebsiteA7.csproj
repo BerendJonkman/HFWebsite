@@ -260,11 +260,17 @@
     <Content Include="Content\Content-images\JazzImages\DetailPage\middleImageJazzThursday.jpg" />
     <Content Include="Content\Content-images\JazzImages\DetailPage\rightImageJazzThursday.jpg" />
     <Content Include="Content\Content-images\RestaurantsImages\DinnerBanner.jpg" />
+    <Content Include="Content\Content-images\RestaurantsImages\Index\DinnerBanner.jpg" />
+    <Content Include="Content\Content-images\RestaurantsImages\Index\IndexDinner1.png" />
+    <Content Include="Content\Content-images\RestaurantsImages\Index\IndexDinner2.png" />
+    <Content Include="Content\Content-images\RestaurantsImages\Index\IndexDinner3.png" />
+    <Content Include="Content\Content-images\RestaurantsImages\Index\RestaurantInfo.png" />
     <Content Include="Content\Content-images\RestaurantsImages\Restaurants\gandcafebrinkman.jpg" />
+    <Content Include="Content\Content-images\RestaurantsImages\Restaurants\Inside\brinkman-inside.png" />
     <Content Include="Content\Content-images\RestaurantsImages\Restaurants\ratatouille.jpg" />
     <Content Include="Content\Content-images\RestaurantsImages\Restaurants\restaurantfris.jpg" />
     <Content Include="Content\Content-images\RestaurantsImages\Restaurants\restaurantml.jpg" />
-    <Content Include="Content\Content-images\RestaurantsImages\Restaurants\restaurantmrenmrs.jpg" />
+    <Content Include="Content\Content-images\RestaurantsImages\Restaurants\restaurantmrandmrs.jpg" />
     <Content Include="Content\Content-images\RestaurantsImages\Restaurants\specktakel.jpg" />
     <Content Include="Content\Content-images\RestaurantsImages\Restaurants\thegoldenbull.jpg" />
     <Content Include="Content\Content-images\RestaurantsImages\Restaurants\urbanfrenchybistrotoujours.jpg" />
@@ -332,6 +338,8 @@
     <Content Include="Views\Dinner\Details.cshtml" />
     <Content Include="Views\Dinner\Edit.cshtml" />
     <Content Include="Views\Dinner\Index.cshtml" />
+    <Content Include="Views\Dinner\DetailsPage.cshtml" />
+    <Content Include="Views\Dinner\OrderPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

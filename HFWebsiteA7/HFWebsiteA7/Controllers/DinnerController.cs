@@ -17,13 +17,35 @@ namespace HFWebsiteA7.Controllers
     {
         private HFWebsiteA7Context db = new HFWebsiteA7Context();
         private IDinnerSessionRepository dinnerSessionRepository = new DinnerSessionRepository();
-
+        private IRestaurantRepository restaurantRepository = new RestaurantRepository();
+        private IFoodTypeRepository foodTypeRepository = new FoodTypeRepository();
+        private IRestaurantFoodTypeRepository restaurantFoodTypeRepository = new RestaurantFoodTypeRepository();
 
         // GET: Dinner
         public ActionResult Index()
         {
-            return View();
+            return View(CreateIndexViewModel());
         }
+
+        private IndexViewModel CreateIndexViewModel()
+        {
+          IndexViewModel vm = new IndexViewModel
+            {
+                RestaurantList = new List<Restaurant>()
+            };
+
+            vm.RestaurantList = restaurantRepository.GetAllRestaurants().ToList();
+            //List<RestaurantFoodType> restaurantFoodtypeList = restaurantFoodTypeRepository.GetAllRestaurantFoodTypes().ToList();
+            //var restaurantFoodtypeList = restaurantFoodTypeRepository.GetRestaurantFoodType(1);
+            foreach (var item in vm.RestaurantList){
+                //restaurantFoodtypeList.Find("string");
+            }
+
+            return vm;
+        }
+
+        
+    
 
         // GET: Dinner/Details/5
        
@@ -76,6 +98,24 @@ namespace HFWebsiteA7.Controllers
             ViewBag.RestaurantId = new SelectList(db.Restaurants, "Id", "Description", dinnerSession.RestaurantId);
             return View(dinnerSession);
         }
+
+        public ActionResult DetailsPage(int Id)
+        {
+            Restaurant restaurant = restaurantRepository.GetRestaurant(Id   );
+
+            return View(restaurant);
+            //return View(GetRestaurantView(Id));
+        }
+
+        public ActionResult OrderPage(int Id)
+        {
+            Restaurant restaurant = restaurantRepository.GetRestaurant(Id);
+
+            return View(restaurant);
+        }
+
+        
+
 
 
         protected override void Dispose(bool disposing)

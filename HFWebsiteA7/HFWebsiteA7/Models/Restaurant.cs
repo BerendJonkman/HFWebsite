@@ -10,6 +10,7 @@ namespace HFWebsiteA7.Models
     {
         [Key]
         public virtual int Id { get; set; }
+        public virtual string Name { get; set; }
         public virtual int LocationId { get; set; }
         public virtual Location Location { get; set; }
         public virtual decimal Price { get; set; }

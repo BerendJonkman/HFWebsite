@@ -9,5 +9,6 @@ namespace HFWebsiteA7.ViewModels
     public class IndexViewModel
     {
         public List<IndexFestivalDay> IndexFestivalDays { get; set; }
+        public List<Restaurant> RestaurantList { get; set; }
     }
 }
