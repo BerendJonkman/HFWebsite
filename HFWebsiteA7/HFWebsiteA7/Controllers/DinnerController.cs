@@ -39,7 +39,7 @@ namespace HFWebsiteA7.Controllers
             //List<RestaurantFoodType> restaurantFoodtypeList = restaurantFoodTypeRepository.GetAllRestaurantFoodTypes().ToList();
             ////var restaurantFoodtypeList = restaurantFoodTypeRepository.GetRestaurantFoodType(1);
             foreach (var item in vm.RestaurantList){
-                IEnumerable<FoodType> foodTypeList = restaurantFoodTypeRepository.GetFoodTypeByRestaurantId(item.Id0);
+                IEnumerable<FoodType> foodTypeList = restaurantFoodTypeRepository.GetFoodTypeByRestaurantId(item.Id);
                 restaurant.AddFoodTypeList(foodTypeList);
                 
             }
