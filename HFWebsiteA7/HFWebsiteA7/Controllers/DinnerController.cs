@@ -16,9 +16,9 @@ namespace HFWebsiteA7.Controllers
     public class DinnerController : Controller
     {
         private HFWebsiteA7Context db = new HFWebsiteA7Context();
+        private Restaurant restaurant = new Restaurant();
         private IDinnerSessionRepository dinnerSessionRepository = new DinnerSessionRepository();
         private IRestaurantRepository restaurantRepository = new RestaurantRepository();
-        private IFoodTypeRepository foodTypeRepository = new FoodTypeRepository();
         private IRestaurantFoodTypeRepository restaurantFoodTypeRepository = new RestaurantFoodTypeRepository();
 
         // GET: Dinner
@@ -35,10 +35,13 @@ namespace HFWebsiteA7.Controllers
             };
 
             vm.RestaurantList = restaurantRepository.GetAllRestaurants().ToList();
+            
             //List<RestaurantFoodType> restaurantFoodtypeList = restaurantFoodTypeRepository.GetAllRestaurantFoodTypes().ToList();
-            //var restaurantFoodtypeList = restaurantFoodTypeRepository.GetRestaurantFoodType(1);
+            ////var restaurantFoodtypeList = restaurantFoodTypeRepository.GetRestaurantFoodType(1);
             foreach (var item in vm.RestaurantList){
-                //restaurantFoodtypeList.Find("string");
+                IEnumerable<FoodType> foodTypeList = restaurantFoodTypeRepository.GetFoodTypeByRestaurantId(item.Id0);
+                restaurant.AddFoodTypeList(foodTypeList);
+                
             }
 
             return vm;
