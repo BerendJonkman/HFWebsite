@@ -35,14 +35,29 @@ namespace HFWebsiteA7.Controllers
             };
 
             vm.RestaurantList = restaurantRepository.GetAllRestaurants().ToList();
+            List<String> FoodTypes = new List<string>();
             
             //List<RestaurantFoodType> restaurantFoodtypeList = restaurantFoodTypeRepository.GetAllRestaurantFoodTypes().ToList();
             ////var restaurantFoodtypeList = restaurantFoodTypeRepository.GetRestaurantFoodType(1);
             foreach (var item in vm.RestaurantList){
                 IEnumerable<FoodType> foodTypeList = restaurantFoodTypeRepository.GetFoodTypeByRestaurantId(item.Id);
-                restaurant.AddFoodTypeList(foodTypeList);
-                
+                string foodTypes = "Geen cuisine gevonden!";
+                int x = 0;                
+                foreach (var foodItem in foodTypeList)
+                {
+                    if (x == 0)
+                    {
+                        foodTypes = foodItem.Name;
+                    }
+                    if(x > 0)
+                    {
+                        foodTypes += ", " + foodItem.Name;
+                    }
+                    x++;
+                }
+                FoodTypes.Add(foodTypes);
             }
+            ViewBag.foodTypes = FoodTypes;
 
             return vm;
         }
