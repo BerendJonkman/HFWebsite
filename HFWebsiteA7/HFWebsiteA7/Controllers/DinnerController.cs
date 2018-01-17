@@ -20,6 +20,7 @@ namespace HFWebsiteA7.Controllers
         private IDinnerSessionRepository dinnerSessionRepository = new DinnerSessionRepository();
         private IRestaurantRepository restaurantRepository = new RestaurantRepository();
         private IRestaurantFoodTypeRepository restaurantFoodTypeRepository = new RestaurantFoodTypeRepository();
+        private List<Restaurant> tempRestaurantList = new List<Restaurant>();
 
         // GET: Dinner
         public ActionResult Index()
@@ -27,38 +28,40 @@ namespace HFWebsiteA7.Controllers
             return View(CreateIndexViewModel());
         }
 
-        private IndexViewModel CreateIndexViewModel()
+        private RestaurantViewModel CreateIndexViewModel()
         {
-          IndexViewModel vm = new IndexViewModel
+            //List<RestaurantAndFoodType> restaurants = new List<RestaurantAndFoodType>();
+            RestaurantViewModel vm = new RestaurantViewModel
             {
-                RestaurantList = new List<Restaurant>()
+                RestaurantList = new List<RestaurantAndFoodType>()
             };
 
-            vm.RestaurantList = restaurantRepository.GetAllRestaurants().ToList();
+
+            tempRestaurantList = restaurantRepository.GetAllRestaurants().ToList();
             List<String> FoodTypes = new List<string>();
             
-            //List<RestaurantFoodType> restaurantFoodtypeList = restaurantFoodTypeRepository.GetAllRestaurantFoodTypes().ToList();
-            ////var restaurantFoodtypeList = restaurantFoodTypeRepository.GetRestaurantFoodType(1);
-            foreach (var item in vm.RestaurantList){
+            
+            foreach (var item in tempRestaurantList){
                 IEnumerable<FoodType> foodTypeList = restaurantFoodTypeRepository.GetFoodTypeByRestaurantId(item.Id);
-                string foodTypes = "Geen cuisine gevonden!";
-                int x = 0;                
+                RestaurantAndFoodType restaurandAndFoodType = new RestaurantAndFoodType();
+                string foodTypes = "";
+                
                 foreach (var foodItem in foodTypeList)
                 {
-                    if (x == 0)
+                    if (foodTypes == "")
                     {
                         foodTypes = foodItem.Name;
                     }
-                    if(x > 0)
+                    else
                     {
                         foodTypes += ", " + foodItem.Name;
                     }
-                    x++;
                 }
-                FoodTypes.Add(foodTypes);
+                restaurandAndFoodType.restaurant = item;
+                restaurandAndFoodType.foodType = foodTypes;
+                vm.RestaurantList.Add(restaurandAndFoodType);
+                //FoodTypes.Add(foodTypes);
             }
-            ViewBag.foodTypes = FoodTypes;
-
             return vm;
         }
 

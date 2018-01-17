@@ -1,4 +1,4 @@
-﻿@model HFWebsiteA7.ViewModels.IndexViewModel
+﻿@model HFWebsiteA7.ViewModels.RestaurantViewModel
 
 @{
     ViewBag.Title = "Dinner in Haarlem";
@@ -40,23 +40,23 @@
     {
 
     <div class="col-sm-3" style="margin-bottom: 15px; margin-top: 15px;">
-        <div class="restaurantimage"><img class="restaurantimage" src="@Url.Content(@Restaurant.ImagePath)" ; /></div>
-        <div class="restauranttitle">@Restaurant.Name</div>
+        <div class="restaurantimage"><img class="restaurantimage" src="@Url.Content(@Restaurant.restaurant.ImagePath)" ; /></div>
+        <div class="restauranttitle">@Restaurant.restaurant.Name</div>
         <div class="row">
             <div class="col-sm-6 restaurantboldarial">Cuisine: </div>
-            <span class="col-sm-6 restaurantarial" style="word-wrap:break-word;">@ViewBag.FoodTypes[x]</span>
+            <span class="col-sm-6 restaurantarial" style="word-wrap:break-word;">@Restaurant.foodType</span>
         </div>
         <div class="row">
             <div class="col-sm-6 restaurantboldarial">Rating: </div>
-            <span class="col-sm-6 restaurantarial">@Restaurant.Stars/5</span>
+            <span class="col-sm-6 restaurantarial">@Restaurant.restaurant.Stars/5</span>
         </div>
         <div class="row">
             <div class="col-sm-6 restaurantboldarial">Price:  </div>
-            <span class="restaurantarial">€@Restaurant.Price</span>
+            <span class="restaurantarial">€@Restaurant.restaurant.Price</span>
         </div>
         <div class="container" style="float:right; margin-top:5px; padding:0;">
-            @Html.ActionLink("Information", "DetailsPage", "Dinner", new { Id = Restaurant.Id }, new { @class = "mLinkButton" })
-            @Html.ActionLink("Make Reservation", "OrderPage", "Dinner", new { Id = Restaurant.Id }, new { @class = "mLinkButton" })
+            @Html.ActionLink("Information", "DetailsPage", "Dinner", new { Id = Restaurant.restaurant.Id }, new { @class = "mLinkButton" })
+            @Html.ActionLink("Make Reservation", "OrderPage", "Dinner", new { Id = Restaurant.restaurant.Id }, new { @class = "mLinkButton" })
             
         </div>
     </div>
