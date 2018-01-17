@@ -18,6 +18,8 @@ namespace HFWebsiteA7.Controllers
     public class AdminController : Controller
     {
         private IDinnerSessionRepository dinnerSessionRepository = new DinnerSessionRepository();
+        private IRestaurantFoodTypeRepository restaurantFoodTypeRepository = new RestaurantFoodTypeRepository();
+        private IRestaurantRepository restaurantRepository = new RestaurantRepository();
         private IConcertsRepository concertRepository = new ConcertRepository();
         private IBandRepository bandRepository = new BandRepository();
         private ILocationRepository locationRepository = new LocationRepository();
@@ -76,6 +78,8 @@ namespace HFWebsiteA7.Controllers
                     break;
                 case EventTypeEnum.Dinner:
                     vm.ObjectList = dinnerSessionRepository.GetAllDinnerSessions().ToList<object>();
+                    var list = restaurantRepository.GetAllRestaurants();
+                    var bla = restaurantFoodTypeRepository.GetFoodTypeByRestaurantId(list.First().Id);
                     break;
                 case EventTypeEnum.Location:
                     vm.ObjectList = locationRepository.GetAllLocations().ToList<object>();
