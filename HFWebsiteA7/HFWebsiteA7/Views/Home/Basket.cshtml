@@ -91,7 +91,7 @@
                             The whole week, all concerts
                         </td>
                         <td>
-                            Not applicable
+                            @{ var Price = 80 * Model.ParToutWeek.count;} €@Price,00
                         </td>
                     </tr>
                 }
@@ -111,7 +111,7 @@
                                 All concerts on @parToutDay.Day
                             </td>
                             <td>
-                                Not applicable
+                                @{ var Price = 35 * parToutDay.Count;} €@Price,00
                             </td>
                         </tr>
                     }
