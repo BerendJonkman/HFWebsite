@@ -18,6 +18,7 @@ namespace HFWebsiteA7.Controllers
         private IConcertsRepository concertRepository = new ConcertRepository();
         private IDayRepository dayRepository = new DayRepository();
         private IEventRepository eventRepository = new EventRepository();
+        private Reservation reservation;
 
         public ActionResult Index()
         {
@@ -105,6 +106,15 @@ namespace HFWebsiteA7.Controllers
         [HttpPost]
         public ActionResult Reservation(ReservationViewModel reservationViewModel)
         {
+            if(Session["Reservation"] != null)
+            {
+                reservation = (Reservation)Session["Reservation"];
+            }
+            else
+            {
+                reservation = new Reservation();
+            }
+
             List<Ticket> tickets = new List<Ticket>();
             foreach(ConcertTicket concertTicket in reservationViewModel.ConcertTickets)
             {
@@ -113,6 +123,7 @@ namespace HFWebsiteA7.Controllers
                     Ticket ticket = new Ticket
                     {
                         EventId = concertTicket.Ticket.EventId,
+                        Event = eventRepository.GetEvent(concertTicket.Ticket.EventId),
                         Count = concertTicket.Ticket.Count
                     };
 
@@ -120,19 +131,18 @@ namespace HFWebsiteA7.Controllers
                 }
             }
 
-            if (Session["PassParToutDay"] == null)
+            if (reservation.PassParToutDays == null)
             {
                 List<PassParToutDay> passParToutDaysList = new List<PassParToutDay>
                 {
                     reservationViewModel.PassParToutDay
                 };
-                Session["PassParToutDay"] = passParToutDaysList;
+                reservation.PassParToutDays = passParToutDaysList;
             }
             else
             {
-                List<PassParToutDay> passParToutDaysInSession = (List<PassParToutDay>)Session["PassParToutDay"];
                 bool found = false;
-                foreach(PassParToutDay passParTout in passParToutDaysInSession)
+                foreach(PassParToutDay passParTout in reservation.PassParToutDays)
                 {
                     if (passParTout.Day.Equals(reservationViewModel.Day))
                     {
@@ -149,33 +159,29 @@ namespace HFWebsiteA7.Controllers
                 //Loop door alle passPartouts in de session heen, als hij er niet tussen staat voeg hem toe
                 if (!found)
                 {
-                    passParToutDaysInSession.Add(reservationViewModel.PassParToutDay);
+                    reservation.PassParToutDays.Add(reservationViewModel.PassParToutDay);
                 }
-
-                Session["PassParToutDay"] = passParToutDaysInSession;
             }
 
-            if (Session["PassParToutWeek"] == null)
+            if (reservation.PassParToutWeek == null)
             {
-                Session["PassParToutWeek"] = reservationViewModel.PassParToutWeek;
+                reservation.PassParToutWeek = reservationViewModel.PassParToutWeek;
             }
             else
             {
-                PassParToutWeek parToutWeekFromSession = (PassParToutWeek)Session["PassParToutWeek"];
-                parToutWeekFromSession.count += reservationViewModel.PassParToutWeek.count;
-                Session["PassParToutWeek"] = parToutWeekFromSession;
+                reservation.PassParToutWeek.count += reservationViewModel.PassParToutWeek.count;
             }
             
-            if (Session["Tickets"] == null)
+            if (reservation.Tickets == null)
             {
-                Session["Tickets"] = tickets;
+                reservation.Tickets = tickets.ToList<object>();
             }
             else
             {
-                List<Ticket> ticketsInSession = (List<Ticket>) Session["Tickets"];
-                ticketsInSession.AddRange(tickets);
-                Session["Tickets"] = ticketsInSession;
+                reservation.Tickets.AddRange(tickets);
             }
+
+            Session["Reservation"] = reservation;
 
 
             return RedirectToAction("Basket", "Home");

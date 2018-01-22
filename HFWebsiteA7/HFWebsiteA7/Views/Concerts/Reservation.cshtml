@@ -110,7 +110,7 @@
                                         €@Html.DisplayFor(t => t.ConcertTickets[i].Concert.Hall.Price)
                                     </td>
                                     <td>
-                                        @concertTicket.Concert.Day.Date.ToString("dddd dd-MM-yyyy") | @concertTicket.Concert.StartTime.ToString("HH:mm")
+                                        @concertTicket.Concert.Day.Date.ToString("dddd dd-MM-yy") | @concertTicket.Concert.StartTime.ToString("HH:mm") - @{ concertTicket.Concert.StartTime += TimeSpan.FromHours((double)concertTicket.Concert.Duration); } @concertTicket.Concert.StartTime.ToString("H:mm")
                                     </td>
                                     <td>
                                         @Html.DisplayFor(t => t.ConcertTickets[i].Concert.Location.Name) - @Html.DisplayFor(t => t.ConcertTickets[i].Concert.Hall.Name)

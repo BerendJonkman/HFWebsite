@@ -52,30 +52,72 @@
                     <b>Price</b>
                 </th>
             </tr>
-            @foreach (Ticket ticket in Model.Tickets)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayForModel(ticket.Count)
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.DisplayForModel(ticket.Event.Discriminator)
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.DisplayForModel(ticket.Event.Day.Date.Date) | @Html.DisplayForModel(ticket.Event.Day.Date.TimeOfDay)
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.DisplayForModel(ticket.Event.AvailableSeats)
-                    </td>
-                </tr>
+            @{
+                if (Model.Tickets != null)
+                {
+                    foreach (object ticket in Model.Tickets)
+                    {
+                        if (ticket is ConcertTicket)
+                        {
+                            var t = (ConcertTicket)ticket;
+                            <tr>
+                                <td>
+                                    @t.Ticket.Count
+                                </td>
+                                <td>
+                                    @t.Concert.Band.Name
+                                </td>
+                                <td>
+                                    @t.Concert.Day.Date.ToString("dd/MM/yy")
+                                </td>
+                                <td>
+                                    @{ var Price = t.Concert.Hall.Price * t.Ticket.Count;} €@Price,00
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+
+                if (Model.ParToutWeek != null)
+                {
+                    <tr>
+                        <td>
+                            @Model.ParToutWeek.count
+                        </td>
+                        <td>
+                            Pass par Tout for all concerts
+                        </td>
+                        <td>
+                            The whole week, all concerts
+                        </td>
+                        <td>
+                            @{ var Price = 80 * Model.ParToutWeek.count;} €@Price,00
+                        </td>
+                    </tr>
+                }
+
+                if (Model.Partoutdays != null)
+                {
+                    foreach (PassParToutDay parToutDay in Model.Partoutdays)
+                    {
+                        <tr>
+                            <td>
+                                @parToutDay.Count
+                            </td>
+                            <td>
+                                Pass par tout for @parToutDay.Day
+                            </td>
+                            <td>
+                                All concerts on @parToutDay.Day
+                            </td>
+                            <td>
+                                @{ var Price = 35 * parToutDay.Count;} €@Price,00
+                            </td>
+                        </tr>
+                    }
+                }
+
             }
-            
         </table>
     </div>
     
