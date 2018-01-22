@@ -258,6 +258,7 @@
     <Content Include="Content\Content-images\JazzImages\BandImages\wickedjazzsounds.jpg" />
     <Content Include="Content\Content-images\JazzImages\ConcertBannerDetail.jpg" />
     <Content Include="Content\Content-images\JazzImages\ConcertsBannerIndex.jpg" />
+    <Content Include="Content\Content-images\JazzImages\DetailPage\JazzBackButton.jpg" />
     <Content Include="Content\Content-images\JazzImages\DetailPage\PlaceHolderImageConcert.jpg" />
     <Content Include="Content\Content-images\JazzImages\Index\DividerSideStripes.png" />
     <Content Include="Content\Content-images\JazzImages\Index\JazzIndexFriday.jpg" />
@@ -330,16 +331,7 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Concert.cshtml" />
     <Content Include="Views\Admin\Dinner.cshtml" />
-    <Content Include="Views\Concerts\Create.cshtml" />
-    <Content Include="Views\Concerts\Delete.cshtml" />
-    <Content Include="Views\Concerts\Details.cshtml" />
-    <Content Include="Views\Concerts\Edit.cshtml" />
-    <Content Include="Views\Concerts\IndexOld.cshtml" />
     <Content Include="Views\Concerts\Index.cshtml" />
-    <Content Include="Views\Concerts\Friday.cshtml" />
-    <Content Include="Views\Concerts\Saturday.cshtml" />
-    <Content Include="Views\Concerts\Sunday.cshtml" />
-    <Content Include="Views\Concerts\Thursday.cshtml" />
     <Content Include="Views\Concerts\Reservation.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\ContactSend.cshtml" />
