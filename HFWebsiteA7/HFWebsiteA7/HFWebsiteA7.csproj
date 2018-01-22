@@ -157,14 +157,20 @@
     </Compile>
     <Compile Include="Models\AdminUser.cs" />
     <Compile Include="Models\ConcertTicket.cs" />
+    <Compile Include="Models\DayEnum.cs" />
     <Compile Include="Models\EventTypeEnum.cs" />
     <Compile Include="Models\PassParToutDay.cs" />
     <Compile Include="Models\PassPartoutOrder.cs" />
     <Compile Include="Models\PassPartoutType.cs" />
     <Compile Include="Models\PassParToutWeek.cs" />
+    <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\RestaurantAndFoodType.cs" />
     <Compile Include="Repositories\Classes\AdminUserRepository.cs" />
+    <Compile Include="Repositories\Classes\PassPartoutOrderRepository.cs" />
+    <Compile Include="Repositories\Classes\PassPartoutTypeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IAdminUserRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPassPartoutOrderRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPassPartoutTypeRepository.cs" />
     <Compile Include="ViewModels\AdminEventEditViewModel.cs" />
     <Compile Include="Models\AdminRestaurant.cs" />
     <Compile Include="Models\Band.cs" />
@@ -239,15 +245,15 @@
     <Content Include="Content\Content-images\JazzImages\BandImages\gumbokings.jpg" />
     <Content Include="Content\Content-images\JazzImages\BandImages\hanbennink.jpg" />
     <Content Include="Content\Content-images\JazzImages\BandImages\jonnafraser.jpg" />
-    <Content Include="Content\Content-images\JazzImages\BandImages\lillithmerlot.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\lilithmerlot.jpg" />
     <Content Include="Content\Content-images\JazzImages\BandImages\mylessanko.jpg" />
     <Content Include="Content\Content-images\JazzImages\BandImages\ntjamrosie.jpg" />
     <Content Include="Content\Content-images\JazzImages\BandImages\rilanandthebombadiers.jpg" />
     <Content Include="Content\Content-images\JazzImages\BandImages\ruissoundsystem.jpg" />
     <Content Include="Content\Content-images\JazzImages\BandImages\soulsix.jpg" />
     <Content Include="Content\Content-images\JazzImages\BandImages\thefamilyxl.jpg" />
-    <Content Include="Content\Content-images\JazzImages\BandImages\thenordians.jpg" />
-    <Content Include="Content\Content-images\JazzImages\BandImages\thomthomsom.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\thenordanians.jpg" />
+    <Content Include="Content\Content-images\JazzImages\BandImages\tomthomsomassemble.jpg" />
     <Content Include="Content\Content-images\JazzImages\BandImages\unclesue.jpg" />
     <Content Include="Content\Content-images\JazzImages\BandImages\wickedjazzsounds.jpg" />
     <Content Include="Content\Content-images\JazzImages\ConcertBannerDetail.jpg" />
@@ -347,6 +353,7 @@
     <Content Include="Views\Dinner\Index.cshtml" />
     <Content Include="Views\Dinner\DetailsPage.cshtml" />
     <Content Include="Views\Dinner\OrderPage.cshtml" />
+    <Content Include="Views\Concerts\ConcertOverview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
