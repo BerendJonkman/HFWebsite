@@ -61,7 +61,9 @@ namespace HFWebsiteA7.Controllers
             return View(concertRepository.CreateFestivalDay(day));
         }
 
-        public ActionResult Reservation(int dayId, int concertId)
+
+
+        public ActionResult Reservation(int dayId, int? concertId)
         {
             ReservationViewModel vm = new ReservationViewModel
             {
@@ -75,7 +77,7 @@ namespace HFWebsiteA7.Controllers
             {
                 ConcertTicket concertTicket = new ConcertTicket
                 {
-                    Ticket = new Ticket
+                    Ticket = new PreTicket
                     {
                         Id = i,
                         EventId = concert.EventId,
@@ -84,7 +86,7 @@ namespace HFWebsiteA7.Controllers
                     },
                     Concert = concert
                 };
-                if(concertTicket.Concert.BandId == concertId)
+                if (concertTicket.Concert.BandId == concertId)
                 {
                     concertTicket.Selected = true;
                 }
@@ -120,7 +122,7 @@ namespace HFWebsiteA7.Controllers
             {
                 if(concertTicket.Ticket.Count != 0)
                 {
-                    Ticket ticket = new Ticket
+                    PreTicket ticket = new PreTicket
                     {
                         EventId = concertTicket.Ticket.EventId,
                         Event = eventRepository.GetEvent(concertTicket.Ticket.EventId),

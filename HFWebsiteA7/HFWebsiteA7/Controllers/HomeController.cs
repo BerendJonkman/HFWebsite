@@ -35,6 +35,16 @@ namespace HFWebsiteA7.Controllers
             return View();
         }
 
+        public ActionResult Checkout()
+        {
+            return View();
+        }
+
+        public ActionResult Conformation()
+        {
+            return View();
+        }
+
         public ActionResult Basket()
         {
             BasketViewModel vm = new BasketViewModel();

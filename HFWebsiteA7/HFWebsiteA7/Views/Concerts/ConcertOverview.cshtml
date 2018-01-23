@@ -35,6 +35,12 @@
     @{
         if (Model.Day.Name != "Sunday")
         {
+            <div style="text-align: center">
+                <h5>Are you interested in all the concerts for this day? Get a pass par tout ticket to see all the concerts at a discount!</h5>
+                @Html.ActionLink("Book now", "Reservation", "Concerts", new { dayId = Model.Day.Id }, new { @class = "mLinkButton" })
+
+            </div>
+
             <div>
                 <div class="col-sm-6">
                     <h3 style="text-align: center">@Model.MainConcertList[0].Hall.Name</h3>
