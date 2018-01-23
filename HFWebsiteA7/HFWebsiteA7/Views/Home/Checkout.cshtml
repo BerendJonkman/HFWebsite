@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Checkout";
+}
+
+@section Banner {
+    <div style="margin-top: 50px; background-image: url(../../Content/Content-images/Home/IndexBanner.jpg); background-repeat: round; height: 300px"></div>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>Please fill in the fields below</h2>
+            <p>Please provide the following information so we can book the ticket on your name and mail them to your e-mail address.</p>
+
+            <form>
+                First name:<br>
+                <input type="text" name="firstname">
+                <br>
+                Last name:<br>
+                <input type="text" name="lastname">
+                <br>
+                Email:<br>
+                <input type="text" name="firstname">
+                <br><br>
+            </form>
+
+        </div>
+
+        <div class="col-sm-6">
+            <h2>Payment</h2>
+            <p>Please select a payment method:</p>
+
+            <select>
+                <option value="Ideal">iDeal</option>
+                <option value="Paypal">Paypal</option>
+                <option value="BankTransfer">Bank Transfer</option>
+                <option value="Mastercard">Mastercard</option>
+                <option value="Mastercard">Bitcoin</option>
+            </select>
+
+        </div>
+    </div>
+    
+
+    <div class="row">
+        <button class="mLinkButton" onclick="goBack()">Go Back</button>
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+        @Html.ActionLink("Confirm reservation", "Conformation", "Home", null, new { @class = "mLinkButtonBasket" })
+
+    </div>
+
+</div>

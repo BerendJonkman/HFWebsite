@@ -4,7 +4,6 @@
     ViewBag.Title = "Reservation";
 }
 
-
 <div class="container">
     <h2>Ticket information - @Html.DisplayFor(x => x.Day) </h2>
     <p>There are multiple types of tickets available for Jazz@Patronaat. You can buy one of the 2 types of tickets: passe-partout tickets or a single tickets for a concert.</p>
@@ -15,53 +14,60 @@
     <h3>Regular ticket</h3>
     <p>A regular ticket cost between €10 and €15. It depends on which hall the artists performs.</p>
 
-    <h3>Insert amount of pass-partout tickets</h3>
-    <div class="col-cm-6">
-        <table class="table">
-            <tr>
-                <th>
-                    <b>Tickets</b>
-                </th>
-                <th>
-                    <b>Type</b>
-                </th>
-                <th>
-                    <b>Price</b>
-                </th>
-            </tr>
+    @if (!Model.Day.Equals("Sunday"))
+    {
+        <h3>Insert amount of pass-partout tickets</h3>
+    }
 
-            <tr>
-                <td>
-                    <input type="number" name="numberOfDayPartoutTickets" min="0" max="99" value="0" />
-                </td>
-                <td>
-                    <p>Passe-partout for a day</p>
-                </td>
-                <td>
-                    €35,00
-                </td>
-            </tr>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-cm-6">
+            <form>
+                @if (!Model.Day.Equals("Sunday"))
+                {
+                    <table class="table">
+                        <tr>
+                            <th>
+                                <b>Tickets</b>
+                            </th>
+                            <th>
+                                <b>Type</b>
+                            </th>
+                            <th>
+                                <b>Price</b>
+                            </th>
+                        </tr>
 
-            <tr>
-                <td>
-                    <input type="number" name="numberOfTotalParToutTickets" min="0" max="99" value="0" />
-                </td>
-                <td>
-                    <p>Passe-partout for Thursday, Friday and Saturday</p>
-                </td>
-                <td>
-                    €80,00
-                </td>
-            </tr>
+                        <tr>
+                            <td>
+                                @Html.EditorFor(t => t.PassParToutDay.Count, new { htmlAttributes = new { @class = "form-control left-border-none", @min = "0", @width = "20px", @placeholder = 0 } })
+                                @Html.HiddenFor(t => t.PassParToutDay.Day)
+                            </td>
+                            <td>
+                                <p>Passe-partout for @Html.DisplayFor(x => x.Day)</p>
+                            </td>
+                            <td>
+                                €35,00
+                            </td>
+                        </tr>
 
-        </table>
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
+                        <tr>
+                            <td>
+                                @Html.EditorFor(t => t.PassParToutWeek.count, new { htmlAttributes = new { @class = "form-control left-border-none", @min = "0", @width = "20px", @placeholder = 0 } })
+                            </td>
+                            <td>
+                                <p>Passe-partout for Thursday, Friday and Saturday</p>
+                            </td>
+                            <td>
+                                €80,00
+                            </td>
+                        </tr>
 
-            <h3>Insert amount of regular tickets</h3>
-            <div class="form-group col-cm-6">
-                <form>
+                    </table>
+                }
+                <h3>Insert amount of regular tickets</h3>
+                <div class="form-group col-cm-6">
                     <table class="table">
                         <tr>
                             <th>
@@ -84,13 +90,31 @@
                             </th>
                         </tr>
                         @{
+
                             int i = 0;
+                            string bgColor = "white";
                             foreach (var concertTicket in Model.ConcertTickets.ToList())
                             {
+                                if (concertTicket.Selected)
+                                {
+                                    bgColor = "burlywood";
+                                }
+                                else
+                                {
+                                    bgColor = "white";
+                                }
+                                @Html.HiddenFor(x => x.Day)
                                 @Html.HiddenFor(t => t.ConcertTickets[i].Ticket.EventId)
-                                <tr>
+                                <tr style="background-color : @bgColor">
                                     <td>
-                                        @Html.EditorFor(t => t.ConcertTickets[i].Ticket.Count)
+                                        @if (Model.Day.Equals("Sunday"))
+                                        {
+                                            @Html.EditorFor(t => t.ConcertTickets[i].Ticket.Count, new { htmlAttributes = new { @class = "form-control left-border-none", @min = "0", @width = "20px", @placeholder = 0 } })
+                                        }
+                                        else
+                                        {
+                                            @Html.EditorFor(t => t.ConcertTickets[i].Ticket.Count, new { htmlAttributes = new { @class = "form-control left-border-none", @min = "0", @max = concertTicket.Concert.AvailableSeats, @width = "20px", @placeholder = 0 } })
+                                        }
                                     </td>
                                     <td>
                                         @Html.DisplayFor(t => t.ConcertTickets[i].Concert.Band.Name)
@@ -99,29 +123,36 @@
                                         €@Html.DisplayFor(t => t.ConcertTickets[i].Concert.Hall.Price)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(t => t.ConcertTickets[i].Concert.Day.Date) | @Html.DisplayFor(t => t.ConcertTickets[i].Concert.StartTime)
+                                        @concertTicket.Concert.Day.Date.ToString("dddd dd-MM-yy") | @concertTicket.Concert.StartTime.ToString("HH:mm") - @{ concertTicket.Concert.StartTime += TimeSpan.FromHours((double)concertTicket.Concert.Duration); } @concertTicket.Concert.StartTime.ToString("H:mm")
                                     </td>
                                     <td>
                                         @Html.DisplayFor(t => t.ConcertTickets[i].Concert.Location.Name) - @Html.DisplayFor(t => t.ConcertTickets[i].Concert.Hall.Name)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(t => t.ConcertTickets[i].Concert.AvailableSeats)
+                                        @if (Model.Day.Equals("Sunday"))
+                                        {
+                                            <p>-</p>
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayFor(t => t.ConcertTickets[i].Concert.AvailableSeats)
+                                        }
                                     </td>
                                 </tr>
                                 i++;
                             }
                         }
                     </table>
-                </form>
-                <div>
-                    <div class="col-sm-2" style="margin-top:18px">
-                        @Html.ActionLink("Terug naar overzicht", "ConcertOverview", "Concerts", new { dayId = Model.ConcertTickets[0].Concert.Day.Id }, new { @class = "mLinkButton" })
-                    </div>
-                    <div class=" form-group col-sm-offset-8 col-sm-2">
-                        <input type="submit" value="Place Order" class="mLinkButton" />
+                    <div>
+                        <div class="col-sm-2" style="margin-top:18px">
+                            @Html.ActionLink("Terug naar overzicht", "ConcertOverview", "Concerts", new { dayId = Model.ConcertTickets[1].Concert.Day.Id }, new { @class = "mLinkButton" })
+                        </div>
+                        <div class=" form-group col-sm-offset-8 col-sm-2">
+                            <input type="submit" value="Put into basket" class="mLinkButton" />
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
+            </form>
+        </div>
+     }
 </div>

@@ -52,7 +52,6 @@ textarea {
     margin: 0;
 }
 .span3 {
-
     background-color: white;
     padding-right: 20px;
     padding-left: 20px;
@@ -68,6 +67,18 @@ textarea {
     margin-top: 15px;
     border: solid #797979 1px;
     text-decoration: none;
+}
+
+.mLinkButtonBasket {
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 12px;
+    background: #353238;
+    padding: 5px 10px 5px 10px;
+    margin-top: 15px;
+    border: solid #797979 1px;
+    text-decoration: none;
+    float:right;
 }
 
 .mLinkButton:hover {
@@ -92,8 +103,8 @@ textarea {
     right: -20px;
 }
 
-.back-button-thursday {
-    background: url("~/Content/Content-images/JazzImages/DetailPage/DividerSideStripesBackArrow.png")
+.backbuttonJazz {
+    background: url("~/Content/Content-images/JazzImages/DetailPage/JazzBackButton.jpg")
 }
 
 .book-now-btn {
@@ -126,13 +137,36 @@ a.mLinkButton {
     color:white;
 }
 
-.concertTextBody {
-    overflow: hidden;
-    margin-top: 15px;
-    max-width: 505px;
-    min-height: 139px;
-    max-height: 142px;
-    text-overflow: ellipsis;
+.restauranttitle {
+    font-family: 'Arial';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+}
+
+.restaurantimage {
+    width: 245px;
+    height: 150px;
+    border: 1px solid #021a40;
+
+}
+.restaurantboldarial {
+    font-family: 'Arial Bold' 'Arial'; 
+    font-weight: 700; 
+    font-style: normal; 
+    font-size: 15px; 
+    text-align: right;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.restaurantarial {
+    font-family: 'Arial';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 13px;
+    text-align: left;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 a.imgbuttonJazz {

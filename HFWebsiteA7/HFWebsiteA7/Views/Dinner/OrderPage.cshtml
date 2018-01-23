@@ -1,0 +1,28 @@
+﻿@using HFWebsiteA7.Models;
+@model HFWebsiteA7.Models.Restaurant
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<div class="container">
+    <div class="col-lg-6">
+        <h1>@Model.Name</h1>
+        <div class="container" style="float:left;">
+            <div class="row">
+                <div class="col-sm-6 restaurantboldarial">Cuisines: </div>
+                <span class="col-sm-6 restaurantarial">foodtype</span>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 restaurantboldarial">Rating: </div>
+                <span class="col-sm-6 restaurantarial">@Model.Stars/5</span>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 restaurantboldarial">Price:  </div>
+                <span class="restaurantarial">€@Model.Price (or @Model.ReducedPrice for children under 12)</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" style="margin-top: 25px;">
+        <img src="~/Content/Content-images/RestaurantsImages/Restaurants/Inside/brinkman-inside.png" style="width:525px; "/>
+    </div>
+</div>

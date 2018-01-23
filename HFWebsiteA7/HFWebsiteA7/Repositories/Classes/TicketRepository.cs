@@ -10,18 +10,18 @@ namespace HFWebsiteA7.Repositories.Classes
     public class TicketRepository : ITicketRepository
     {
         private HFWebsiteA7Context db = new HFWebsiteA7Context();
-        public void AddTicket(Ticket ticket)
+        public void AddTicket(PreTicket ticket)
         {
             db.Tickets.Add(ticket);
             db.SaveChanges();
         }
 
-        public IEnumerable<Ticket> GetAllTickets()
+        public IEnumerable<PreTicket> GetAllTickets()
         {
             return db.Tickets.ToList();
         }
 
-        public Ticket GetTicket(int ticketId)
+        public PreTicket GetTicket(int ticketId)
         {
             return db.Tickets.Find(ticketId);
         }

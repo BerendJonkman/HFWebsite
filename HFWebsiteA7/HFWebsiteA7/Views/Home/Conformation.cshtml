@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Checkout";
+}
+
+@section Banner {
+    <div style="margin-top: 50px; background-image: url(../../Content/Content-images/Home/IndexBanner.jpg); background-repeat: round; height: 300px"></div>
+}
+
+<div class="container">
+    <div class="row">
+        <div>
+            <h2>Thank you for your reservation!</h2>
+            <p>A confirmation email has been send to your e-mail address</p>
+            <p>If you have any questions, you can contact us on our contact page.</p>
+            <br /><br />
+        </div>
+    </div>
+
+    <div class="row">
+        @Html.ActionLink("View your personal agenda", "Index", "Home", null, new { @class = "mLinkButton" })
+
+        @Html.ActionLink("Return to home", "Index", "Home", null, new { @class = "mLinkButton" })
+
+    </div>
+
+</div>

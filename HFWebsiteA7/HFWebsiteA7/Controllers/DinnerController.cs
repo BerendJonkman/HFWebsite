@@ -16,14 +16,57 @@ namespace HFWebsiteA7.Controllers
     public class DinnerController : Controller
     {
         private HFWebsiteA7Context db = new HFWebsiteA7Context();
+        private Restaurant restaurant = new Restaurant();
         private IDinnerSessionRepository dinnerSessionRepository = new DinnerSessionRepository();
-
+        private IRestaurantRepository restaurantRepository = new RestaurantRepository();
+        private IRestaurantFoodTypeRepository restaurantFoodTypeRepository = new RestaurantFoodTypeRepository();
+        private List<Restaurant> tempRestaurantList = new List<Restaurant>();
 
         // GET: Dinner
         public ActionResult Index()
         {
-            return View();
+            return View(CreateIndexViewModel());
         }
+
+        private RestaurantViewModel CreateIndexViewModel()
+        {
+            //List<RestaurantAndFoodType> restaurants = new List<RestaurantAndFoodType>();
+            RestaurantViewModel vm = new RestaurantViewModel
+            {
+                RestaurantList = new List<RestaurantAndFoodType>()
+            };
+
+
+            tempRestaurantList = restaurantRepository.GetAllRestaurants().ToList();
+            List<String> FoodTypes = new List<string>();
+            
+            
+            foreach (var item in tempRestaurantList){
+                IEnumerable<FoodType> foodTypeList = restaurantFoodTypeRepository.GetFoodTypeByRestaurantId(item.Id);
+                RestaurantAndFoodType restaurandAndFoodType = new RestaurantAndFoodType();
+                string foodTypes = "";
+                
+                foreach (var foodItem in foodTypeList)
+                {
+                    if (foodTypes == "")
+                    {
+                        foodTypes = foodItem.Name;
+                    }
+                    else
+                    {
+                        foodTypes += ", " + foodItem.Name;
+                    }
+                }
+                restaurandAndFoodType.restaurant = item;
+                restaurandAndFoodType.foodType = foodTypes;
+                vm.RestaurantList.Add(restaurandAndFoodType);
+                //FoodTypes.Add(foodTypes);
+            }
+            return vm;
+        }
+
+        
+    
 
         // GET: Dinner/Details/5
        
@@ -76,6 +119,24 @@ namespace HFWebsiteA7.Controllers
             ViewBag.RestaurantId = new SelectList(db.Restaurants, "Id", "Description", dinnerSession.RestaurantId);
             return View(dinnerSession);
         }
+
+        public ActionResult DetailsPage(int Id)
+        {
+            Restaurant restaurant = restaurantRepository.GetRestaurant(Id   );
+
+            return View(restaurant);
+            //return View(GetRestaurantView(Id));
+        }
+
+        public ActionResult OrderPage(int Id)
+        {
+            Restaurant restaurant = restaurantRepository.GetRestaurant(Id);
+
+            return View(restaurant);
+        }
+
+        
+
 
 
         protected override void Dispose(bool disposing)

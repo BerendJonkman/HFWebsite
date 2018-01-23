@@ -15,6 +15,10 @@ namespace HFWebsiteA7.Controllers
     public class HomeController : Controller
     {
         IEventRepository eventRepository = new EventRepository();
+        IConcertsRepository concertsRepository = new ConcertRepository();
+        IPassPartoutTypeRepository passPartoutTypeRepository = new PassPartoutTypeRepository();
+
+        private Reservation reservation;
 
         public ActionResult Index()
         {
@@ -31,29 +35,72 @@ namespace HFWebsiteA7.Controllers
             return View();
         }
 
+        public ActionResult Checkout()
+        {
+            return View();
+        }
+
+        public ActionResult Conformation()
+        {
+            return View();
+        }
+
         public ActionResult Basket()
         {
-            if((List<Ticket>)Session["Tickets"] != null)
-            {
-                List<Ticket> tickets = new List<Ticket>();
+            BasketViewModel vm = new BasketViewModel();
 
-                foreach (Ticket ticket in tickets)
+            if((Reservation)Session["Reservation"] != null)
+            {
+                reservation = (Reservation)Session["Reservation"];
+            }
+            
+            if(reservation != null)
+            {
+                if (reservation.Tickets != null)
                 {
-                    ticket.Event = eventRepository.GetEvent(ticket.EventId);
+                    vm.Tickets = reservation.Tickets;
                 }
 
-                BasketViewModel vm = new BasketViewModel
+                if (reservation.PassParToutDays != null)
                 {
-                    Tickets = tickets
-                };
+                    vm.Partoutdays = reservation.PassParToutDays;
+                }
 
-                return View(vm);
+                if (reservation.PassParToutWeek != null)
+                {
+                    vm.ParToutWeek = reservation.PassParToutWeek;
+                }
 
+                decimal totalPrice = 0;
+
+                if(vm.Tickets != null)
+                {
+                    foreach (ConcertTicket ct in vm.Tickets)
+                    {
+                        totalPrice += ct.Ticket.Count * ct.Concert.Hall.Price;
+                    }
+                }
+               
+                if(vm.Partoutdays != null)
+                {
+                    foreach (PassParToutDay pd in vm.Partoutdays)
+                    {
+                        decimal dayPrice = passPartoutTypeRepository.GetPassPartoutType(1).Price;
+                        totalPrice += pd.Count * dayPrice;
+                    }
+                }
+                
+                if(vm.ParToutWeek != null)
+                {
+                    decimal weekPrice = passPartoutTypeRepository.GetPassPartoutType(4).Price;
+
+                    totalPrice += vm.ParToutWeek.count * weekPrice;
+                }
+
+                vm.TotalPrice = (double)totalPrice;
             }
-            else
-            {
-                return View();
-            }
+    
+            return View(vm);
         }
     }
 }

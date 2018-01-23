@@ -20,6 +20,7 @@ namespace HFWebsiteA7.Repositories.Classes
         public IEnumerable<RestaurantFoodType> GetAllRestaurantFoodTypes()
         {
             return db.RestaurantFoodType.ToList();
+
         }
 
         public IEnumerable<FoodType> GetFoodTypeByRestaurantId(int restaurantId)

@@ -6,9 +6,8 @@ using System.Web;
 
 namespace HFWebsiteA7.ViewModels
 {
-    public class IndexViewModel
+    public class RestaurantViewModel
     {
-        public List<IndexFestivalDay> IndexFestivalDays { get; set; }
-        public List<Restaurant> RestaurantList { get; set; }
+        public List<RestaurantAndFoodType>RestaurantList { get; set; }
     }
 }
