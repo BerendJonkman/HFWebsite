@@ -142,3 +142,10 @@ a.imgbuttonJazz {
     height: 66px;
     text-indent: -9999px; /* hides the link text */
 }
+
+.img {
+    object-fit: fill;
+    object-position: 50% 50%; /* default value: image is centered*/
+    object-position: 0 0;
+}
+

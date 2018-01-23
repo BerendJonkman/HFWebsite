@@ -1,4 +1,5 @@
 ﻿@using HFWebsiteA7.Models
+@using HFWebsiteA7.ViewModels
 @model HFWebsiteA7.ViewModels.AdminEventEditViewModel
 
 @{
@@ -17,238 +18,53 @@
     <div class="container">
         <button class="mLinkButton" onclick="showDiv()">Create new band</button>
         <div class="container-fluid" style="display:none" id="divCreate">
-            @if (Model.EventType.Equals(EventTypeEnum.Band))
-            {
-                <hr />
-                @Html.BeginForm()
+
+            <hr />   
+                @if (Model.EventType.Equals(EventTypeEnum.Band))
                 {
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-5">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <h4>Name</h4>
-                                        @Html.TextBoxFor(m => m.Band.Name)
-                                        @Html.ValidationMessageFor(m => m.Band.Name)
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <h4>Description</h4>
-                                        @Html.TextAreaFor(m => m.Band.Description)
-                                        @Html.ValidationMessageFor(m => m.Band.Description)
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-7">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <h4>Image</h4>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <legend> Upload Image </legend>
-                                        <label for="Image">Image</label>
-                                        <input type="file" name="Image" />
-                                        <br />
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
+                    @Html.Partial("PartialViews/EditBand", Model.AdminBand);
                 }
-
-            }
         </div>
         @if (Model.EventType.Equals(EventTypeEnum.Dinner))
         {
-            foreach (AdminRestaurant adminRestaurant in Model.ObjectList)
-            {
-                <hr />
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-7">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h4>Restaurant Name</h4>
-                                    <p>@adminRestaurant.Restaurant.Location.Name</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <h4>Address</h4>
-                                    <p>@adminRestaurant.Restaurant.Location.Street, @adminRestaurant.Restaurant.Location.ZipCode, Haarlem, Netherlands</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <h4>Cuisines</h4>
-                                    <p>
-                                        @foreach (FoodType foodType in adminRestaurant.FoodTypes)
-                                        {
-                                            @foodType
-                                        }
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h4>Description</h4>
-                                    <p>@adminRestaurant.Restaurant.Description</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <h4>Sessions</h4>
-                                            <p>@adminRestaurant.Sessions</p>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <h4>First Session</h4>0
-                                            <p></p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h4>Seats</h4>
-                                            <p>@adminRestaurant.Restaurant.Seats</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <h4>Duration</h4>
-                                            <p>@adminRestaurant.Duration</p>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <h4>Stars</h4>
-                                            <p>@adminRestaurant.Restaurant.Stars</p>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <h4>Price</h4>
-                                            <p>@adminRestaurant.Restaurant.Price</p>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <h4>Price (12-)</h4>
-                                            <p>@adminRestaurant.Restaurant.ReducedPrice</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <h4>Image</h4>
-                        </div>
-                        <div class="col-md-1">
-                        </div>
-                    </div>
-                </div>
-            }
+            @Html.Partial("PartialViews/AdminRestaurant", Model.ObjectList.Cast<AdminRestaurant>().ToList());
         }
         else if (Model.EventType.Equals(EventTypeEnum.Concert))
         {
-            foreach (Concert concert in Model.ObjectList)
-            {
-                <hr />
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-7">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h4>Name</h4>
-                                    <p>@concert.Band.Name</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <h4>Date</h4>
-                                    <p>@concert.Day.Date.ToString("dddd dd-MM-yyyy")</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <h4>Time</h4>
-                                    <p>@concert.StartTime.ToString("H:mm")</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <h4>Description</h4>
-                                    <p>@concert.Band.Description</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h4>Location</h4>
-                                            @concert.Location.Name
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h4>Hall</h4>
-                                            @concert.Hall.Name
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h4>Price</h4>
-                                            @concert.Hall.Price
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h4>Seats</h4>
-                                            @concert.Hall.Seats
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <h4>Image</h4>
-                        </div>
-                        <div class="col-md-1">
-                        </div>
-                    </div>
-                </div>
-            }
+            @Html.Partial("PartialViews/Concert", Model.ObjectList.Cast<Concert>().ToList());
         }
         else if (Model.EventType.Equals(EventTypeEnum.Band))
         {
-            foreach (Band band in Model.ObjectList)
-            {
-                <hr />
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h4>Name</h4>
-                                    <p>@band.Name</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h4>Description</h4>
-                                    <p>@band.Description</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-7">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h4>Image</h4>
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <img src=@Url.Content(band.ImagePath) alt="Sample Photo" />
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            }
+            @Html.Partial("PartialViews/Band", Model.ObjectList.Cast<Band>().ToList());
         }
     </div>
-    <script>
+    </div>
+
+<dialog id="favDialog">
+    @Html.Partial("PartialViews/EditBand", Model.AdminBand);
+</dialog>
+    <script type="text/javascript">        
         function showDiv() {
             if (document.getElementById('divCreate').style.display == "none") {
                 document.getElementById('divCreate').style.display = "block";
             } else {
                 document.getElementById('divCreate').style.display = "none";
             }
-            
         }
+
+        function showDialog(adminBandId) {
+            console.log("it's working");
+            console.log(adminBandId);
+            $.ajax({
+                url: '/Admin/Test',
+                type: 'GET',
+                success: function (html) {
+                    alert(html);
+                },
+                error: function (error) {
+                    $(that).remove();
+                    DisplayError(error.statusText);
+                }
+            });
+            }
     </script>

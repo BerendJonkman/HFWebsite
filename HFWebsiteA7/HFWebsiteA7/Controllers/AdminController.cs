@@ -12,6 +12,10 @@ using HFWebsiteA7.Repositories.Classes;
 using HFWebsiteA7.ViewModels;
 using System.Web.Security;
 using HFWebsiteA7.Repositories;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace HFWebsiteA7.Controllers
 {
@@ -34,21 +38,24 @@ namespace HFWebsiteA7.Controllers
         [HttpPost]
         public ActionResult Index(AdminUser user)
         {
-            var adminUser = adminUserRepository.GetAdminUserByUser(user);
-            if (adminUser != null)
+            if (ModelState.IsValid)
             {
-                FormsAuthentication.SetAuthCookie(user.Username, false);
+                var adminUser = adminUserRepository.GetAdminUserByUser(user);
+                if (adminUser != null)
+                {
+                    FormsAuthentication.SetAuthCookie(user.Username, false);
 
-                Session["loggidin_account"] = user;
+                    Session["loggidin_account"] = user;
 
-                return RedirectToAction("AdminSelection");
+                    return RedirectToAction("AdminSelection");
 
+                }
+                else
+                {
+                    ModelState.AddModelError("login-error", "The username or password provided is incorrect.");
+                }
             }
-            else
-            {
-                ModelState.AddModelError("login-error", "The username or password provided is incorrect.");
-                return View();
-            }
+            return View();
         }
 
         public ActionResult AdminSelection()
@@ -62,6 +69,27 @@ namespace HFWebsiteA7.Controllers
             return View(adminEventEditViewModel);
         }
 
+        [HttpPost]
+        public ActionResult EditBand(AdminBand adminBand)
+        {
+            var type = EventTypeEnum.Band;
+            if (ModelState.IsValid)
+            {
+                
+
+                var filename = Regex.Replace(adminBand.Band.Name, @"\s+", "") + ".jpg";
+                var path = Path.Combine(Server.MapPath("~/Content/Content-images/JazzImages/BandImages/"), filename);
+                adminBand.Band.ImagePath = "~/Content/Content-images/JazzImages/BandImages/" + filename;
+                Image sourceimage = Image.FromStream(adminBand.File.InputStream);
+                sourceimage.Save(path, ImageFormat.Jpeg);
+
+                bandRepository.AddBand(adminBand.Band);
+                var adminEventEditViewModel = CreateAdminEventEditViewModel(type);
+                return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
+            }
+            return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
+        }
+
         public AdminEventEditViewModel CreateAdminEventEditViewModel(EventTypeEnum type)
         {
             AdminEventEditViewModel vm = new AdminEventEditViewModel
@@ -71,7 +99,8 @@ namespace HFWebsiteA7.Controllers
             switch (type)
             {
                 case EventTypeEnum.Band:
-                    vm.ObjectList = bandRepository.GetAllBands().ToList<object>(); 
+                    vm.ObjectList = bandRepository.GetAllBands().ToList<object>();
+                    vm.AdminBand = new AdminBand();
                     break;
                 case EventTypeEnum.Concert:
                     vm.ObjectList = concertRepository.GetAllConcerts().ToList<object>();
@@ -87,6 +116,20 @@ namespace HFWebsiteA7.Controllers
             }
 
             return vm;
+        }
+
+        [HttpGet]
+        public JsonResult Test(int bandId)
+        {
+            AdminBand adminBand = new AdminBand();
+            foreach(Band band in bandRepository.GetAllBands())
+            {
+                if(band.Id == bandId)
+                {
+                    adminBand.Band = band;
+                }
+            }
+            return Json(, JsonRequestBehavior.AllowGet);
         }
     }
 }

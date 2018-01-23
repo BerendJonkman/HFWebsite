@@ -166,6 +166,7 @@
     <Compile Include="Repositories\Interfaces\IAdminUserRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPassPartoutOrderRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPassPartoutTypeRepository.cs" />
+    <Compile Include="ViewModels\AdminBand.cs" />
     <Compile Include="ViewModels\AdminEventEditViewModel.cs" />
     <Compile Include="Models\AdminRestaurant.cs" />
     <Compile Include="Models\Band.cs" />
@@ -220,6 +221,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Content-images\Admin\AdminSelectionLeft.jpg" />
     <Content Include="Content\Content-images\Admin\AdminSelectionRight.jpg" />
+    <Content Include="Content\Content-images\Admin\ic_clear_black_24dp_1x.png" />
+    <Content Include="Content\Content-images\Admin\ic_mode_edit_black_24dp_1x.png" />
     <Content Include="Content\Content-images\Home\BasketBanner.jpg" />
     <Content Include="Content\Content-images\Home\IndexBanner.jpg" />
     <Content Include="Content\Content-images\Home\IndexBannerTransparantText.png" />
@@ -317,7 +320,6 @@
     <Content Include="Views\Admin\Details.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\Concert.cshtml" />
     <Content Include="Views\Admin\Dinner.cshtml" />
     <Content Include="Views\Concerts\Index.cshtml" />
     <Content Include="Views\Concerts\Reservation.cshtml" />
@@ -332,6 +334,10 @@
     <Content Include="Views\Dinner\Edit.cshtml" />
     <Content Include="Views\Dinner\Index.cshtml" />
     <Content Include="Views\Concerts\ConcertOverview.cshtml" />
+    <Content Include="Views\Admin\PartialViews\Band.cshtml" />
+    <Content Include="Views\Admin\PartialViews\Concert.cshtml" />
+    <Content Include="Views\Admin\PartialViews\AdminRestaurant.cshtml" />
+    <Content Include="Views\Admin\PartialViews\EditBand.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

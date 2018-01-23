@@ -1,0 +1,44 @@
+﻿@using HFWebsiteA7.Models
+@model IEnumerable<HFWebsiteA7.Models.Band>
+
+@foreach (Band band in Model)
+{
+    <hr />
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>Name</h4>
+                        <p>@band.Name</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Description</h4>
+                        <p>@band.Description</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>Image</h4>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <img class="img" src=@Url.Content(band.ImagePath) alt="Sample Photo" width="510" height="150" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div style="margin-top: 90px; width: 50%; margin-left: auto; margin-right:auto" >
+                        <img src="~/Content/Content-images/Admin/ic_mode_edit_black_24dp_1x.png" alt="Edit Band" style="margin-right: 5px" onclick="javascript: showDialog(@band.Id)"/>
+                        <img src="~/Content/Content-images/Admin/ic_clear_black_24dp_1x.png" alt="RemoveBand" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
