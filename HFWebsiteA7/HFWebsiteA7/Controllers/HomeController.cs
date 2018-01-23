@@ -16,6 +16,7 @@ namespace HFWebsiteA7.Controllers
     {
         IEventRepository eventRepository = new EventRepository();
         IConcertsRepository concertsRepository = new ConcertRepository();
+        IPassPartoutTypeRepository passPartoutTypeRepository = new PassPartoutTypeRepository();
 
         private Reservation reservation;
 
@@ -43,7 +44,7 @@ namespace HFWebsiteA7.Controllers
                 reservation = (Reservation)Session["Reservation"];
             }
             
-            if (reservation != null)
+            if(reservation != null)
             {
                 if (reservation.Tickets != null)
                 {
@@ -59,8 +60,36 @@ namespace HFWebsiteA7.Controllers
                 {
                     vm.ParToutWeek = reservation.PassParToutWeek;
                 }
-            }
 
+                decimal totalPrice = 0;
+
+                if(vm.Tickets != null)
+                {
+                    foreach (ConcertTicket ct in vm.Tickets)
+                    {
+                        totalPrice += ct.Ticket.Count * ct.Concert.Hall.Price;
+                    }
+                }
+               
+                if(vm.Partoutdays != null)
+                {
+                    foreach (PassParToutDay pd in vm.Partoutdays)
+                    {
+                        decimal dayPrice = passPartoutTypeRepository.GetPassPartoutType(1).Price;
+                        totalPrice += pd.Count * dayPrice;
+                    }
+                }
+                
+                if(vm.ParToutWeek != null)
+                {
+                    decimal weekPrice = passPartoutTypeRepository.GetPassPartoutType(4).Price;
+
+                    totalPrice += vm.ParToutWeek.count * weekPrice;
+                }
+
+                vm.TotalPrice = (double)totalPrice;
+            }
+    
             return View(vm);
         }
     }

@@ -13,5 +13,7 @@ namespace HFWebsiteA7.ViewModels
         public List<PassParToutDay> Partoutdays { get; set; }
 
         public PassParToutWeek ParToutWeek { get; set; }
+
+        public double TotalPrice { get; set; }
     }
 }
