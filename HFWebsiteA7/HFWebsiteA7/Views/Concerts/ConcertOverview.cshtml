@@ -95,7 +95,7 @@
         {
             foreach (Concert concert in Model.SecondConcertList)
             {
-                <div style="min-height: 475px">
+                <div class="column col-sm-6" style="margin-top: 15px; min-height: 475px">
                     <img src=@Url.Content(concert.Band.ImagePath) alt="JazzInformationImage" width="510" height="150">
                     <h3 style="font-size: 28px">@concert.Band.Name</h3>
                     <p style="margin-top: 15px; font-family: Arial; font-size: 13px; max-width: 505px; min-height: 139px; max-height:142px; overflow:hidden">
@@ -104,7 +104,7 @@
                             <b>Time:</b> @concert.StartTime.ToString("H:mm") - @{ concert.StartTime += TimeSpan.FromHours((double)concert.Duration); } @concert.StartTime.ToString("H:mm")
                         </div>
                         <div>
-                            <b>Price:</b> €@concert.Hall.Price,00
+                            <b>Price:</b> Free!
                         </div>
                         <div style="margin-top: 10px">
                             @Html.ActionLink("Book now", "Reservation", "Concerts", new { dayId = concert.Day.Id, concertId = concert.BandId }, new { @class = "mLinkButton" })

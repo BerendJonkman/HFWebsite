@@ -115,7 +115,7 @@ namespace HFWebsiteA7.Controllers
                 reservation = new Reservation();
             }
 
-            List<Ticket> tickets = new List<Ticket>();
+            List<ConcertTicket> concertTickets = new List<ConcertTicket>();
             foreach(ConcertTicket concertTicket in reservationViewModel.ConcertTickets)
             {
                 if(concertTicket.Ticket.Count != 0)
@@ -127,58 +127,100 @@ namespace HFWebsiteA7.Controllers
                         Count = concertTicket.Ticket.Count
                     };
 
-                    tickets.Add(ticket);
+                    concertTicket.Ticket = ticket;
+                    concertTicket.Concert = concertRepository.GetConcert(concertTicket.Ticket.Event.EventId);
+
+                    concertTickets.Add(concertTicket);
                 }
             }
 
-            if (reservation.PassParToutDays == null)
+            //Op zondag zijn er geen passpartouts
+            if (!reservationViewModel.Day.Equals("Sunday"))
             {
-                List<PassParToutDay> passParToutDaysList = new List<PassParToutDay>
+                if (reservation.PassParToutDays == null)
                 {
-                    reservationViewModel.PassParToutDay
-                };
-                reservation.PassParToutDays = passParToutDaysList;
-            }
-            else
-            {
-                bool found = false;
-                foreach(PassParToutDay passParTout in reservation.PassParToutDays)
-                {
-                    if (passParTout.Day.Equals(reservationViewModel.Day))
+                    if (reservationViewModel.PassParToutDay.Count != 0)
                     {
-                        passParTout.Count += reservationViewModel.ConcertTickets.Count;
-                        found = true;
-                        break;
-                    }
-                    else
+                        List<PassParToutDay> passParToutDaysList = new List<PassParToutDay>
                     {
-                        found = false;
+                        reservationViewModel.PassParToutDay
+                    };
+                        reservation.PassParToutDays = passParToutDaysList;
                     }
                 }
-
-                //Loop door alle passPartouts in de session heen, als hij er niet tussen staat voeg hem toe
-                if (!found)
+                else
                 {
-                    reservation.PassParToutDays.Add(reservationViewModel.PassParToutDay);
+                    bool found = false;
+                    foreach (PassParToutDay passParTout in reservation.PassParToutDays)
+                    {
+                        if (reservationViewModel.PassParToutDay.Count != 0)
+                        {
+                            if (passParTout.Day.Equals(reservationViewModel.PassParToutDay.Day))
+                            {
+                                passParTout.Count += reservationViewModel.PassParToutDay.Count;
+                                found = true;
+                                break;
+                            }
+                            else
+                            {
+                                found = false;
+                            }
+                        }
+                    }
+
+                    //Loop door alle passPartouts in de session heen, als hij er niet tussen staat voeg hem toe
+                    if (!found)
+                    {
+                        if (reservationViewModel.PassParToutDay.Count != 0)
+                        {
+                            reservation.PassParToutDays.Add(reservationViewModel.PassParToutDay);
+                        }
+                    }
+                }
+
+                if (reservation.PassParToutWeek == null)
+                {
+                    if (reservationViewModel.PassParToutWeek.count != 0)
+                    {
+                        reservation.PassParToutWeek = reservationViewModel.PassParToutWeek;
+                    }
+                }
+                else
+                {
+                    if (reservationViewModel.PassParToutWeek.count != 0)
+                    {
+                        reservation.PassParToutWeek.count += reservationViewModel.PassParToutWeek.count;
+                    }
                 }
             }
-
-            if (reservation.PassParToutWeek == null)
-            {
-                reservation.PassParToutWeek = reservationViewModel.PassParToutWeek;
-            }
-            else
-            {
-                reservation.PassParToutWeek.count += reservationViewModel.PassParToutWeek.count;
-            }
+            
             
             if (reservation.Tickets == null)
             {
-                reservation.Tickets = tickets.ToList<object>();
+                reservation.Tickets = concertTickets.ToList<object>();
             }
             else
             {
-                reservation.Tickets.AddRange(tickets);
+                List<ConcertTicket> ticketsToBeAdded = new List<ConcertTicket>();
+                foreach(ConcertTicket ct in concertTickets)
+                {
+                    bool found = false;
+                    foreach(object ticket in reservation.Tickets)
+                    {
+                        var t = (ConcertTicket)ticket;
+                        if (ct.Concert.EventId == t.Concert.EventId)
+                        {
+                            found = true;
+                            t.Ticket.Count += ct.Ticket.Count;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        ticketsToBeAdded.Add(ct);
+                    }
+                }
+                reservation.Tickets.AddRange(ticketsToBeAdded);
             }
 
             Session["Reservation"] = reservation;

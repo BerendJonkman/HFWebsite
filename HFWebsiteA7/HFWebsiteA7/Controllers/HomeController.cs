@@ -42,52 +42,23 @@ namespace HFWebsiteA7.Controllers
             {
                 reservation = (Reservation)Session["Reservation"];
             }
-
-            if (reservation.Tickets != null)
+            
+            if (reservation != null)
             {
-                foreach (Ticket ticket in reservation.Tickets)
+                if (reservation.Tickets != null)
                 {
-                    ConcertTicket concertTicket = new ConcertTicket();
-                    if (ticket.Event.Discriminator.Equals("Concert"))
-                    {
-                        bool found = false;
-                        if (vm.Tickets != null)
-                        {
-                            foreach (Ticket t in vm.Tickets)
-                            {
-                                concertTicket.Ticket = t;
-                                concertTicket.Concert = concertsRepository.GetConcert(t.EventId);
-                                if (ticket.EventId == t.EventId)
-                                {
-                                    found = true;
-                                    t.Count += ticket.Count;
-                                    break;
-                                }
-                            }
-                            if (found)
-                            {
-                                vm.Tickets.Add(concertTicket);
-                            }
-                        }
-                        else
-                        {
-                            vm.Tickets = new List<object>
-                            {
-                                ticket
-                            };
-                        }
-                    }
+                    vm.Tickets = reservation.Tickets;
                 }
-            }
 
-            if(reservation.PassParToutDays != null)
-            {
-                vm.Partoutdays = reservation.PassParToutDays;
-            }
+                if (reservation.PassParToutDays != null)
+                {
+                    vm.Partoutdays = reservation.PassParToutDays;
+                }
 
-            if (reservation.PassParToutWeek != null)
-            {
-                vm.ParToutWeek = reservation.PassParToutWeek;
+                if (reservation.PassParToutWeek != null)
+                {
+                    vm.ParToutWeek = reservation.PassParToutWeek;
+                }
             }
 
             return View(vm);
