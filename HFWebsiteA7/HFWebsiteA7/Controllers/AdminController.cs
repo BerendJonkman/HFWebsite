@@ -119,17 +119,37 @@ namespace HFWebsiteA7.Controllers
         }
 
         [HttpGet]
-        public JsonResult Test(int bandId)
+        public JsonResult GetBand(int bandId)
         {
-            AdminBand adminBand = new AdminBand();
+            //int id = Int32.Parse(bandId);
+            Band adminBand = new Band();
             foreach(Band band in bandRepository.GetAllBands())
             {
                 if(band.Id == bandId)
                 {
-                    adminBand.Band = band;
+                    adminBand = band;
                 }
             }
-            return Json(, JsonRequestBehavior.AllowGet);
+            return Json(adminBand, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public void PostBand(string name, string description)
+        {
+
+        }
+
+        [HttpPost]
+        public void Upload()
+        {
+            for (int i = 0; i < Request.Files.Count; i++)
+            {
+                var file = Request.Files[i];
+
+                var fileName = Path.GetFileName(file.FileName);
+
+                var path = Path.Combine(Server.MapPath("~/App_Data/"), fileName);
+            }
         }
     }
 }

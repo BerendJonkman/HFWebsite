@@ -19,11 +19,11 @@
         <button class="mLinkButton" onclick="showDiv()">Create new band</button>
         <div class="container-fluid" style="display:none" id="divCreate">
 
-            <hr />   
-                @if (Model.EventType.Equals(EventTypeEnum.Band))
-                {
-                    @Html.Partial("PartialViews/EditBand", Model.AdminBand);
-                }
+            <hr />
+            @if (Model.EventType.Equals(EventTypeEnum.Band))
+            {
+                @Html.Partial("PartialViews/EditBand", Model.AdminBand);
+            }
         </div>
         @if (Model.EventType.Equals(EventTypeEnum.Dinner))
         {
@@ -38,33 +38,150 @@
             @Html.Partial("PartialViews/Band", Model.ObjectList.Cast<Band>().ToList());
         }
     </div>
+</div>
+
+<dialog id="addDialog">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Name</h4>
+                    <input type="text" id="Name" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Description</h4>
+                    <textarea type="text" id="Description" rows="10" cols="70"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Image</h4>
+                    <img src="@Url.Content("~/uploads/FileUpload12011_03_02_11_49_22.jpg")" alt="IMAGES" id="bandImage" width="255" height="75" style="margin-bottom: 5px" />
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <input type="file" name=File id="BandImageFile" accept="image/jpeg, image/png,image/jpg" onchange="newBandImage()"/>
+                    <br />
+                </div>
+            </div>
+        </div>
+
     </div>
-
-<dialog id="favDialog">
-    @Html.Partial("PartialViews/EditBand", Model.AdminBand);
+    <div class="row">
+        <div class="col-md-12">
+            <input type="submit" value="Save" class="mLinkButton" onClick="saveData()" />
+        </div>
+    </div>
 </dialog>
-    <script type="text/javascript">        
-        function showDiv() {
-            if (document.getElementById('divCreate').style.display == "none") {
-                document.getElementById('divCreate').style.display = "block";
-            } else {
-                document.getElementById('divCreate').style.display = "none";
-            }
-        }
 
-        function showDialog(adminBandId) {
-            console.log("it's working");
-            console.log(adminBandId);
-            $.ajax({
-                url: '/Admin/Test',
-                type: 'GET',
-                success: function (html) {
-                    alert(html);
-                },
-                error: function (error) {
-                    $(that).remove();
-                    DisplayError(error.statusText);
-                }
-            });
+<div id="snackbar">The data has been saved</div>
+
+<script type="text/javascript">
+    function showDiv() {
+        if (document.getElementById('divCreate').style.display == "none") {
+            document.getElementById('divCreate').style.display = "block";
+        } else {
+            document.getElementById('divCreate').style.display = "none";
+        }
+    }
+
+    var id = 0;
+
+    function showDialog(adminBandId) {
+        id = adminBandId;
+        $.ajax({
+            url: '/Admin/GetBand',
+            type: 'GET',
+            data: { 'bandId': adminBandId },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                var url = response.ImagePath.substring(1);
+
+
+                console.log(url);
+                $("#bandImage").attr("src", url);
+                document.getElementById("Name").value = response.Name;
+                document.getElementById("Description").value = response.Description;
+                var addDialog = document.getElementById('addDialog');
+                addDialog.showModal();
+            },
+            error: function (error) {
+                $(that).remove();
+                DisplayError(error.statusText);
             }
-    </script>
+        });
+    }
+
+    function newBandImage(){
+        console.log('dit werkt tenminste');
+        formData = new FormData();
+        var file = $('#BandImageFile').files;
+        console.log(file)
+        formData.append("bandImage", file);
+    }
+    var formData;
+    $("#BandImageFile").change(function () {
+        console.log('dit werkt tenminste');
+        formData = new FormData();
+        var file = document.getElementById("BandImageFile").file;
+        
+        formData.append("bandImage", file);
+    });
+
+
+    function saveData() {
+        var name = document.getElementById("Name").value;
+        var description = document.getElementById("Description").value;
+        
+        console.log(name);
+        $.ajax({
+            type: "POST",
+            url: '/Admin/PostBand',
+            data: { 'name': name, 'description': description },        
+        }).done(function () {
+            if (formData != null) {
+                saveBandImage();
+            } else {
+                closeDialog();
+            }
+            
+        }).fail(function (xhr, status, errorThrown) {
+            alert(status);
+        });
+    }
+
+    function closeDialog() {
+        var addDialog = document.getElementById('addDialog');
+        addDialog.close();
+
+        var x = document.getElementById("snackbar");
+        // Add the "show" class to DIV
+        x.className = "show";
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function () { x.className = x.className.replace("show", ""); location.reload(); }, 3000);
+    }
+
+    function saveBandImage() {
+        console.log(formData)
+        $.ajax({
+            type: "POST",
+            url: '/Admin/Upload',
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false
+        }).done(function () {
+            closeDialog();
+            }).fail(function (xhr, status, errorThrown) {
+                alert(xhr + ', ' + status + ', ' + errorThrown);
+        });
+    }
+</script>
