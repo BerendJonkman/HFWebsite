@@ -13,6 +13,7 @@ namespace HFWebsiteA7.Repositories.Classes
         public void AddPassPartoutOrder(PassPartoutOrder passPartoutOrder)
         {
             db.PassPartoutOrder.Add(passPartoutOrder);
+            db.SaveChanges();
         }
 
         public IEnumerable<PassPartoutOrder> GetAllPassPartoutOrders()

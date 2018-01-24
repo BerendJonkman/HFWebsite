@@ -20,6 +20,7 @@ namespace HFWebsiteA7.Models
             modelBuilder.Entity<DinnerSession>().ToTable("DinnerSessions");
             modelBuilder.Entity<Concert>().ToTable("Concerts");
             modelBuilder.Entity<RestaurantFoodType>().ToTable("RestaurantFoodType");
+            modelBuilder.Entity<PassPartoutOrder>().ToTable("PassPartoutOrder");
         }
 
         public DbSet<Band> Bands { get; set; }

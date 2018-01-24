@@ -7,6 +7,8 @@ namespace HFWebsiteA7.Models
 {
     public class PassParToutWeek
     {
-        public int count { get; set; }
+        public int Id { get; set; }
+        public string Type { get; set; }
+        public int Count { get; set; }
     }
 }

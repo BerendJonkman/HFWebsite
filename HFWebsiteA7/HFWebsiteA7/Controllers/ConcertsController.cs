@@ -100,6 +100,13 @@ namespace HFWebsiteA7.Controllers
             vm.PassParToutDay = passParToutDay;
 
 
+            PassParToutWeek passParToutWeek  = new PassParToutWeek
+            {
+                Type = "Week"
+            };
+
+            vm.PassParToutWeek = passParToutWeek;
+
             return View(vm);
         }
 
@@ -180,16 +187,16 @@ namespace HFWebsiteA7.Controllers
 
                 if (reservation.PassParToutWeek == null)
                 {
-                    if (reservationViewModel.PassParToutWeek.count != 0)
+                    if (reservationViewModel.PassParToutWeek.Count != 0)
                     {
                         reservation.PassParToutWeek = reservationViewModel.PassParToutWeek;
                     }
                 }
                 else
                 {
-                    if (reservationViewModel.PassParToutWeek.count != 0)
+                    if (reservationViewModel.PassParToutWeek.Count != 0)
                     {
-                        reservation.PassParToutWeek.count += reservationViewModel.PassParToutWeek.count;
+                        reservation.PassParToutWeek.Count += reservationViewModel.PassParToutWeek.Count;
                     }
                 }
             }

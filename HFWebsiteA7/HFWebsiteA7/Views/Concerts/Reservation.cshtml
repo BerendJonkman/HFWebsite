@@ -54,7 +54,8 @@
 
                         <tr>
                             <td>
-                                @Html.EditorFor(t => t.PassParToutWeek.count, new { htmlAttributes = new { @class = "form-control left-border-none", @min = "0", @width = "20px", @placeholder = 0 } })
+                                @Html.EditorFor(t => t.PassParToutWeek.Count, new { htmlAttributes = new { @class = "form-control left-border-none", @min = "0", @width = "20px", @placeholder = 0 } })
+                                @Html.HiddenFor(t => t.PassParToutWeek.Type)
                             </td>
                             <td>
                                 <p>Passe-partout for Thursday, Friday and Saturday</p>

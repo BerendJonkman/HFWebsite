@@ -18,7 +18,9 @@ namespace HFWebsiteA7.Controllers
         IEventRepository eventRepository = new EventRepository();
         IConcertsRepository concertsRepository = new ConcertRepository();
         IPassPartoutTypeRepository passPartoutTypeRepository = new PassPartoutTypeRepository();
+        IPassPartoutOrderRepository passPartoutOrderRepository = new PassPartoutOrderRepository();
         IOrderRepository orderRepository = new OrderRepository();
+        ITicketRepository ticketRepository = new TicketRepository();
 
         private Reservation reservation;
 
@@ -47,22 +49,117 @@ namespace HFWebsiteA7.Controllers
         [HttpPost]
         public ActionResult Checkout(CheckoutViewModel vm)
         {
-            string email = vm.Email;
-            string code = GenerateCode();
-
-            Order newOrder = new Order
+            if (ModelState.IsValid)
             {
-                EmailAddress = email,
-                Code = code
-            };
-
-            orderRepository.AddOrder(newOrder);
-
-            Order order = orderRepository.GetOrderByEmailCode(email, code);
-            
+                string email = vm.Email;
+                string code = GenerateCode();
+                List<object> tickets = new List<object>();
+                List<PassParToutDay> passParToutDays = new List<PassParToutDay>();
+                PassParToutWeek passParToutWeek = new PassParToutWeek();
 
 
-            return RedirectToAction("Conformation", "Home");
+                if ((Reservation)Session["Reservation"] != null)
+                {
+                    reservation = (Reservation)Session["Reservation"];
+                }
+
+                if (reservation != null)
+                {
+                    if (reservation.Tickets != null)
+                    {
+                        tickets = reservation.Tickets;
+                    }
+                    if (reservation.PassParToutDays != null)
+                    {
+                        passParToutDays = reservation.PassParToutDays;
+                    }
+                    if (reservation.PassParToutWeek != null)
+                    {
+                        passParToutWeek = reservation.PassParToutWeek;
+                    }
+                }
+
+                Order newOrder = new Order
+                {
+                    EmailAddress = email,
+                    Code = code
+                };
+
+                orderRepository.AddOrder(newOrder);
+
+                Order order = orderRepository.GetOrderByEmailCode(email, code);
+
+                foreach (object ob in tickets)
+                {
+                    if (ob is ConcertTicket ct)
+                    {
+                        Ticket ticket = new Ticket();
+                        PreTicket pt = ct.Ticket;
+
+                        ticket.EventId = pt.EventId;
+                        ticket.OrderId = order.Id;
+
+                        ticketRepository.AddTicket(ticket);
+                    }
+                }
+
+                foreach (PassParToutDay pd in passParToutDays)
+                {
+                    List<PassPartoutType> ppttList = passPartoutTypeRepository.GetAllPassPartoutType().ToList();
+
+                    foreach (PassPartoutType type in ppttList)
+                    {
+                        if (type.Name.Equals(pd.Day))
+                        {
+                            pd.Id = type.Id;
+                            break;
+                        }
+                    }
+
+                    PassPartoutOrder passPartoutOrder = new PassPartoutOrder
+                    {
+                        OrderId = order.Id,
+                        PassPartoutId = pd.Id
+                    };
+
+                    for (int i = 0; i < pd.Count; i++)
+                    {
+                        passPartoutOrderRepository.AddPassPartoutOrder(passPartoutOrder);
+                    }
+                }
+
+                if (passParToutWeek.Count > 0)
+                {
+                    List<PassPartoutType> ppttList = passPartoutTypeRepository.GetAllPassPartoutType().ToList();
+
+                    foreach (PassPartoutType type in ppttList)
+                    {
+                        if (type.Name.Equals(passParToutWeek.Type))
+                        {
+                            passParToutWeek.Id = type.Id;
+                            break;
+                        }
+                    }
+
+                    PassPartoutOrder passPartoutOrderWeek = new PassPartoutOrder
+                    {
+                        OrderId = order.Id,
+                        PassPartoutId = passParToutWeek.Id
+                    };
+
+                    for (int i = 0; i < passParToutWeek.Count; i++)
+                    {
+                        passPartoutOrderRepository.AddPassPartoutOrder(passPartoutOrderWeek);
+                    }
+                }
+
+                //Leeg de session want de items zijn in de database gezet
+                Session["Reservation"] = null;
+
+                return RedirectToAction("Conformation", "Home");
+            }
+
+            return View();
         }
 
         public ActionResult Conformation()
@@ -120,7 +217,7 @@ namespace HFWebsiteA7.Controllers
                 {
                     decimal weekPrice = passPartoutTypeRepository.GetPassPartoutType(4).Price;
 
-                    totalPrice += vm.ParToutWeek.count * weekPrice;
+                    totalPrice += vm.ParToutWeek.Count * weekPrice;
                 }
 
                 vm.TotalPrice = (double)totalPrice;

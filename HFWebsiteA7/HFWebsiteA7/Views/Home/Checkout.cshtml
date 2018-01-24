@@ -14,13 +14,11 @@
     @Html.AntiForgeryToken()
     <div class="row">
         <div class="col-sm-6">
-            <h2>Please fill in the fields below</h2>
-            <p>Please provide the following information so we can book the ticket on your name and mail them to your e-mail address.</p>
-
-                    <p>Email:</p>
-                    @Html.TextBoxFor(m => m.Email)
-                    <br><br>
-            
+            <h2>Please fill in the field below</h2>
+            <p>Please provide the following information so we can book the ticket and send them to your e-mail address.</p>
+            <p>Email:</p>
+            @Html.ValidationMessageFor(m => m.Email)
+            @Html.EditorFor(t => t.Email, new { htmlAttributes = new { @class = "form-control"} })            
         </div>
 
         <div class="col-sm-6">
