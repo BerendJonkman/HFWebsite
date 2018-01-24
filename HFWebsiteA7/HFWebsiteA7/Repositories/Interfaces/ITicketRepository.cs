@@ -10,7 +10,7 @@ namespace HFWebsiteA7.Repositories.Interfaces
     interface ITicketRepository
     {
         IEnumerable<Ticket> GetAllTickets();
-        PreTicket GetTicket(int ticketId);
-        void AddTicket(PreTicket ticket);
+        Ticket GetTicket(int ticketId);
+        void AddTicket(Ticket ticket);
     }
 }

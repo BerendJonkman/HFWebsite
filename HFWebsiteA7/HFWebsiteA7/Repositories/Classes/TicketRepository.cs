@@ -16,7 +16,7 @@ namespace HFWebsiteA7.Repositories.Classes
             db.SaveChanges();
         }
 
-        public IEnumerable<PreTicket> GetAllTickets()
+        public IEnumerable<Ticket> GetAllTickets()
         {
             return db.Tickets.ToList();
         }
