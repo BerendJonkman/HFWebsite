@@ -25,5 +25,15 @@ namespace HFWebsiteA7.Repositories.Classes
         {
             return db.Orders.Find(orderId);
         }
+
+        public Order GetOrderByEmailCode(string email, string code)
+        {
+            return db.Orders.FirstOrDefault(x => x.EmailAddress == email && x.Code == code);
+        }
+
+        public Order GetOrderByEmail(string email)
+        {
+            return db.Orders.FirstOrDefault(x => x.EmailAddress == email);
+        }
     }
 }

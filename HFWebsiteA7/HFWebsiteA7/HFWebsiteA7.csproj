@@ -177,6 +177,7 @@
     <Compile Include="Models\Band.cs" />
     <Compile Include="Models\Concert.cs" />
     <Compile Include="ViewModels\BasketViewModel.cs" />
+    <Compile Include="ViewModels\CheckoutViewModel.cs" />
     <Compile Include="ViewModels\DayViewModel.cs" />
     <Compile Include="Models\DinnerSession.cs" />
     <Compile Include="Models\Event.cs" />

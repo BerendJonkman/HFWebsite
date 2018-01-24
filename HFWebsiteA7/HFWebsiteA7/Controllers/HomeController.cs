@@ -9,6 +9,7 @@ using System.Configuration;
 using HFWebsiteA7.ViewModels;
 using HFWebsiteA7.Repositories.Interfaces;
 using HFWebsiteA7.Repositories.Classes;
+using System.Text.RegularExpressions;
 
 namespace HFWebsiteA7.Controllers
 {
@@ -17,6 +18,7 @@ namespace HFWebsiteA7.Controllers
         IEventRepository eventRepository = new EventRepository();
         IConcertsRepository concertsRepository = new ConcertRepository();
         IPassPartoutTypeRepository passPartoutTypeRepository = new PassPartoutTypeRepository();
+        IOrderRepository orderRepository = new OrderRepository();
 
         private Reservation reservation;
 
@@ -37,11 +39,35 @@ namespace HFWebsiteA7.Controllers
 
         public ActionResult Checkout()
         {
-            return View();
+            CheckoutViewModel vm = new CheckoutViewModel();
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public ActionResult Checkout(CheckoutViewModel vm)
+        {
+            string email = vm.Email;
+            string code = GenerateCode();
+
+            Order newOrder = new Order
+            {
+                EmailAddress = email,
+                Code = code
+            };
+
+            orderRepository.AddOrder(newOrder);
+
+            Order order = orderRepository.GetOrderByEmailCode(email, code);
+            
+
+
+            return RedirectToAction("Conformation", "Home");
         }
 
         public ActionResult Conformation()
         {
+
             return View();
         }
 
@@ -49,12 +75,12 @@ namespace HFWebsiteA7.Controllers
         {
             BasketViewModel vm = new BasketViewModel();
 
-            if((Reservation)Session["Reservation"] != null)
+            if ((Reservation)Session["Reservation"] != null)
             {
                 reservation = (Reservation)Session["Reservation"];
             }
-            
-            if(reservation != null)
+
+            if (reservation != null)
             {
                 if (reservation.Tickets != null)
                 {
@@ -73,15 +99,15 @@ namespace HFWebsiteA7.Controllers
 
                 decimal totalPrice = 0;
 
-                if(vm.Tickets != null)
+                if (vm.Tickets != null)
                 {
                     foreach (ConcertTicket ct in vm.Tickets)
                     {
                         totalPrice += ct.Ticket.Count * ct.Concert.Hall.Price;
                     }
                 }
-               
-                if(vm.Partoutdays != null)
+
+                if (vm.Partoutdays != null)
                 {
                     foreach (PassParToutDay pd in vm.Partoutdays)
                     {
@@ -89,8 +115,8 @@ namespace HFWebsiteA7.Controllers
                         totalPrice += pd.Count * dayPrice;
                     }
                 }
-                
-                if(vm.ParToutWeek != null)
+
+                if (vm.ParToutWeek != null)
                 {
                     decimal weekPrice = passPartoutTypeRepository.GetPassPartoutType(4).Price;
 
@@ -99,8 +125,21 @@ namespace HFWebsiteA7.Controllers
 
                 vm.TotalPrice = (double)totalPrice;
             }
-    
+
             return View(vm);
+        }
+
+        private string GenerateCode()
+        {
+            Random rn = new Random();
+            string charsToUse = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+            MatchEvaluator RandomChar = delegate (Match m)
+            {
+                return charsToUse[rn.Next(charsToUse.Length)].ToString();
+            };
+
+            return Regex.Replace("XXXXXX", "X", RandomChar);
         }
     }
 }

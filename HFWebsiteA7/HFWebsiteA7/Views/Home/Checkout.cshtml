@@ -1,4 +1,5 @@
-﻿
+﻿@model HFWebsiteA7.ViewModels.CheckoutViewModel
+
 @{
     ViewBag.Title = "Checkout";
 }
@@ -8,23 +9,18 @@
 }
 
 <div class="container">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
     <div class="row">
         <div class="col-sm-6">
             <h2>Please fill in the fields below</h2>
             <p>Please provide the following information so we can book the ticket on your name and mail them to your e-mail address.</p>
 
-            <form>
-                First name:<br>
-                <input type="text" name="firstname">
-                <br>
-                Last name:<br>
-                <input type="text" name="lastname">
-                <br>
-                Email:<br>
-                <input type="text" name="firstname">
-                <br><br>
-            </form>
-
+                    <p>Email:</p>
+                    @Html.TextBoxFor(m => m.Email)
+                    <br><br>
+            
         </div>
 
         <div class="col-sm-6">
@@ -41,7 +37,7 @@
 
         </div>
     </div>
-    
+
 
     <div class="row">
         <button class="mLinkButton" onclick="goBack()">Go Back</button>
@@ -50,8 +46,7 @@
                 window.history.back();
             }
         </script>
-        @Html.ActionLink("Confirm reservation", "Conformation", "Home", null, new { @class = "mLinkButtonBasket" })
-
+        <input type="submit" value="Confirm reservation" class="mLinkButtonBasket" />
     </div>
-
+}
 </div>

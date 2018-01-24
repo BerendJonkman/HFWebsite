@@ -12,5 +12,7 @@ namespace HFWebsiteA7.Repositories.Interfaces
         IEnumerable<Order> GetAllOrders();
         Order GetOrder(int orderId);
         void AddOrder(Order order);
+        Order GetOrderByEmail(string email);
+        Order GetOrderByEmailCode(string email, string code);
     }
 }
