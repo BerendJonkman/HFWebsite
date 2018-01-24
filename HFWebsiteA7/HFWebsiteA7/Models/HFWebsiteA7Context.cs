@@ -32,7 +32,7 @@ namespace HFWebsiteA7.Models
         public DbSet<Concert> Concerts { get; set; }
         public DbSet<FoodType> FoodTypes { get; set; }
         public DbSet<Event> Events { get; set; }
-        public DbSet<PreTicket> Tickets { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<AdminUser> AdminUsers { get; set; }
         public DbSet<PassPartoutOrder> PassPartoutOrder { get; set; }

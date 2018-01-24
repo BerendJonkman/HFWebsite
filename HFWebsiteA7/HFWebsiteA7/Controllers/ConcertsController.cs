@@ -61,8 +61,6 @@ namespace HFWebsiteA7.Controllers
             return View(concertRepository.CreateFestivalDay(day));
         }
 
-
-
         public ActionResult Reservation(int dayId, int? concertId)
         {
             ReservationViewModel vm = new ReservationViewModel
