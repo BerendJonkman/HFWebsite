@@ -28,6 +28,8 @@ namespace HFWebsiteA7.Controllers
         private IBandRepository bandRepository = new BandRepository();
         private ILocationRepository locationRepository = new LocationRepository();
         private IAdminUserRepository adminUserRepository = new AdminUserRepository();
+        private IEventRepository eventRepository = new EventRepository();
+        private string imagePath = "~/Content/Content-images/JazzImages/BandImages/";
 
         // GET: Admin
         public ActionResult Index()
@@ -70,16 +72,14 @@ namespace HFWebsiteA7.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditBand(AdminBand adminBand)
+        public ActionResult CreateBand(AdminBand adminBand)
         {
-            var type = EventTypeEnum.Band;
+            var type = EventTypeEnum.Bands;
             if (ModelState.IsValid)
             {
-                
-
-                var filename = Regex.Replace(adminBand.Band.Name, @"\s+", "") + ".jpg";
-                var path = Path.Combine(Server.MapPath("~/Content/Content-images/JazzImages/BandImages/"), filename);
-                adminBand.Band.ImagePath = "~/Content/Content-images/JazzImages/BandImages/" + filename;
+                var filename = CreateFileName(adminBand.Band.Name);
+                var path = Path.Combine(Server.MapPath(imagePath), filename);
+                adminBand.Band.ImagePath = imagePath + filename;
                 Image sourceimage = Image.FromStream(adminBand.File.InputStream);
                 sourceimage.Save(path, ImageFormat.Jpeg);
 
@@ -90,6 +90,39 @@ namespace HFWebsiteA7.Controllers
             return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
         }
 
+        [HttpPost]
+        public ActionResult CreateConcert(AdminConcert adminConcert)
+        {
+            var type = EventTypeEnum.Concerts;
+            if (ModelState.IsValid)
+            {
+                Event newEvent = new Event()
+                {
+
+                };
+                eventRepository.AddEvent(adminConcert.Event);
+                
+                concertRepository.AddConcert(adminConcert.Concert);
+            }
+            return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
+        }
+
+        [HttpPost]
+        public ActionResult CreateLocation(Location location)
+        {
+            var type = EventTypeEnum.Locations;
+            if (ModelState.IsValid)
+            {
+                locationRepository.AddLocation(location);
+            }
+            return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
+        }
+
+        private string CreateFileName(string name)
+        {
+            return Regex.Replace(name, @"\s+", "") + ".jpg";
+        }
+
         public AdminEventEditViewModel CreateAdminEventEditViewModel(EventTypeEnum type)
         {
             AdminEventEditViewModel vm = new AdminEventEditViewModel
@@ -98,19 +131,20 @@ namespace HFWebsiteA7.Controllers
             };
             switch (type)
             {
-                case EventTypeEnum.Band:
+                case EventTypeEnum.Bands:
                     vm.ObjectList = bandRepository.GetAllBands().ToList<object>();
                     vm.AdminBand = new AdminBand();
                     break;
-                case EventTypeEnum.Concert:
+                case EventTypeEnum.Concerts:
                     vm.ObjectList = concertRepository.GetAllConcerts().ToList<object>();
                     break;
-                case EventTypeEnum.Dinner:
+                case EventTypeEnum.Restaurants:
                     vm.ObjectList = dinnerSessionRepository.GetAllDinnerSessions().ToList<object>();
                     var list = restaurantRepository.GetAllRestaurants();
                     var bla = restaurantFoodTypeRepository.GetFoodTypeByRestaurantId(list.First().Id);
                     break;
-                case EventTypeEnum.Location:
+                case EventTypeEnum.Locations:
+                    vm.Location = new Location();
                     vm.ObjectList = locationRepository.GetAllLocations().ToList<object>();
                     break;
             }
@@ -122,21 +156,61 @@ namespace HFWebsiteA7.Controllers
         public JsonResult GetBand(int bandId)
         {
             //int id = Int32.Parse(bandId);
-            Band adminBand = new Band();
-            foreach(Band band in bandRepository.GetAllBands())
-            {
-                if(band.Id == bandId)
-                {
-                    adminBand = band;
-                }
-            }
+            Band adminBand = bandRepository.GetBand(bandId);
+
             return Json(adminBand, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public void PostBand(string name, string description)
+        [HttpGet]
+        public JsonResult GetLocation(int locationId)
         {
+            Location location = locationRepository.GetLocation(locationId);
+            return Json(location, JsonRequestBehavior.AllowGet);
+        }
 
+        [HttpGet]
+        public JsonResult GetConcert(int concertId)
+        {
+            Concert concert = concertRepository.GetConcert(concertId);
+            return Json(concert, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public void UpdateBand(int bandId, string name, string description)
+        {
+            Band band = new Band()
+            {
+                Id = bandId,
+                Name = name,
+                Description = description,
+                ImagePath = imagePath + CreateFileName(name)
+        };
+            bandRepository.UpdateBand(band);
+        }
+
+        [HttpPost]
+        public void UpdateConcert()
+        {
+            Concert concert = new Concert()
+            {
+
+            };
+        }
+
+        [HttpPost]
+        public void UpdateLocation(int locationId, string name, string street, string houseNumber, string city, string zipCode)
+        {
+            var location = new Location()
+            {
+                Id = locationId,
+                Name = name,
+                Street = street,
+                HouseNumber = houseNumber,
+                City = city,
+                ZipCode = zipCode
+            };
+
+            locationRepository.UpdateLocation(location);
         }
 
         [HttpPost]
@@ -148,7 +222,23 @@ namespace HFWebsiteA7.Controllers
 
                 var fileName = Path.GetFileName(file.FileName);
 
-                var path = Path.Combine(Server.MapPath("~/App_Data/"), fileName);
+                var path = Path.Combine(Server.MapPath(imagePath), fileName);
+
+                Image sourceimage = Image.FromStream(file.InputStream);
+                sourceimage.Save(path, ImageFormat.Jpeg);
+            }
+        }
+
+        [HttpGet]
+        public void RemoveBand(int bandId)
+        {
+            Band band = bandRepository.GetBand(bandId);
+            bandRepository.removeBand(band);
+            
+            string fullPath = Request.MapPath(band.ImagePath);
+            if (System.IO.File.Exists(fullPath))
+            {
+                System.IO.File.Delete(fullPath);
             }
         }
     }

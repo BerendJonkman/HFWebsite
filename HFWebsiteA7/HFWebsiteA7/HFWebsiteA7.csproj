@@ -173,6 +173,7 @@
     <Compile Include="Repositories\Interfaces\IPassPartoutOrderRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPassPartoutTypeRepository.cs" />
     <Compile Include="ViewModels\AdminBand.cs" />
+    <Compile Include="ViewModels\AdminConcert.cs" />
     <Compile Include="ViewModels\AdminEventEditViewModel.cs" />
     <Compile Include="Models\AdminRestaurant.cs" />
     <Compile Include="Models\Band.cs" />
@@ -354,7 +355,9 @@
     <Content Include="Views\Admin\PartialViews\Band.cshtml" />
     <Content Include="Views\Admin\PartialViews\Concert.cshtml" />
     <Content Include="Views\Admin\PartialViews\AdminRestaurant.cshtml" />
-    <Content Include="Views\Admin\PartialViews\EditBand.cshtml" />
+    <Content Include="Views\Admin\PartialViews\CreateBand.cshtml" />
+    <Content Include="Views\Admin\PartialViews\Location.cshtml" />
+    <Content Include="Views\Admin\PartialViews\CreateLocation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

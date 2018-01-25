@@ -6,77 +6,178 @@
     ViewBag.Title = "AdminEventEdit";
 }
 
-<a href=@Url.Action("Index", "Admin") class="mLinkButton">Back to admin overview</a>
+
 <div>
-    <h1>Choose an event:</h1>
-    <select>
-        <option value="Dinner">Dinner in Haarlem</option>
-        <option value="Jazz">Jazz@Patronaat</option>
-    </select>
+    <div class="row" style="padding-top:10px">
+        <div class="col-md-2">
+            <a href=@Url.Action("AdminSelection", "Admin") class="mLinkButton" style="margin-top:20px">Back to admin overview</a>
+        </div>
+    </div>
+    <hr/>
+    <h1>@Model.EventType.ToString()</h1>
 
 
+    <button class="mLinkButton" onclick="showDiv()" id="newButton" style="margin-left:15px">New</button>
+       
     <div class="container">
-        <button class="mLinkButton" onclick="showDiv()">Create new band</button>
+       
+       
         <div class="container-fluid" style="display:none" id="divCreate">
-
-            <hr />
-            @if (Model.EventType.Equals(EventTypeEnum.Band))
+            @if (Model.EventType.Equals(EventTypeEnum.Bands))
             {
-                @Html.Partial("PartialViews/EditBand", Model.AdminBand);
+                @Html.Partial("PartialViews/CreateBand", new AdminBand());
+            }
+            else if(Model.EventType.Equals(EventTypeEnum.Locations))
+            {
+                @Html.Partial("PartialViews/CreateLocation", new Location());
             }
         </div>
-        @if (Model.EventType.Equals(EventTypeEnum.Dinner))
+        @if (Model.EventType.Equals(EventTypeEnum.Restaurants))
         {
             @Html.Partial("PartialViews/AdminRestaurant", Model.ObjectList.Cast<AdminRestaurant>().ToList());
         }
-        else if (Model.EventType.Equals(EventTypeEnum.Concert))
+        else if (Model.EventType.Equals(EventTypeEnum.Concerts))
         {
             @Html.Partial("PartialViews/Concert", Model.ObjectList.Cast<Concert>().ToList());
         }
-        else if (Model.EventType.Equals(EventTypeEnum.Band))
+        else if (Model.EventType.Equals(EventTypeEnum.Bands))
         {
             @Html.Partial("PartialViews/Band", Model.ObjectList.Cast<Band>().ToList());
+        }
+        else if (Model.EventType.Equals(EventTypeEnum.Locations))
+        {
+            @Html.Partial("PartialViews/Location", Model.ObjectList.Cast<Location>().ToList());
         }
     </div>
 </div>
 
 <dialog id="addDialog">
-    <div class="row">
-        <div class="col-md-6">
+    <div style="margin:10px">
+        @if (Model.EventType.Equals(EventTypeEnum.Bands))
+        {
             <div class="row">
-                <div class="col-md-4">
-                    <h4>Name</h4>
-                    <input type="text" id="Name" />
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4>Name</h4>
+                            <input type="text" id="Name" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Description</h4>
+                            <textarea type="text" id="Description" rows="10" cols="70"></textarea>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>Description</h4>
-                    <textarea type="text" id="Description" rows="10" cols="70"></textarea>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-4">
-                    <h4>Image</h4>
-                    <img src="@Url.Content("~/uploads/FileUpload12011_03_02_11_49_22.jpg")" alt="IMAGES" id="bandImage" width="255" height="75" style="margin-bottom: 5px" />
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4>Image</h4>
+                            <img src="@Url.Content("~/uploads/FileUpload12011_03_02_11_49_22.jpg")" alt="IMAGES" id="bandImage" width="255" height="75" style="margin-bottom: 5px" />
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input type="file" name=File id="BandImageFile" accept="image/jpeg, image/png,image/jpg" onchange="" />
+                            <br />
+                        </div>
+                    </div>
                 </div>
 
             </div>
 
             <div class="row">
-                <div class="col-md-8">
-                    <input type="file" name=File id="BandImageFile" accept="image/jpeg, image/png,image/jpg" onchange="newBandImage()"/>
-                    <br />
+                <div class="col-md-2">
+                    <input type="submit" value="Save" class="mLinkButton" onClick="saveBandData()" />
+                </div>
+                <div>
+                    <div class="col-md-2">
+                        <button onclick="cancelAddDialog()" class="mLinkButton">Cancel</button>
+                    </div>
+
                 </div>
             </div>
-        </div>
+        }
+        else if (Model.EventType.Equals(EventTypeEnum.Locations))
+        {
+            <div class="row">
+                <div class="form-group">
+                    <h4 class="titleStyle">Name</h4>
+                    <div class="col-md-10">
+                        <input type="text" id="DialogName" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <h4 class="titleStyle">Street</h4>
+                            <div class="col-md-10">
+                                <input type="text" id="DialogStreet" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h4 class="titleStyle">HouseNumber</h4>
+                            <div class="col-md-10">
+                                <input type="text" id="DialogHouseNumber" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-horizontal">
+
+
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <h4 class="titleStyle">City</h4>
+                                <div class="col-md-10">
+                                    <input type="text" id="DialogCity" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h4 class="titleStyle">Zipcode</h4>
+                                <div class="col-md-10">
+                                    <input type="text" id="DialogZipCode" />
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <input type="submit" value="Save" class="mLinkButton" onClick="saveLocationData()" />
+                </div>
+                <div>
+                    <div class="col-md-2">
+                        <button onclick="cancelAddDialog()" class="mLinkButton">Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+        }
+
 
     </div>
+    
+</dialog>
+<dialog id="removeDialog" style="padding:10px">
     <div class="row">
-        <div class="col-md-12">
-            <input type="submit" value="Save" class="mLinkButton" onClick="saveData()" />
+        <h3 style="margin-left:5px; margin-right:5px">
+            Do you really want to remove the band?
+        </h3>
+    </div>
+    <div class="row" style="margin-left: 20px">
+        <div class="col-md-4">
+            <button onclick="removeBand()" class="mLinkButton">Remove</button>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <button onclick="cancelRemoveDialog()" class="mLinkButton">Cancel</button>
         </div>
     </div>
 </dialog>
@@ -84,32 +185,90 @@
 <div id="snackbar">The data has been saved</div>
 
 <script type="text/javascript">
+    function cancelRemoveDialog() {
+        var removeDialog = document.getElementById('removeDialog');
+        removeDialog.close();
+    }
+
+    function cancelAddDialog() {
+        var addDialog = document.getElementById('addDialog');
+        addDialog.close();
+    }
+
+    function showRemoveDialog(adminBandId) {
+        console.log(adminBandId);
+        id = adminBandId;
+        var removeDialog = document.getElementById('removeDialog');
+        removeDialog.showModal();
+    }
+
+    function removeBand() {
+        $.ajax({
+            type: "GET",
+            url: '/Admin/RemoveBand',
+            data: { 'bandId': id },
+        }).done(function () {
+            location.reload();
+           
+        }).fail(function (xhr, status, errorThrown) {
+            alert(status);
+        });
+    }
+
     function showDiv() {
         if (document.getElementById('divCreate').style.display == "none") {
             document.getElementById('divCreate').style.display = "block";
+            document.getElementById('newButton').textContent = "Close";
         } else {
             document.getElementById('divCreate').style.display = "none";
+            document.getElementById('newButton').textContent = "New";
         }
     }
 
     var id = 0;
 
-    function showDialog(adminBandId) {
-        id = adminBandId;
+    function showBandDialog(selectedId) {
+        id = selectedId;
+            $.ajax({
+                url: '/Admin/GetBand',
+                type: 'GET',
+                data: { 'bandId': id },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    var url = response.ImagePath.substring(1);
+
+
+                    console.log(url);
+                    $("#bandImage").attr("src", url);
+                    document.getElementById("Name").value = response.Name;
+                    document.getElementById("Description").value = response.Description;
+                    var addDialog = document.getElementById('addDialog');
+                    addDialog.showModal();
+                },
+                error: function (error) {
+                    $(that).remove();
+                    DisplayError(error.statusText);
+                }
+            });       
+    }
+
+    function showLocationDialog(selectedId) {
+        id = selectedId;
         $.ajax({
-            url: '/Admin/GetBand',
+            url: '/Admin/GetLocation',
             type: 'GET',
-            data: { 'bandId': adminBandId },
+            data: { 'locationId': id },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-                var url = response.ImagePath.substring(1);
+                console.log(response);
+                document.getElementById("DialogName").value = response.Name;
+                document.getElementById("DialogStreet").value = response.Street;
+                document.getElementById("DialogHouseNumber").value = response.HouseNumber;
+                document.getElementById("DialogCity").value = response.City;
+                document.getElementById("DialogZipCode").value = response.ZipCode;
 
-
-                console.log(url);
-                $("#bandImage").attr("src", url);
-                document.getElementById("Name").value = response.Name;
-                document.getElementById("Description").value = response.Description;
                 var addDialog = document.getElementById('addDialog');
                 addDialog.showModal();
             },
@@ -117,71 +276,99 @@
                 $(that).remove();
                 DisplayError(error.statusText);
             }
-        });
+        });       
     }
 
-    function newBandImage(){
-        console.log('dit werkt tenminste');
+    function newBandImage() {
         formData = new FormData();
-        var file = $('#BandImageFile').files;
-        console.log(file)
-        formData.append("bandImage", file);
+        var totalFiles = document.getElementById("BandImageFile").files.length;
+        for (var i = 0; i < totalFiles; i++) {
+            var file = document.getElementById("BandImageFile").files[i];
+            formData.append("bandImage", file);
+        }
+        console.log(formData)
     }
     var formData;
-    $("#BandImageFile").change(function () {
-        console.log('dit werkt tenminste');
-        formData = new FormData();
-        var file = document.getElementById("BandImageFile").file;
-        
-        formData.append("bandImage", file);
-    });
 
+    function saveLocationData() {
 
-    function saveData() {
+    }
+
+    function saveBandData() {
         var name = document.getElementById("Name").value;
         var description = document.getElementById("Description").value;
-        
-        console.log(name);
+
         $.ajax({
             type: "POST",
-            url: '/Admin/PostBand',
-            data: { 'name': name, 'description': description },        
+            url: '/Admin/UpdateBand',
+            data: { 'bandId': id, 'name': name, 'description': description },
         }).done(function () {
-            if (formData != null) {
+            var totalFiles = document.getElementById("BandImageFile").files.length;
+            console.log(totalFiles)
+            if (totalFiles != 0) {
+                formData = new FormData();
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById("BandImageFile").files[i];
+                    fileName = name.replace(/\s/g, '') + ".jpg";
+
+                    console.log(file.name);
+                    file.name = fileName;
+                    console.log(file.name);
+                    formData.append("bandImage", file, fileName);
+                    console.log(formData);
+                }
                 saveBandImage();
             } else {
-                closeDialog();
+                location.reload();
             }
-            
+
         }).fail(function (xhr, status, errorThrown) {
             alert(status);
         });
     }
 
-    function closeDialog() {
-        var addDialog = document.getElementById('addDialog');
+    function closeDialog(snackbarText, dialogId) {
+        var addDialog = document.getElementById(dialogId);
         addDialog.close();
-
+        
         var x = document.getElementById("snackbar");
-        // Add the "show" class to DIV
+        x.textContent = snackbarText;
         x.className = "show";
-        // After 3 seconds, remove the show class from DIV
-        setTimeout(function () { x.className = x.className.replace("show", ""); location.reload(); }, 3000);
+        setTimeout(function () { x.className = x.className.replace("show", ""); ;  }, 3000);
     }
 
     function saveBandImage() {
-        console.log(formData)
         $.ajax({
             type: "POST",
             url: '/Admin/Upload',
             data: formData,
-            dataType: 'json',
             contentType: false,
             processData: false
         }).done(function () {
-            closeDialog();
-            }).fail(function (xhr, status, errorThrown) {
-                alert(xhr + ', ' + status + ', ' + errorThrown);
+            location.reload()
+        }).fail(function (xhr, status, errorThrown) {
+            alert(xhr + ', ' + status + ', ' + errorThrown);
+        });
+    }
+
+    function saveLocationData() {
+
+        var name = document.getElementById("DialogName").value;
+        var street = document.getElementById("DialogStreet").value;
+        var houseNumber = document.getElementById("DialogHouseNumber").value;
+        var city = document.getElementById("DialogCity").value;
+        var zipCode = document.getElementById("DialogZipCode").value;
+        $.ajax({
+            type: "POST",
+            url: '/Admin/UpdateLocation',
+            data: { 'locationId': id, 'name': name, 'street': street, 'houseNumber': houseNumber, 'city': city, 'zipCode': zipCode},
+        }).done(function () {
+
+            location.reload()
+            
+
+        }).fail(function (xhr, status, errorThrown) {
+            alert(status);
         });
     }
 </script>
