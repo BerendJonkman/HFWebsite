@@ -31,6 +31,10 @@
             {
                 @Html.Partial("PartialViews/CreateLocation", new Location());
             }
+            else if (Model.EventType.Equals(EventTypeEnum.Concerts))
+            {
+                @Html.Partial("PartialViews/CreateConcert", Model.AdminConcert);
+            }
         </div>
         @if (Model.EventType.Equals(EventTypeEnum.Restaurants))
         {

@@ -16,6 +16,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Diagnostics;
 
 namespace HFWebsiteA7.Controllers
 {
@@ -29,6 +30,8 @@ namespace HFWebsiteA7.Controllers
         private ILocationRepository locationRepository = new LocationRepository();
         private IAdminUserRepository adminUserRepository = new AdminUserRepository();
         private IEventRepository eventRepository = new EventRepository();
+        private IHallRepository hallRepository = new HallRepository();
+        private IDayRepository dayRepository = new DayRepository();
         private string imagePath = "~/Content/Content-images/JazzImages/BandImages/";
 
         // GET: Admin
@@ -88,20 +91,19 @@ namespace HFWebsiteA7.Controllers
                 return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
             }
             return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
-        }
+        }   
 
         [HttpPost]
         public ActionResult CreateConcert(AdminConcert adminConcert)
         {
             var type = EventTypeEnum.Concerts;
+            adminConcert.Concert.Discriminator = "Concert";
+            adminConcert.Concert.AvailableSeats = hallRepository.GetHall(adminConcert.Concert.HallId).Seats;
             if (ModelState.IsValid)
             {
-                Event newEvent = new Event()
-                {
-
-                };
-                eventRepository.AddEvent(adminConcert.Event);
-                
+              
+               // eventRepository.AddEvent(newEvent);
+                adminConcert.Concert.EventId = eventRepository.GetLastEvent().EventId;
                 concertRepository.AddConcert(adminConcert.Concert);
             }
             return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
@@ -129,6 +131,7 @@ namespace HFWebsiteA7.Controllers
             {
                 EventType = type
             };
+            var events = eventRepository.GetAllEvents();
             switch (type)
             {
                 case EventTypeEnum.Bands:
@@ -137,6 +140,8 @@ namespace HFWebsiteA7.Controllers
                     break;
                 case EventTypeEnum.Concerts:
                     vm.ObjectList = concertRepository.GetAllConcerts().ToList<object>();
+                   
+                    vm.AdminConcert = CreateAdminConcert();
                     break;
                 case EventTypeEnum.Restaurants:
                     vm.ObjectList = dinnerSessionRepository.GetAllDinnerSessions().ToList<object>();
@@ -152,10 +157,47 @@ namespace HFWebsiteA7.Controllers
             return vm;
         }
 
+        private AdminConcert CreateAdminConcert()
+        {
+            var bandList = bandRepository.GetAllBands().Select(x =>
+                                 new SelectListItem()
+                                 {
+                                     Text = x.Name.ToString(),
+                                     Value = x.Id.ToString()
+                                 });
+            var hallList = hallRepository.GetAllHalls().Select(x =>
+                           new SelectListItem()
+                           {
+                               Text = x.Name.ToString(),
+                               Value = x.Id.ToString()
+                           });
+            var locationList = locationRepository.GetAllLocations().Select(x =>
+                          new SelectListItem()
+                          {
+                              Text = x.Name.ToString(),
+                              Value = x.Id.ToString()
+                          });
+            var dayList = dayRepository.GetAllDays().Select(x =>
+                          new SelectListItem()
+                          {
+                              Text = x.Name.ToString(),
+                              Value = x.Id.ToString()
+                          });
+            var adminConcert = new AdminConcert()
+            {
+                BandList = bandList,
+                LocationList = locationList,
+                HallList = hallList,
+                DayList = dayList,
+                Concert = new Concert()
+            };
+
+            return adminConcert;
+        }
+
         [HttpGet]
         public JsonResult GetBand(int bandId)
         {
-            //int id = Int32.Parse(bandId);
             Band adminBand = bandRepository.GetBand(bandId);
 
             return Json(adminBand, JsonRequestBehavior.AllowGet);
@@ -189,10 +231,19 @@ namespace HFWebsiteA7.Controllers
         }
 
         [HttpPost]
-        public void UpdateConcert()
+        public void UpdateConcert(int eventId, int dayId, int locationId, int bandId, int hallId, decimal duration, string startTime)
         {
+            DateTime timeStartTime = Convert.ToDateTime(startTime);
+            Debug.WriteLine(timeStartTime);
+            int noOfSeats = hallRepository.GetHall(hallId).Seats;
+
             Concert concert = new Concert()
             {
+                EventId = eventId,
+                LocationId = locationId,
+                BandId = bandId,
+                HallId = hallId,
+                Duration = duration
 
             };
         }

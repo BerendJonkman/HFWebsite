@@ -24,12 +24,23 @@ namespace HFWebsiteA7.Repositories.Classes
 
         public Event GetLastEvent()
         {
-            return db.Events.LastOrDefault();
+            return GetAllEvents().Last();
         }
 
         public Event GetEvent(int eventId)
         {
             return db.Events.Find(eventId);
+        }
+
+        public void UpdateEvent(Event myEvent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteEvent(Event myEvent)
+        {
+            db.Events.Remove(myEvent);
+            db.SaveChanges();
         }
     }
 }

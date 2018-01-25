@@ -15,8 +15,6 @@ namespace HFWebsiteA7.Repositories.Classes
         public void AddLocation(Location location)
         {
             db.Locations.Add(location);
-            Debug.WriteLine(location.Id);
-
             db.SaveChanges();
         }
 

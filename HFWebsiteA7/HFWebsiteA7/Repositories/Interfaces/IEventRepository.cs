@@ -12,5 +12,8 @@ namespace HFWebsiteA7.Repositories.Interfaces
         IEnumerable<Event> GetAllEvents();
         Event GetEvent(int eventId);
         void AddEvent(Event myEvent);
+        void UpdateEvent(Event myEvent);
+        void DeleteEvent(Event myEvent);
+        Event GetLastEvent();
     }
 }
