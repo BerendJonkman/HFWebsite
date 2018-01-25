@@ -1,9 +1,5 @@
 ﻿@model HFWebsiteA7.ViewModels.CheckoutViewModel
 
-@{
-    ViewBag.Title = "Checkout";
-}
-
 @section Banner {
     <div style="margin-top: 50px; background-image: url(../../Content/Content-images/Home/IndexBanner.jpg); background-repeat: round; height: 300px"></div>
 }
@@ -39,6 +35,7 @@
 
     <div class="row">
         <button class="mLinkButton" onclick="goBack()">Go Back</button>
+
         <script>
             function goBack() {
                 window.history.back();

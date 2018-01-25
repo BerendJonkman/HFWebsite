@@ -12,5 +12,6 @@ namespace HFWebsiteA7.Repositories.Interfaces
         IEnumerable<Day> GetAllDays();
         Day GetDay(int dayId);
         void AddDay(Day day);
+        Day GetDayByName(string dayName);
     }
 }

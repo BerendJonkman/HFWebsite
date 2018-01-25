@@ -57,14 +57,14 @@
                 {
                     if (Model.Tickets != null)
                     {
-                        foreach (object ticket in Model.Tickets)
+                        for(int i = 0; i < Model.Tickets.Count; i++)
                         {
-                            if (ticket is ConcertTicket)
+                            if (Model.Tickets[i] is ConcertTicket)
                             {
-                                var t = (ConcertTicket)ticket;
+                                var t = (ConcertTicket)Model.Tickets[i];
                                 <tr>
                                     <td>
-                                        @t.Ticket.Count
+                                        @Html.EditorFor(Model => t.Ticket.Count, new { htmlAttributes = new { @class = "form-control", @min = "0", @width = "15px", @value = t.Ticket.Count } })
                                     </td>
                                     <td>
                                         @t.Concert.Band.Name
@@ -84,7 +84,7 @@
                     {
                         <tr>
                             <td>
-                                @Model.ParToutWeek.Count
+                                @Html.EditorFor(Model => Model.ParToutWeek.Count, new { htmlAttributes = new { @class = "form-control", @min = "0", @width = "15px", @value = Model.ParToutWeek.Count } })
                             </td>
                             <td>
                                 Pass par Tout for all concerts
@@ -128,14 +128,11 @@
     </div>
 
     <div>
-        <button class="mLinkButton" onclick="goBack()">Go Back</button>
-        <script>
-            function goBack() {
-                window.history.back();
-            }
-        </script>
-        @Html.ActionLink("Go to checkout", "Checkout", "Home", null, new { @class = "mLinkButtonBasket" })
-
+        <div class="form-group col-sm-offset-8 col-sm-2">
+            <input type="submit" value="Go to checkout" class="mLinkButton" />
+        </div>
+        
+       <!-- %Html.ActionLink("Go to checkout", "Checkout", "Home", null, new { %class = "mLinkButtonBasket" })  --> 
     </div>
     
     <div>
@@ -166,5 +163,6 @@
             <a href="@Url.Action("Index", "Restaurants")" class="mLinkButton">Look at participation restaurants!</a>
         </div>
     </div>
-
 </div>
+
+        

@@ -21,6 +21,7 @@ namespace HFWebsiteA7.Controllers
         IPassPartoutOrderRepository passPartoutOrderRepository = new PassPartoutOrderRepository();
         IOrderRepository orderRepository = new OrderRepository();
         ITicketRepository ticketRepository = new TicketRepository();
+        IDayRepository dayRepository = new DayRepository();
 
         private Reservation reservation;
 
@@ -36,6 +37,73 @@ namespace HFWebsiteA7.Controllers
 
         public ActionResult ContactSend()
         {
+            return View();
+        }
+
+        public ActionResult PersonalAgenda()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult PersonalAgenda(PersonalAgendaViewModel vm)
+        {
+            Session["PersonalAgenda"] = null;
+
+            if (ModelState.IsValid)
+            {
+                Order order = orderRepository.GetOrderByEmailCode(vm.Email, vm.Code);
+
+                if (order != null)
+                {
+                    List<Ticket> concertTickets = ticketRepository.GetTicketsByOrderId(order.Id).ToList();
+                    if (concertTickets != null)
+                    {
+                        vm.EventIdList = concertTickets.Select(x => x.EventId).Distinct().ToList();
+                    }
+
+                    List<PassPartoutOrder> passParToutTickets = passPartoutOrderRepository.GetPassParToutByOrderId(order.Id).ToList();
+                    if (passParToutTickets != null)
+                    {
+                        vm.PassPartoutTypeList = passParToutTickets.Select(x => x.PassPartoutId).Distinct().ToList();
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("notFoundError", "No order was found with this email and code");
+                }
+
+                Session["PersonalAgenda"] = vm;
+                return RedirectToAction("ShowPersonalAgenda", "Home");
+            }
+
+            return View();
+        }
+
+        public ActionResult ShowPersonalAgenda()
+        {
+            if(Session["PersonalAgenda"] != null)
+            {
+                PersonalAgendaViewModel vm = (PersonalAgendaViewModel)Session["PersonalAgenda"];
+                if(vm.EventIdList != null)
+                {
+                    vm.EventList = new List<Event>();
+                    vm.ConcertList = new List<Concert>();
+
+                    foreach (int e in vm.EventIdList)
+                    {
+                        Event evnt = eventRepository.GetEvent(e);
+                        vm.EventList.Add(evnt);
+                        if(evnt.Discriminator.Equals("Concert"))
+                        {
+                            vm.ConcertList.Add(concertsRepository.GetConcert(e));
+                        }
+                    }
+                }
+
+                return View(vm);
+            }
+
             return View();
         }
 
@@ -56,7 +124,6 @@ namespace HFWebsiteA7.Controllers
                 List<object> tickets = new List<object>();
                 List<PassParToutDay> passParToutDays = new List<PassParToutDay>();
                 PassParToutWeek passParToutWeek = new PassParToutWeek();
-
 
                 if ((Reservation)Session["Reservation"] != null)
                 {
@@ -99,7 +166,12 @@ namespace HFWebsiteA7.Controllers
                         ticket.EventId = pt.EventId;
                         ticket.OrderId = order.Id;
 
-                        ticketRepository.AddTicket(ticket);
+                        for (int i = 0; i < ct.Ticket.Count; i++)
+                        {
+                            ticketRepository.AddTicket(ticket);
+                        }
+
+                        eventRepository.LowerAvailableSeats(ct.Ticket.EventId, ct.Ticket.Count);
                     }
                 }
 
@@ -126,6 +198,10 @@ namespace HFWebsiteA7.Controllers
                     {
                         passPartoutOrderRepository.AddPassPartoutOrder(passPartoutOrder);
                     }
+
+                    Day day = dayRepository.GetDayByName(pd.Day);
+
+                    eventRepository.LowerAvailableSeatsforDay(day.Id, pd.Count);
                 }
 
                 if (passParToutWeek.Count > 0)
@@ -151,7 +227,11 @@ namespace HFWebsiteA7.Controllers
                     {
                         passPartoutOrderRepository.AddPassPartoutOrder(passPartoutOrderWeek);
                     }
+
+                    eventRepository.LowerAllAvailableSeats(passParToutWeek.Count);
+
                 }
+
 
                 //Leeg de session want de items zijn in de database gezet
                 Session["Reservation"] = null;
@@ -224,6 +304,14 @@ namespace HFWebsiteA7.Controllers
             }
 
             return View(vm);
+        }
+
+        [HttpPost]
+        public ActionResult Basket(BasketViewModel vmNew)
+        {
+            
+
+            return RedirectToAction("Go to checkout", "Checkout");
         }
 
         private string GenerateCode()

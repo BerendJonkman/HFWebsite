@@ -27,6 +27,7 @@
                     <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Concerts" ? "active" : "")">@Html.ActionLink("Jazz@Patronaat", "Index", "Concerts")</li>
                     <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Dinner" ? "active" : "")">@Html.ActionLink("Dinner in Haarlem", "Index", "Dinner")</li>
                     <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")">@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "PersonalAgenda" ? "active" : "")">@Html.ActionLink("Personal Agenda", "PersonalAgenda", "Home")</li>
                 </ul>
                 <ul class="navbar-right">
                     <li style="list-style: none;">
