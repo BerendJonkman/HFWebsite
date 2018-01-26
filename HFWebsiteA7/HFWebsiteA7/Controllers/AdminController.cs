@@ -97,7 +97,7 @@ namespace HFWebsiteA7.Controllers
         public ActionResult CreateConcert(AdminConcert adminConcert)
         {
             var type = EventTypeEnum.Concerts;
-            adminConcert.Concert.Discriminator = "Concert";
+            adminConcert.Concert.TableType = "Concert";
             adminConcert.Concert.AvailableSeats = hallRepository.GetHall(adminConcert.Concert.HallId).Seats;
             if (ModelState.IsValid)
             {

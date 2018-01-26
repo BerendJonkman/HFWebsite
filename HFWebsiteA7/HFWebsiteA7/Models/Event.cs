@@ -16,5 +16,6 @@ namespace HFWebsiteA7.Models
         public virtual int AvailableSeats { get; set; }
         [NotMapped]
         public virtual string Discriminator { get; set; }
+        public virtual string TableType { get; set; }
     }
 }
