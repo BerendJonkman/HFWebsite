@@ -27,6 +27,23 @@ namespace HFWebsiteA7.Repositories.Classes
             return db.DinnerSessions.ToList();
         }
 
+        public IEnumerable<DinnerSession> GetAllDinnerSessionsByRestaurantId(int restaurantId)
+        {
+            List<DinnerSession> allSessions = db.DinnerSessions.ToList();
+            List<DinnerSession> restaurantSessions = new List<DinnerSession>();
+
+
+            foreach (DinnerSession dinnerSession in allSessions)
+            {
+                if(dinnerSession.RestaurantId == restaurantId)
+                {
+                    restaurantSessions.Add(dinnerSession);
+                }
+            }
+
+
+            return restaurantSessions;
+        }
         public DinnerSession GetDinnerSession(int dinnerSessionId)
         {
             return db.DinnerSessions.Find(dinnerSessionId);

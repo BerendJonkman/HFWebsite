@@ -1,7 +1,40 @@
-﻿
+﻿@using HFWebsiteA7.Models;
+@model HFWebsiteA7.Models.DinnerDetails
 @{
-    ViewBag.Title = "DetailsPage";
+    ViewBag.Title = Model.restaurant.Name;
 }
 
-<h2>DetailsPage</h2>
-
+<div class="container">
+    <div class="col-lg-6">
+        <h1>@Model.restaurant.Name</h1>
+        <div class="container" style="float:left; width:100%;">
+            <div class="row">
+                <div class="col-sm-3 restaurantboldarial">Cuisines: </div>
+                <span class="col-sm-9 restaurantarial">@Model.foodtype</span>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 restaurantboldarial">Rating: </div>
+                <span class="col-sm-9 restaurantarial">@Model.restaurant.Stars/5</span>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 restaurantboldarial">Price:  </div>
+                <span class="col-sm-9 restaurantarial">€@Model.restaurant.Price (or @Model.restaurant.ReducedPrice for children under 12)</span>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 restaurantboldarial">Duration: </div>
+                <span class="col-sm-9 restaurantarial">@Model.duration minutes</span>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 restaurantboldarial">Start Times: </div>
+                <span class="col-sm-9 restaurantarial">@Model.startTimes</span>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 restaurantboldarial">Description:  </div>
+                <span class="col-sm-9 restaurantarial">@Model.restaurant.Description</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" style="margin-top: 25px;">
+        <img src="~/Content/Content-images/RestaurantsImages/Restaurants/Inside/brinkman-inside.png" style="width:525px; " />
+    </div>
+</div>
