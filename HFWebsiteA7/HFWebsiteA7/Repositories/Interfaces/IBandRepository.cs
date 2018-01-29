@@ -12,5 +12,8 @@ namespace HFWebsiteA7.Repositories.Interfaces
         IEnumerable<Band> GetAllBands();
         Band GetBand(int bandId);
         void AddBand(Band band);
+
+        void UpdateBand(Band band);
+        void removeBand(Band band);
     }
 }

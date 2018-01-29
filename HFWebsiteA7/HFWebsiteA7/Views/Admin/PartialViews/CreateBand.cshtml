@@ -1,0 +1,47 @@
+﻿@using HFWebsiteA7.Models
+@model HFWebsiteA7.ViewModels.AdminBand
+
+<div class="container-fluid">
+@using (Html.BeginForm("CreateBand", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-md-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Name</h4>
+                    @Html.TextBoxFor(m => m.Band.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Band.Name)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Description</h4>
+                    @Html.TextAreaFor(m => m.Band.Description, new { htmlAttributes = new { @class = "form-control" }, rows = "10", cols = "80", style = "overflow: hidden;" })
+                    @Html.ValidationMessageFor(m => m.Band.Description)
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Image</h4>
+                </div>
+
+            </div>
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <input type="file" name=File id="File" accept="image/jpeg, image/png,image/jpg" />
+                    <br />
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <input type="submit" value="Save" class="mLinkButton" />
+        </div>
+    </div>
+}
+</div>

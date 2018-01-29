@@ -25,5 +25,21 @@ namespace HFWebsiteA7.Repositories
         {
             return db.Bands.Find(bandId);
         }
+
+        public void removeBand(Band band)
+        {
+            db.Bands.Remove(band);
+            db.SaveChanges();
+        }
+
+        public void UpdateBand(Band band)
+        {
+            var result = GetBand(band.Id);
+            result.Name = band.Name;
+            result.ImagePath = band.ImagePath;
+            result.Description = band.Description;
+
+            db.SaveChanges();
+        }
     }
 }

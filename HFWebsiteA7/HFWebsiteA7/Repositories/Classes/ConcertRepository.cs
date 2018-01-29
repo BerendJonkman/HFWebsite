@@ -13,7 +13,8 @@ namespace HFWebsiteA7.Repositories.Classes
 
         public void AddConcert(Concert concert)
         {
-            db.Concerts.Add(concert);
+            
+            db.Events.Add(concert);
             db.SaveChanges();
         }
 

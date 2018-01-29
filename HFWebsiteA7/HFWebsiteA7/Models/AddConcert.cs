@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
 namespace HFWebsiteA7.Models
 {
-    [Table("Concerts")]
-    public class Concert : Event
+    public class AddConcert
     {
+        [Key]
+        public virtual int EventId { get; set; }
         public virtual int LocationId { get; set; }
-        public virtual Location Location { get; set; }
         public virtual int BandId { get; set; }
-        public virtual Band Band { get; set; } 
         public virtual int HallId { get; set; }
-        public virtual Hall Hall { get; set; }
         public virtual decimal Duration { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
         public virtual DateTime StartTime { get; set; }
     }
 }

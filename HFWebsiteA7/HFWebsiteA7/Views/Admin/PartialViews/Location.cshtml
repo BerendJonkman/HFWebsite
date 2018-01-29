@@ -1,0 +1,46 @@
+﻿@model IEnumerable<HFWebsiteA7.Models.Location>
+
+<table class="table" style="margin-top: 10px">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Street)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HouseNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ZipCode)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var location in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => location.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => location.Street)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => location.HouseNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => location.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => location.ZipCode)
+        </td>
+        <td>
+            <img src="~/Content/Content-images/Admin/ic_mode_edit_black_24dp_1x.png" alt="Edit Band" style="margin-right: 5px" onclick="javascript: showLocationDialog(@location.Id)" />
+        </td>
+    </tr>
+}
+
+</table>

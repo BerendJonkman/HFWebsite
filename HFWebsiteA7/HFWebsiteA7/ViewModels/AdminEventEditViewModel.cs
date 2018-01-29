@@ -10,6 +10,8 @@ namespace HFWebsiteA7.ViewModels
     {
         public EventTypeEnum EventType { get; set; }
         public List<object> ObjectList { get; set; }
-        public Band Band { get; set; }
+        public AdminBand AdminBand { get; set; }
+        public Location Location { get; set; }
+        public AdminConcert AdminConcert {get;set;}
     }
 }

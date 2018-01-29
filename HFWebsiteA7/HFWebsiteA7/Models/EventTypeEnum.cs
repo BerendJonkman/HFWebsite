@@ -7,6 +7,6 @@ namespace HFWebsiteA7.Models
 {
     public enum EventTypeEnum
     {
-        Concert, Dinner, Band, Location
+        Concerts, Restaurants, Bands, Locations
     }
 }

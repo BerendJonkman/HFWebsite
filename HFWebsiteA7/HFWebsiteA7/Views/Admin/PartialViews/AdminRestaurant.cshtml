@@ -1,0 +1,77 @@
+﻿@using HFWebsiteA7.Models
+@model IEnumerable<HFWebsiteA7.Models.AdminRestaurant>
+
+@foreach (AdminRestaurant adminRestaurant in Model)
+{
+    <hr />
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>Restaurant Name</h4>
+                        <p>@adminRestaurant.Restaurant.Location.Name</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Address</h4>
+                        <p>@adminRestaurant.Restaurant.Location.Street, @adminRestaurant.Restaurant.Location.ZipCode, Haarlem, Netherlands</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Cuisines</h4>
+                        <p>
+                            @foreach (FoodType foodType in adminRestaurant.FoodTypes)
+                            {
+                                @foodType
+                            }
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Description</h4>
+                        <p>@adminRestaurant.Restaurant.Description</p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h4>Sessions</h4>
+                                <p>@adminRestaurant.Sessions</p>
+                            </div>
+                            <div class="col-md-3">
+                                <h4>First Session</h4>0
+                                <p></p>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Seats</h4>
+                                <p>@adminRestaurant.Restaurant.Seats</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h4>Duration</h4>
+                                <p>@adminRestaurant.Duration</p>
+                            </div>
+                            <div class="col-md-3">
+                                <h4>Stars</h4>
+                                <p>@adminRestaurant.Restaurant.Stars</p>
+                            </div>
+                            <div class="col-md-3">
+                                <h4>Price</h4>
+                                <p>@adminRestaurant.Restaurant.Price</p>
+                            </div>
+                            <div class="col-md-3">
+                                <h4>Price (12-)</h4>
+                                <p>@adminRestaurant.Restaurant.ReducedPrice</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h4>Image</h4>
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+}

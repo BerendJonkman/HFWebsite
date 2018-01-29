@@ -40,6 +40,11 @@ namespace HFWebsiteA7.Repositories.Classes
             return db.Events.ToList();
         }
 
+        public Event GetLastEvent()
+        {
+            return GetAllEvents().Last();
+        }
+
         public Event GetEvent(int eventId)
         {
             return db.Events.Find(eventId);
