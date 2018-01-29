@@ -121,7 +121,7 @@ namespace HFWebsiteA7.Controllers
             {
                 string email = vm.Email;
                 string code = GenerateCode();
-                List<object> tickets = new List<object>();
+                List<BaseTicket> tickets = new List<BaseTicket>();
                 List<PassParToutDay> passParToutDays = new List<PassParToutDay>();
                 PassParToutWeek passParToutWeek = new PassParToutWeek();
 
@@ -156,7 +156,7 @@ namespace HFWebsiteA7.Controllers
 
                 Order order = orderRepository.GetOrderByEmailCode(email, code);
 
-                foreach (object ob in tickets)
+                foreach (BaseTicket ob in tickets)
                 {
                     if (ob is ConcertTicket ct)
                     {
@@ -309,9 +309,113 @@ namespace HFWebsiteA7.Controllers
         [HttpPost]
         public ActionResult Basket(BasketViewModel vmNew)
         {
-            
+            UpdateReservation(vmNew);
 
-            return RedirectToAction("Go to checkout", "Checkout");
+            return RedirectToAction("Checkout", "Home");
+        }
+
+        private void UpdateReservation(BasketViewModel vmNew)
+        {
+            List<BaseTicket> tickets = new List<BaseTicket>();
+            List<PassParToutDay> passParToutDays = new List<PassParToutDay>();
+            PassParToutWeek passParToutWeek = new PassParToutWeek();
+
+            if ((Reservation)Session["Reservation"] != null)
+            {
+                reservation = (Reservation)Session["Reservation"];
+            }
+
+            if (reservation != null)
+            {
+                if (reservation.Tickets != null)
+                {
+                    tickets = reservation.Tickets;
+                }
+                if (reservation.PassParToutDays != null)
+                {
+                    passParToutDays = reservation.PassParToutDays;
+                }
+                if (reservation.PassParToutWeek != null)
+                {
+                    passParToutWeek = reservation.PassParToutWeek;
+                }
+            }
+
+            if (vmNew.Tickets != null)
+            {
+                foreach (BaseTicket newBaseTicket in vmNew.Tickets)
+                {
+                    if(newBaseTicket.Count != 0)
+                    {
+                        foreach (BaseTicket oldBaseTicket in tickets)
+                        {
+                            if (newBaseTicket.Id == oldBaseTicket.Id)
+                            {
+                                oldBaseTicket.Count = newBaseTicket.Count;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (BaseTicket oldBaseTicket in tickets)
+                        {
+                            if (newBaseTicket.Id == oldBaseTicket.Id)
+                            {
+                                tickets.Remove(oldBaseTicket);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (vmNew.Partoutdays != null)
+            {
+                foreach (PassParToutDay pd in vmNew.Partoutdays)
+                {
+                    if (pd.Count != 0)
+                    {
+                        foreach (PassParToutDay pdd in passParToutDays)
+                        {
+                            if (pd.Day.Equals(pdd.Day))
+                            {
+                                pdd.Count = pd.Count;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (PassParToutDay pdd in passParToutDays)
+                        {
+                            if (pd.Day.Equals(pdd.Day))
+                            {
+                                passParToutDays.Remove(pdd);
+                                break;
+                            }
+                        }
+                    }
+                    
+                }
+            }
+
+            if (vmNew.ParToutWeek != null)
+            {
+                if (reservation.PassParToutWeek != null)
+                {
+                    passParToutWeek.Count = vmNew.ParToutWeek.Count;
+                }
+                else
+                {
+                    passParToutWeek = new PassParToutWeek
+                    {
+                        Count = vmNew.ParToutWeek.Count
+                    };
+                }
+            }
+
+            Session["Reservation"] = reservation;
         }
 
         private string GenerateCode()
