@@ -1,0 +1,45 @@
+﻿<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Name</h4>
+                <input type="text" id="Name" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Description</h4>
+                <textarea type="text" id="Description" rows="10" cols="70"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Image</h4>
+                <img src="@Url.Content("~/placeholder.jpg")" alt="IMAGES" id="bandImage" width="255" height="75" style="margin-bottom: 5px" />
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <input type="file" name=File id="BandImageFile" accept="image/jpeg, image/png,image/jpg" onchange="" />
+                <br />
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <input type="submit" value="Save" class="mLinkButton" onClick="saveBandData()" />
+    </div>
+    <div>
+        <div class="col-md-2">
+            <button onclick="cancelAddDialog()" class="mLinkButton">Cancel</button>
+        </div>
+
+    </div>
+</div>

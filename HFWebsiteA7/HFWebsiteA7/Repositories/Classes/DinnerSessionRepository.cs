@@ -22,6 +22,12 @@ namespace HFWebsiteA7.Repositories.Classes
             return db.DinnerSessions.GroupBy(d => d.RestaurantId == restaurantId).Count();
         }
 
+        public void DeleteDinnerSession(DinnerSession dinnerSession)
+        {
+            db.DinnerSessions.Remove(dinnerSession);
+            db.SaveChanges();
+        }
+
         public IEnumerable<DinnerSession> GetAllDinnerSessions()
         {
             return db.DinnerSessions.ToList();
@@ -29,21 +35,9 @@ namespace HFWebsiteA7.Repositories.Classes
 
         public IEnumerable<DinnerSession> GetAllDinnerSessionsByRestaurantId(int restaurantId)
         {
-            List<DinnerSession> allSessions = db.DinnerSessions.ToList();
-            List<DinnerSession> restaurantSessions = new List<DinnerSession>();
-
-
-            foreach (DinnerSession dinnerSession in allSessions)
-            {
-                if(dinnerSession.RestaurantId == restaurantId)
-                {
-                    restaurantSessions.Add(dinnerSession);
-                }
-            }
-
-
-            return restaurantSessions;
+            return db.DinnerSessions.Where(d => d.RestaurantId == restaurantId);
         }
+
         public DinnerSession GetDinnerSession(int dinnerSessionId)
         {
             return db.DinnerSessions.Find(dinnerSessionId);

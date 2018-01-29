@@ -155,7 +155,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AddConcert.cs" />
     <Compile Include="Models\AdminUser.cs" />
     <Compile Include="Models\ConcertTicket.cs" />
     <Compile Include="Models\DayEnum.cs" />
@@ -362,6 +361,10 @@
     <Content Include="Views\Admin\PartialViews\Location.cshtml" />
     <Content Include="Views\Admin\PartialViews\CreateLocation.cshtml" />
     <Content Include="Views\Admin\PartialViews\CreateConcert.cshtml" />
+    <Content Include="Views\Admin\PartialViews\EditBand.cshtml" />
+    <Content Include="Views\Admin\PartialViews\EditLocation.cshtml" />
+    <Content Include="Views\Admin\PartialViews\EditConcert.cshtml" />
+    <Content Include="Views\Admin\PartialViews\CreateAdminRestaurant.cshtml" />
     <Content Include="Views\Home\PersonalAgenda.cshtml" />
     <Content Include="Views\Home\ShowPersonalAgenda.cshtml" />
   </ItemGroup>

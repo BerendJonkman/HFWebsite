@@ -1,0 +1,81 @@
+﻿@using HFWebsiteA7.Models
+@model HFWebsiteA7.ViewModels.AdminConcert
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 id="BandText">Band</h3>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <h4 class="titleStyle">Location</h4>
+                <div class="col-md-10">
+                    <select id="LocationSelect" style="width: 200px">
+                        @foreach (var location in Model.LocationList)
+                        {
+                            <option value=@location.Value>@location.Text</option>
+                        }
+                    </select>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <h4 class="titleStyle">Hall</h4>
+                <div class="col-md-10">
+                    <select id="HallSelect" style="width: 200px">
+                        @foreach (var hall in Model.HallList)
+                        {
+                            <option value=@hall.Value>@hall.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <h4 class="titleStyle">Day</h4>
+                <div class="col-md-10">
+                    <p id="DayText"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <h4 class="titleStyle">StartTime</h4>
+                <div class="col-md-10">
+                    <input id="StartTimeTextBox" type="time" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <h4 class="titleStyle">Duration</h4>
+                <div class="col-md-10">
+                    <input type="number" id="DurationTextBox" style="width:50px" step=".5" />
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            <input type="submit" value="Save" class="mLinkButton" onClick="saveConcertData()" />
+        </div>
+        <div>
+            <div class="col-md-2">
+                <button onclick="cancelAddDialog()" class="mLinkButton">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+</div>
