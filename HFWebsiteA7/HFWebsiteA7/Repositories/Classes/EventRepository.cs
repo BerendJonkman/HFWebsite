@@ -50,6 +50,17 @@ namespace HFWebsiteA7.Repositories.Classes
             return db.Events.Find(eventId);
         }
 
+        public void UpdateEvent(Event myEvent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteEvent(Event myEvent)
+        {
+            db.Events.Remove(myEvent);
+            db.SaveChanges();
+        }
+
         public void LowerAvailableSeats(int eventId, int countToLower)
         {
             Event eventToLower = GetEvent(eventId);
