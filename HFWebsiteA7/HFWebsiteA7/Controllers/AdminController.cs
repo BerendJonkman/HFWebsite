@@ -34,7 +34,7 @@ namespace HFWebsiteA7.Controllers
         private IDayRepository dayRepository = new DayRepository();
         private IFoodTypeRepository foodTypeRepository = new FoodTypeRepository();
         private string bandImagePath = "~/Content/Content-images/JazzImages/BandImages/";
-        private string restaurantImagePath = "~/Content/Content-images/RestaurantImages/Restaurants/";
+        private string restaurantImagePath = "~/Content/Content-images/RestaurantsImages/Restaurants/";
 
         // GET: Admin
         public ActionResult Index()
@@ -103,9 +103,6 @@ namespace HFWebsiteA7.Controllers
             adminConcert.Concert.AvailableSeats = hallRepository.GetHall(adminConcert.Concert.HallId).Seats;
             if (ModelState.IsValid)
             {
-
-                // eventRepository.AddEvent(newEvent);
-                adminConcert.Concert.EventId = eventRepository.GetLastEvent().EventId;
                 concertRepository.AddConcert(adminConcert.Concert);
             }
             return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
@@ -134,32 +131,53 @@ namespace HFWebsiteA7.Controllers
                 adminRestaurant.Restaurant.ImagePath = restaurantImagePath + filename;
                 Image sourceimage = Image.FromStream(adminRestaurant.File.InputStream);
                 sourceimage.Save(path, ImageFormat.Jpeg);
-
                 restaurantRepository.AddRestaurant(adminRestaurant.Restaurant);
-                foreach(var day in dayRepository.GetAllDays())
+                foreach (var day in dayRepository.GetAllDays())
                 {
                     var startTime = adminRestaurant.StartTime;
                     for (var i = 0; i < adminRestaurant.Sessions; i++)
                     {
-                        var dinnerSession = new DinnerSession();
-                        dinnerSession.DayId = day.Id;
-                        dinnerSession.AvailableSeats = adminRestaurant.Restaurant.Seats;
-                        dinnerSession.RestaurantId = adminRestaurant.Restaurant.Id;
-                        dinnerSession.TableType = "DinnerSessions";
-                        if(i != 0)
+                        var dinnerSession = new DinnerSession
+                        {
+                            DayId = day.Id,
+                            AvailableSeats = adminRestaurant.Restaurant.Seats,
+                            RestaurantId = adminRestaurant.Restaurant.Id,
+                            Duration = adminRestaurant.Duration,
+                            TableType = "DinnerSessions"
+                        };
+                        if (i != 0)
                         {
                             startTime.AddHours((double)adminRestaurant.Duration);
                         }
                         dinnerSession.StartTime = startTime;
+                        dinnerSessionRepository.AddDinnerSession(dinnerSession);
                     }
                 }
+            }
+
+            foreach(var id in adminRestaurant.FoodTypeIdList)
+            {
+                RestaurantFoodType restaurantFoodType = new RestaurantFoodType()
+                {
+                    FoodTypeId = id,
+                    RestaurantId = restaurantRepository.GetLastRestaurant()
+                };
+                restaurantFoodTypeRepository.AddRestaurantFoodType(restaurantFoodType);
             }
             return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
         }
 
+        private Image GetImageFromStream(HttpPostedFileBase file)
+        {
+            using (var stream = file.InputStream)
+            {
+                return Image.FromStream(stream);
+            }
+        }
+
         private string CreateFileName(string name)
         {
-            return Regex.Replace(name, @"\s+", "") + ".jpg";
+            return Regex.Replace(name, @"\s+", "") + ".jpg".ToLower();
         }
 
         public AdminEventEditViewModel CreateAdminEventEditViewModel(EventTypeEnum type)
@@ -306,12 +324,19 @@ namespace HFWebsiteA7.Controllers
         }
 
         [HttpGet]
-        JsonResult GetAdminRestaurant(int restaurantId)
+        public JsonResult GetAdminRestaurant(int restaurantId)
         {
-            var adminRestaurant = new AdminRestaurant();
-            adminRestaurant.Restaurant = restaurantRepository.GetRestaurant(restaurantId);
-            adminRestaurant.FoodTypes = restaurantFoodTypeRepository.GetFoodTypeByRestaurantId(restaurantId).ToList();
-            adminRestaurant.Sessions = 0;
+            var adminRestaurant = new AdminRestaurant
+            {
+                Restaurant = restaurantRepository.GetRestaurant(restaurantId),
+                FoodTypeIdList = new List<int>(),
+                Sessions = 0
+            };
+            var foodTypes = restaurantFoodTypeRepository.GetFoodTypeByRestaurantId(restaurantId).ToList();
+            foreach (var foodType in foodTypes)
+            {
+                adminRestaurant.FoodTypeIdList.Add(foodType.Id);
+            }
             var first = true;
             foreach (var dinnerSession in dinnerSessionRepository.GetAllDinnerSessions())
             {
@@ -331,8 +356,13 @@ namespace HFWebsiteA7.Controllers
         }
 
         [HttpPost]
-        public void UpdateBand(int bandId, string name, string description)
+        public void UpdateBand(int bandId, string name, string description, bool imageChanged)
         {
+            Band oldBand = bandRepository.GetBand(bandId);
+            if (oldBand.Name != name && !imageChanged)
+            {
+                System.IO.File.Move(Path.Combine(Server.MapPath(bandImagePath), CreateFileName(oldBand.Name)), Path.Combine(Server.MapPath(bandImagePath), CreateFileName(name)));
+            }
             Band band = new Band()
             {
                 Id = bandId,
@@ -377,7 +407,7 @@ namespace HFWebsiteA7.Controllers
         }
 
         [HttpPost]
-        public void UpdateAdminRestaurant(int restaurantId, int availableSeats, string name, int locationId, decimal price, decimal reducedPrice, int stars, int seats, string description, int sessions, string startTime, int[] foodTypeArray, decimal duration)
+        public void UpdateAdminRestaurant(int restaurantId, int availableSeats, string name, int locationId, decimal price, decimal reducedPrice, int stars, string description, int sessions, string startTime, int[] foodTypeArray, decimal duration)
         {
             Restaurant restaurant = new Restaurant()
             {
@@ -386,7 +416,7 @@ namespace HFWebsiteA7.Controllers
                 LocationId = locationId,
                 Name = name,
                 Price = price,
-                Seats = seats,
+                Seats = availableSeats,
                 Stars = stars,
                 ReducedPrice = reducedPrice,
                 ImagePath = restaurantImagePath + CreateFileName(name)
@@ -418,10 +448,7 @@ namespace HFWebsiteA7.Controllers
             }
             else
             {
-                foreach (var dinnerSession in dinnerSessions)
-                {
-                    dinnerSessionRepository.DeleteDinnerSession(dinnerSession);
-                }
+                dinnerSessionRepository.DeleteDinnerSessions(dinnerSessions.ToList());
                 foreach (var day in dayRepository.GetAllDays())
                 {
                     for (var i = 0; i < Sessions; i++)
@@ -450,10 +477,7 @@ namespace HFWebsiteA7.Controllers
 
         private void UpdateRestaurantFoodTypes(int[] foodTypeArray, int restaurantId)
         {
-            foreach (var restaurantFoodType in restaurantFoodTypeRepository.GetRestaurantFoodTypesByRestaurantId(restaurantId))
-            {
-                restaurantFoodTypeRepository.DeleteRestaurantFoodType(restaurantFoodType);
-            }
+            restaurantFoodTypeRepository.DeleteRestaurantFoodTypes(restaurantFoodTypeRepository.GetRestaurantFoodTypesByRestaurantId(restaurantId).ToList());
 
             foreach (var id in foodTypeArray)
             {
@@ -468,7 +492,7 @@ namespace HFWebsiteA7.Controllers
         }
 
         [HttpPost]
-        public void Upload()
+        public void UploadBandImage()
         {
             for (int i = 0; i < Request.Files.Count; i++)
             {
@@ -478,6 +502,23 @@ namespace HFWebsiteA7.Controllers
 
                 var path = Path.Combine(Server.MapPath(bandImagePath), fileName);
 
+                Image sourceimage = Image.FromStream(file.InputStream);
+                sourceimage.Save(path, ImageFormat.Jpeg);
+            }
+        }
+
+        [HttpPost]
+        public void UploadRestaurantImage()
+        {
+            for (int i = 0; i < Request.Files.Count; i++)
+            {
+                var file = Request.Files[i];
+
+                var fileName = Path.GetFileName(file.FileName);
+
+                var path = Path.Combine(Server.MapPath(restaurantImagePath), fileName);
+
+                //file.SaveAs(path);
                 Image sourceimage = Image.FromStream(file.InputStream);
                 sourceimage.Save(path, ImageFormat.Jpeg);
             }

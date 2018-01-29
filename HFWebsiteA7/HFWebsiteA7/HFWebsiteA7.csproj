@@ -367,6 +367,7 @@
     <Content Include="Views\Admin\PartialViews\CreateAdminRestaurant.cshtml" />
     <Content Include="Views\Home\PersonalAgenda.cshtml" />
     <Content Include="Views\Home\ShowPersonalAgenda.cshtml" />
+    <Content Include="Views\Admin\PartialViews\EditAdminRestaurant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

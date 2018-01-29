@@ -22,9 +22,12 @@ namespace HFWebsiteA7.Repositories.Classes
             return db.DinnerSessions.GroupBy(d => d.RestaurantId == restaurantId).Count();
         }
 
-        public void DeleteDinnerSession(DinnerSession dinnerSession)
+        public void DeleteDinnerSessions(List<DinnerSession> dinnerSessions)
         {
-            db.DinnerSessions.Remove(dinnerSession);
+            foreach(DinnerSession dinnerSession in dinnerSessions)
+            {
+                db.DinnerSessions.Remove(dinnerSession);
+            }
             db.SaveChanges();
         }
 

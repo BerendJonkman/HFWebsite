@@ -22,6 +22,11 @@ namespace HFWebsiteA7.Repositories.Classes
             return db.Restaurants.ToList();
         }
 
+        public int GetLastRestaurant()
+        {
+            return GetAllRestaurants().Last().Id;
+        }
+
         public Restaurant GetRestaurant(int restaurantId)
         {
             return db.Restaurants.Find(restaurantId);

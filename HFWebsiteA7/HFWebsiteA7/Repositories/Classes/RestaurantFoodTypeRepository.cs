@@ -17,9 +17,12 @@ namespace HFWebsiteA7.Repositories.Classes
             db.SaveChanges();
         }
 
-        public void DeleteRestaurantFoodType(RestaurantFoodType restaurantFoodType)
+        public void DeleteRestaurantFoodTypes(List<RestaurantFoodType> restaurantFoodTypes)
         {
-            db.RestaurantFoodType.Remove(restaurantFoodType);
+            foreach(var restaurantFoodType in restaurantFoodTypes)
+            {
+                db.RestaurantFoodType.Remove(restaurantFoodType);
+            }
             db.SaveChanges();
         }
 

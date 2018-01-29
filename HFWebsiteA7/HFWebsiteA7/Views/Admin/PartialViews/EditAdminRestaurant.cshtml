@@ -1,0 +1,104 @@
+﻿@model HFWebsiteA7.Models.AdminRestaurant
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-5">
+                    <h4>Restaurant Name</h4>
+                    <input id="NameTextBox" type="text" />
+                </div>
+                <div class="col-md-7">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Address</h5>
+                            <select id="LocationSelect" style="width: 150px">
+                                @foreach (var location in Model.LocationList)
+                                {
+                                    <option value=@location.Value>@location.Text</option>
+                                }
+                            </select>
+
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Cuisines</h5>
+                            <select id="FoodTypeSelect" style="width: 150px" multiple>
+                                @foreach (var foodType in Model.FoodTypeSelectList)
+                                {
+                                    <option value=@foodType.Value>@foodType.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <h4>Description</h4>
+                    <textarea id="DescriptonTextArea" rows="5" , cols="25" style="overflow: hidden;"></textarea>
+                </div>
+                <div class="col-md-7">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Sessions</h5>
+                            <input id="SessionsTextBox" type="number" min="0" max="5" style="width: 50px" />
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Start Time</h5>
+                            <input id="StartTimeTextBox" type="time" style="width: 60px" />
+                        </div>
+                        <div class="col-md-5">
+                            <h5>Duration</h5>
+                            <input id="DurationTextBox" type="text" style="width: 50px" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>Seats</h5>
+                            <input id="SeatsTextBox" type="number" min="0" style="width: 50px" />
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Stars</h5>
+                            <input id="StarsTextBox" type="number" min="0" style="width: 50px" />
+
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Price</h5>
+                            <input id="PriceTextBox" type="number" min="0,00" style="width: 50px" />
+                        </div>
+                        <div class="col-md-2">
+                            <h5>Price (12-)</h5>
+                            <input id="LessPriceTextBox" type="text" min="0,00" style="width: 50px" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Image</h4>
+                    <img src="@Url.Content("~/placeholder.jpg")" alt="IMAGES" id="ConcertImage" class="restaurantimage" style="margin-bottom: 5px" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <input type="file" name=File id="RestaurantImageFile" accept="image/jpeg, image/png,image/jpg" onchange="setImageChanged()" />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <input type="submit" value="Save" class="mLinkButton" onClick="saveRestaurantData()" />
+        </div>
+        <div>
+            <div class="col-md-2">
+                <button onclick="cancelAddDialog()" class="mLinkButton">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
