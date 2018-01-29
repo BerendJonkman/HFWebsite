@@ -8,6 +8,6 @@ namespace HFWebsiteA7.Models
     public class RestaurantAndFoodType
     {
         public Restaurant restaurant { get; set; }
-        public string foodType { get; set; }
+        public  string foodType { get; set; }
     }
 }

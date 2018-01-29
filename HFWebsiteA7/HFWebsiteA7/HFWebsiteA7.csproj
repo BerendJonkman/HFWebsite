@@ -158,6 +158,7 @@
     <Compile Include="Models\AdminUser.cs" />
     <Compile Include="Models\ConcertTicket.cs" />
     <Compile Include="Models\DayEnum.cs" />
+    <Compile Include="Models\DinnerDetails.cs" />
     <Compile Include="Models\EventTypeEnum.cs" />
     <Compile Include="Models\PassParToutDay.cs" />
     <Compile Include="Models\PassPartoutOrder.cs" />

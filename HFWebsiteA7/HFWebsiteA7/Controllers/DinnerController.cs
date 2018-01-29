@@ -20,7 +20,9 @@ namespace HFWebsiteA7.Controllers
         private IDinnerSessionRepository dinnerSessionRepository = new DinnerSessionRepository();
         private IRestaurantRepository restaurantRepository = new RestaurantRepository();
         private IRestaurantFoodTypeRepository restaurantFoodTypeRepository = new RestaurantFoodTypeRepository();
+        private IDayRepository dayRepository = new DayRepository();
         private List<Restaurant> tempRestaurantList = new List<Restaurant>();
+
 
         // GET: Dinner
         public ActionResult Index()
@@ -122,15 +124,64 @@ namespace HFWebsiteA7.Controllers
 
         public ActionResult DetailsPage(int Id)
         {
-            Restaurant restaurant = restaurantRepository.GetRestaurant(Id   );
+            DinnerDetails dinnerDetails = new DinnerDetails();
+            DinnerSession dinnerSession = dinnerSessionRepository.GetDinnerSessionByRestaurantId(Id);
 
-            return View(restaurant);
-            //return View(GetRestaurantView(Id));
+            IEnumerable<FoodType> foodTypeList = restaurantFoodTypeRepository.GetFoodTypeByRestaurantId(Id);
+
+            string foodTypes = "";
+
+            foreach (var foodItem in foodTypeList)
+            {
+                if (foodTypes == "")
+                {
+                    foodTypes = foodItem.Name;
+                }
+                else
+                {
+                    foodTypes += ", " + foodItem.Name;
+                }
+            }
+
+            List<DinnerSession> dinnerSessions = dinnerSessionRepository.GetAllDinnerSessionsByRestaurantId(Id).ToList();
+            List<DateTime> timeCheck = new List<DateTime>();
+
+            string startTimes = "";
+
+            foreach (DinnerSession session in dinnerSessions)
+            {
+                if(startTimes == "")
+                {
+                    if (!timeCheck.Contains(session.StartTime)) { 
+                        timeCheck.Add(session.StartTime);
+                        startTimes = session.StartTime.ToString("HH:mm");
+                    }
+                }
+                else
+                {
+                    if (!timeCheck.Contains(session.StartTime)) { 
+                    timeCheck.Add(session.StartTime);
+                    startTimes += ", " + session.StartTime.ToString("HH:mm");
+                    }
+                }
+                
+            }
+
+            dinnerDetails.foodtype = foodTypes;
+            dinnerDetails.restaurant = restaurantRepository.GetRestaurant(Id);
+            dinnerDetails.duration = (dinnerSession.Duration * 45).ToString();
+            dinnerDetails.startTimes = startTimes;
+            return View(dinnerDetails);
         }
 
         public ActionResult OrderPage(int Id)
         {
+            List<Day> days = new List<Day>();
             Restaurant restaurant = restaurantRepository.GetRestaurant(Id);
+            List<DinnerSession> dinnerSessions = dinnerSessionRepository.GetAllDinnerSessionsByRestaurantId(Id).ToList();
+            foreach(DinnerSession dinnerSession in dinnerSessions) {
+                days.Add(dayRepository.GetDay(dinnerSession.DayId));
+            }
 
             return View(restaurant);
         }
