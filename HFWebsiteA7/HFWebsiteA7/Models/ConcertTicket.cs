@@ -6,7 +6,7 @@ using System.Web;
 
 namespace HFWebsiteA7.Models
 {
-    public class ConcertTicket
+    public class ConcertTicket : BaseTicket
     {
         public PreTicket Ticket { get; set; }
         public Concert Concert { get; set; }

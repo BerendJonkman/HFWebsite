@@ -1,9 +1,4 @@
-﻿
-@{
-    ViewBag.Title = "Contact";
-}
-
-@section Banner {
+﻿@section Banner {
     <div style="margin-top: 50px; background-image: url(../../Content/Content-images/Home/ContactBanner.jpg); background-repeat: round; height: 300px"></div>
 }
 
@@ -48,7 +43,7 @@
                 <label>Subject:</label><br>
                 <input type="text" name="subject"><br>
                 <label>Question:</label><br>
-                <textarea name="question" rows="5" cols="100"></textarea><br/>
+                <textarea name="question" rows="5" cols="100"></textarea><br/><br/>
                 @Html.ActionLink("Send", "ContactSend", "Home", null , new { @class = "mLinkButton" })
 
             </form>

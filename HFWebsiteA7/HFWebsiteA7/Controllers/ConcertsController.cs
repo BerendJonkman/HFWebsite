@@ -134,6 +134,9 @@ namespace HFWebsiteA7.Controllers
                         Count = concertTicket.Ticket.Count
                     };
 
+                    concertTicket.Count = concertTicket.Ticket.Count;
+                    concertTicket.Id = concertTicket.Ticket.EventId;
+
                     concertTicket.Ticket = ticket;
                     concertTicket.Concert = concertRepository.GetConcert(concertTicket.Ticket.Event.EventId);
 
@@ -204,7 +207,7 @@ namespace HFWebsiteA7.Controllers
             
             if (reservation.Tickets == null)
             {
-                reservation.Tickets = concertTickets.ToList<object>();
+                reservation.Tickets = concertTickets.ToList<BaseTicket>();
             }
             else
             {

@@ -7,7 +7,7 @@ namespace HFWebsiteA7.Models
 {
     public class Reservation
     {
-        public List<object> Tickets { get; set; }
+        public List<BaseTicket> Tickets { get; set; }
         public List<PassParToutDay> PassParToutDays { get; set; }
         public PassParToutWeek PassParToutWeek { get; set; }
     }
