@@ -15,7 +15,6 @@ namespace HFWebsiteA7.Repositories.Interfaces
         IEnumerable<DinnerSession> GetAllDinnerSessionsByRestaurantId(int restaurantId);
         DinnerSession GetDinnerSessionByRestaurantId(int restaurantId);
         int CountDinnerSessions(int restaurantId);
-        IEnumerable<DinnerSession> GetAllDinnerSessionsByRestaurantId(int restaurantId);
         void DeleteDinnerSession(DinnerSession dinnerSession);
     }
 }
