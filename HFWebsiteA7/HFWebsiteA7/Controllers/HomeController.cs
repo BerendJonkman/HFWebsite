@@ -94,7 +94,7 @@ namespace HFWebsiteA7.Controllers
                     {
                         Event evnt = eventRepository.GetEvent(e);
                         vm.EventList.Add(evnt);
-                        if(evnt.Discriminator.Equals("Concert"))
+                        if(evnt.TableType.Equals("Concert"))
                         {
                             vm.ConcertList.Add(concertsRepository.GetConcert(e));
                         }

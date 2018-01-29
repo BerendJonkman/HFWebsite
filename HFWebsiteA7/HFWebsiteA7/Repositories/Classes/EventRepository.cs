@@ -27,7 +27,7 @@ namespace HFWebsiteA7.Repositories.Classes
         {
             foreach(Event e in GetAllEventsForDay(dayId))
             {
-                if(e.Discriminator == "Concert")
+                if(e.TableType == "Concert")
                 {
                     e.AvailableSeats -= countToLower;
                 }
