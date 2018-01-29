@@ -18,6 +18,17 @@ namespace HFWebsiteA7.Repositories.Classes
             db.SaveChanges();
         }
 
+        public void UpdateConcert(Concert concert)
+        {
+            var result = GetConcert(concert.EventId);
+            result.LocationId = concert.LocationId;
+            result.HallId = concert.HallId;
+            result.Duration = concert.Duration;
+            result.StartTime = concert.StartTime;
+
+            db.SaveChanges();
+        }
+
         public FestivalDay CreateFestivalDay(Day day)
         {
             FestivalDay festivalDay = new FestivalDay

@@ -22,9 +22,20 @@ namespace HFWebsiteA7.Repositories.Classes
             return db.DinnerSessions.GroupBy(d => d.RestaurantId == restaurantId).Count();
         }
 
+        public void DeleteDinnerSession(DinnerSession dinnerSession)
+        {
+            db.DinnerSessions.Remove(dinnerSession);
+            db.SaveChanges();
+        }
+
         public IEnumerable<DinnerSession> GetAllDinnerSessions()
         {
             return db.DinnerSessions.ToList();
+        }
+
+        public IEnumerable<DinnerSession> GetAllDinnerSessionsByRestaurantId(int restaurantId)
+        {
+            return db.DinnerSessions.Where(d => d.RestaurantId == restaurantId);
         }
 
         public DinnerSession GetDinnerSession(int dinnerSessionId)

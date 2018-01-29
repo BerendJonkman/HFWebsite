@@ -17,7 +17,7 @@
     <h1>@Model.EventType.ToString()</h1>
 
 
-    <button class="mLinkButton" onclick="showDiv()" id="newButton" style="margin-left:15px">New</button>
+    <button class="mLinkButton" onclick="showDiv()" id="newButton" style="margin-left:15px; width: 100px">New</button>
        
     <div class="container">
        
@@ -27,13 +27,17 @@
             {
                 @Html.Partial("PartialViews/CreateBand", new AdminBand());
             }
-            else if(Model.EventType.Equals(EventTypeEnum.Locations))
+            else if (Model.EventType.Equals(EventTypeEnum.Locations))
             {
                 @Html.Partial("PartialViews/CreateLocation", new Location());
             }
             else if (Model.EventType.Equals(EventTypeEnum.Concerts))
             {
                 @Html.Partial("PartialViews/CreateConcert", Model.AdminConcert);
+            }
+            else if (Model.EventType.Equals(EventTypeEnum.Restaurants))
+            {
+                @Html.Partial("PartialViews/CreateAdminRestaurant", Model.AdminRestaurant);
             }
         </div>
         @if (Model.EventType.Equals(EventTypeEnum.Restaurants))
@@ -59,110 +63,14 @@
     <div style="margin:10px">
         @if (Model.EventType.Equals(EventTypeEnum.Bands))
         {
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h4>Name</h4>
-                            <input type="text" id="Name" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>Description</h4>
-                            <textarea type="text" id="Description" rows="10" cols="70"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h4>Image</h4>
-                            <img src="@Url.Content("~/uploads/FileUpload12011_03_02_11_49_22.jpg")" alt="IMAGES" id="bandImage" width="255" height="75" style="margin-bottom: 5px" />
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-8">
-                            <input type="file" name=File id="BandImageFile" accept="image/jpeg, image/png,image/jpg" onchange="" />
-                            <br />
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-md-2">
-                    <input type="submit" value="Save" class="mLinkButton" onClick="saveBandData()" />
-                </div>
-                <div>
-                    <div class="col-md-2">
-                        <button onclick="cancelAddDialog()" class="mLinkButton">Cancel</button>
-                    </div>
-
-                </div>
-            </div>
+          @Html.Partial("PartialViews/EditBand");
         }
         else if (Model.EventType.Equals(EventTypeEnum.Locations))
         {
-            <div class="row">
-                <div class="form-group">
-                    <h4 class="titleStyle">Name</h4>
-                    <div class="col-md-10">
-                        <input type="text" id="DialogName" />
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-horizontal">
-                        <div class="form-group">
-                            <h4 class="titleStyle">Street</h4>
-                            <div class="col-md-10">
-                                <input type="text" id="DialogStreet" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <h4 class="titleStyle">HouseNumber</h4>
-                            <div class="col-md-10">
-                                <input type="text" id="DialogHouseNumber" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-horizontal">
-
-
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <h4 class="titleStyle">City</h4>
-                                <div class="col-md-10">
-                                    <input type="text" id="DialogCity" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <h4 class="titleStyle">Zipcode</h4>
-                                <div class="col-md-10">
-                                    <input type="text" id="DialogZipCode" />
-                                </div>
-                            </div>
-                        </div>
-                </div>
-            </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-2">
-                    <input type="submit" value="Save" class="mLinkButton" onClick="saveLocationData()" />
-                </div>
-                <div>
-                    <div class="col-md-2">
-                        <button onclick="cancelAddDialog()" class="mLinkButton">Cancel</button>
-                    </div>
-
-                </div>
-            </div>
+           @Html.Partial("PartialViews/EditLocation");
+        } else if (Model.EventType.Equals(EventTypeEnum.Concerts))
+        {
+            @Html.Partial("PartialViews/EditConcert", Model.AdminConcert);
         }
 
 
@@ -283,6 +191,51 @@
         });       
     }
 
+    function showConcertDialog(selectedId) {
+        id = selectedId;
+
+        $.ajax({
+            url: '/Admin/GetConcert',
+            type: 'GET',
+            data: { 'ConcertId': id },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                document.getElementById("LocationSelect").value = response.Location.Id;
+                document.getElementById("HallSelect").value = response.Hall.Id;
+                document.getElementById("DurationTextBox").value = response.Duration;
+                document.getElementById("StartTimeTextBox").value = toJavaScriptDate(response.StartTime);
+                document.getElementById("BandText").innerHTML = response.Band.Name;
+                document.getElementById("DayText").innerHTML = response.Day.Name;
+
+                var addDialog = document.getElementById('addDialog');
+                addDialog.showModal();
+            },
+            error: function (error) {
+                $(that).remove();
+                DisplayError(error.statusText);
+            }
+        });       
+    }
+
+    function showRestaurantDialog(selectedId) {
+        var addDialog = document.getElementById('addDialog');
+        addDialog.showModal();
+    }
+
+    function toJavaScriptDate(value) {
+        var pattern = /Date\(([^)]+)\)/;
+        var results = pattern.exec(value);
+        var dt = new Date(parseFloat(results[1]));
+        var minutes = dt.getMinutes().toString();
+        if (minutes == "0") {
+            minutes = "00";
+        }
+        var startTime = dt.getHours() + ":" + minutes;
+        return (startTime);
+    }   
+
     function newBandImage() {
         formData = new FormData();
         var totalFiles = document.getElementById("BandImageFile").files.length;
@@ -308,18 +261,14 @@
             data: { 'bandId': id, 'name': name, 'description': description },
         }).done(function () {
             var totalFiles = document.getElementById("BandImageFile").files.length;
-            console.log(totalFiles)
             if (totalFiles != 0) {
                 formData = new FormData();
                 for (var i = 0; i < totalFiles; i++) {
                     var file = document.getElementById("BandImageFile").files[i];
                     fileName = name.replace(/\s/g, '') + ".jpg";
 
-                    console.log(file.name);
                     file.name = fileName;
-                    console.log(file.name);
                     formData.append("bandImage", file, fileName);
-                    console.log(formData);
                 }
                 saveBandImage();
             } else {
@@ -367,10 +316,23 @@
             url: '/Admin/UpdateLocation',
             data: { 'locationId': id, 'name': name, 'street': street, 'houseNumber': houseNumber, 'city': city, 'zipCode': zipCode},
         }).done(function () {
+            location.reload();     
+        }).fail(function (xhr, status, errorThrown) {
+            alert(status);
+        });
+    }
 
-            location.reload()
-            
-
+    function saveConcertData() {
+        var locationId = document.getElementById("LocationSelect").value;
+        var hallId = document.getElementById("HallSelect").value;
+        var duration = document.getElementById("DurationTextBox").value;
+        var startTime = document.getElementById("StartTimeTextBox").value;
+        $.ajax({
+            type: "POST",
+            url: '/Admin/UpdateConcert',
+            data: { 'eventId': id, 'locationId': locationId, 'hallId': hallId, 'duration': duration, 'startTime': startTime },
+        }).done(function () {
+            location.reload();
         }).fail(function (xhr, status, errorThrown) {
             alert(status);
         });
