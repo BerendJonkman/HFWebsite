@@ -168,6 +168,7 @@ namespace HFWebsiteA7.Controllers
 
                         for (int i = 0; i < ct.Ticket.Count; i++)
                         {
+                            ticket.Comment = "";
                             ticketRepository.AddTicket(ticket);
                         }
 
