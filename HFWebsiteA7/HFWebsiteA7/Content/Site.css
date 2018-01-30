@@ -261,3 +261,16 @@ However, delay the fade out process for 2.5 seconds */
     margin-left: 15px;
 }
 
+.imageConcert {
+    width: 500px;
+    height: 162px;
+    left: 0px;
+    right: 0px;
+}
+
+.imageDinner {
+    width: 500px;
+    height: 162px;
+    left: 0px;
+    right: 0px;
+}

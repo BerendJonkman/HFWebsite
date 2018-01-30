@@ -65,17 +65,20 @@ namespace HFWebsiteA7.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult AdminSelection()
         {
             return View();
         }
 
+        [Authorize]
         public ActionResult AdminEventEdit(EventTypeEnum type)
         {
             var adminEventEditViewModel = CreateAdminEventEditViewModel(type);
             return View(adminEventEditViewModel);
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult CreateBand(AdminBand adminBand)
         {
@@ -95,6 +98,7 @@ namespace HFWebsiteA7.Controllers
             return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult CreateConcert(AdminConcert adminConcert)
         {
@@ -108,6 +112,7 @@ namespace HFWebsiteA7.Controllers
             return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult CreateLocation(Location location)
         {
@@ -119,6 +124,7 @@ namespace HFWebsiteA7.Controllers
             return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult CreateAdminRestaurant(AdminRestaurant adminRestaurant)
         {
@@ -301,6 +307,7 @@ namespace HFWebsiteA7.Controllers
             return adminConcert;
         }
 
+        [Authorize]
         [HttpGet]
         public JsonResult GetBand(int bandId)
         {
@@ -309,6 +316,7 @@ namespace HFWebsiteA7.Controllers
             return Json(adminBand, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize]
         [HttpGet]
         public JsonResult GetLocation(int locationId)
         {
@@ -316,6 +324,7 @@ namespace HFWebsiteA7.Controllers
             return Json(location, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize]
         [HttpGet]
         public JsonResult GetConcert(int concertId)
         {
@@ -323,6 +332,7 @@ namespace HFWebsiteA7.Controllers
             return Json(concert, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize]
         [HttpGet]
         public JsonResult GetAdminRestaurant(int restaurantId)
         {
@@ -355,6 +365,7 @@ namespace HFWebsiteA7.Controllers
             return Json(adminRestaurant, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize]
         [HttpPost]
         public void UpdateBand(int bandId, string name, string description, bool imageChanged)
         {
@@ -373,6 +384,7 @@ namespace HFWebsiteA7.Controllers
             bandRepository.UpdateBand(band);
         }
 
+        [Authorize]
         [HttpPost]
         public void UpdateConcert(int eventId, int locationId, int hallId, decimal duration, string startTime)
         {
@@ -390,6 +402,7 @@ namespace HFWebsiteA7.Controllers
             concertRepository.UpdateConcert(concert);
         }
 
+        [Authorize]
         [HttpPost]
         public void UpdateLocation(int locationId, string name, string street, string houseNumber, string city, string zipCode)
         {
@@ -406,6 +419,7 @@ namespace HFWebsiteA7.Controllers
             locationRepository.UpdateLocation(location);
         }
 
+        [Authorize]
         [HttpPost]
         public void UpdateAdminRestaurant(int restaurantId, int availableSeats, string name, int locationId, decimal price, decimal reducedPrice, int stars, string description, int sessions, string startTime, int[] foodTypeArray, decimal duration)
         {
@@ -491,6 +505,7 @@ namespace HFWebsiteA7.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         public void UploadBandImage()
         {
@@ -507,6 +522,7 @@ namespace HFWebsiteA7.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         public void UploadRestaurantImage()
         {
@@ -518,12 +534,12 @@ namespace HFWebsiteA7.Controllers
 
                 var path = Path.Combine(Server.MapPath(restaurantImagePath), fileName);
 
-                //file.SaveAs(path);
                 Image sourceimage = Image.FromStream(file.InputStream);
                 sourceimage.Save(path, ImageFormat.Jpeg);
             }
         }
 
+        [Authorize]
         [HttpGet]
         public void RemoveBand(int bandId)
         {

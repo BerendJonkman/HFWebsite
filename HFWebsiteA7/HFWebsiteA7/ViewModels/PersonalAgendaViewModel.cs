@@ -13,6 +13,6 @@ namespace HFWebsiteA7.ViewModels
         public List<int> EventIdList { get; set; }
         public List<int> PassPartoutTypeList { get; set; }
         public List<Concert> ConcertList { get; set; }
-        public List<Event> EventList { get; set; }
+        public int DayId { get; set; }
     }
 }
