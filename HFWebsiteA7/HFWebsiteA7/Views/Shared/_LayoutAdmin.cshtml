@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("Styles", false)
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Concerts" ? "active" : "")">@Html.ActionLink("Jazz@Patronaat", "Index", "Concerts")</li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Dinner" ? "active" : "")">@Html.ActionLink("Dinner in Haarlem", "Index", "Dinner")</li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")">@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "PersonalAgenda" ? "active" : "")">@Html.ActionLink("Personal Agenda", "PersonalAgenda", "Home")</li>
+                </ul>
+                <ul class="navbar-right">
+                    <li style="list-style: none;">
+                        <a href="@Url.Action("LogOff", "Admin")" title="Widget View" class="links">                           
+                            <p style="color: #FFFFFF; font-family: Arial Bold, Arial; font-weight: 700; font-style: normal; font-size: 20px; float:right; margin-top:10px; margin-left:5px;">Log Off</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    @if (!IsSectionDefined("Banner"))
+    {
+        <div style="margin-top: 50px; background-image: url(../../Content/Content-images/Home/IndexBanner.jpg); background-repeat: round; height: 300px;">
+            <img src="~/Content/Content-images/Home/IndexBannerTransparantText.png" style="display: block; margin: 0 auto;" />
+        </div>
+    }
+    else
+    {
+        @RenderSection("Banner", required: true)
+    }
+    <div class="container body-content">
+       <div class="span3 offset2" style="margin-top:-50px; padding-bottom: 25px">
+        @RenderBody()
+       </div>
+        <div class="span3 offset2" style="margin-top: 25px;">
+            <div class="container">
+                <div class="col-sm-3">
+                    <h2>Navigation</h2>
+                    <ul>
+                        <li><a href="~/Home">Home</a></li>
+                        <li><a href="~/Concerts">Jazz@Patronaat</a></li>
+                        <li><a href="~/Dinner">Dinner in Haarlem</a></li>
+                        <li><a href="~/Home/Contact">Contact</a></li>
+                        <li><a href="~/Admin">Admin</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h2>Contact</h2>
+                    <a href="mailto:info@haarlemfestival.nl">info@haarlemfestival.nl</a>
+                    <br />
+                    +31 023 - 5241020
+                    <br />
+                    <br />
+                    Head Office
+                    <br />
+                    Zijlweg 7
+                    <br />
+                    1234 AA Haarlem
+                </div>
+                <div class="col-sm-5" style="padding-bottom: 15px;">
+                    <h2>Location</h2>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2435.398012644264!2d4.634128115966924!3d52.38133475424855!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c5ef6b924ce7ed%3A0xd9721c5337b4704!2sGrote+Markt%2C+Haarlem!5e0!3m2!1sen!2snl!4v1512939802859" width="500" height="180" frameborder="0" style="border:0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

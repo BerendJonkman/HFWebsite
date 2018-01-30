@@ -32,6 +32,12 @@ namespace HFWebsiteA7.Repositories.Classes
             return db.Restaurants.Find(restaurantId);
         }
 
+        public void RemoveRestaurant(Restaurant restaurant)
+        {
+            db.Restaurants.Remove(restaurant);
+            db.SaveChanges();
+        }
+
         public void UpdateRestaurant(Restaurant restaurant)
         {
             var response = GetRestaurant(restaurant.Id);
