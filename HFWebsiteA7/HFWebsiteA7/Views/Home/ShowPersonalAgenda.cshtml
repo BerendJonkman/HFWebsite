@@ -123,7 +123,7 @@
                 document.getElementById("nameText").innerHTML = response.Band.Name;
                 document.getElementById("descriptionText").innerHTML = response.Band.Description;
                 document.getElementById("startTimeText").innerHTML = toJavaScriptDate(response.StartTime);
-                document.getElementById("durationText").innerHTML = response.Duration;
+                document.getElementById("durationText").innerHTML = response.Duration + " Hour(s)";
                 document.getElementById("locationText").innerHTML = createLocationText(response.Location);
             },
             error: function (error) {
@@ -147,7 +147,7 @@
                 document.getElementById("nameText").innerHTML = response.Restaurant.Name;
                 document.getElementById("descriptionText").innerHTML = response.Restaurant.Description;
                 document.getElementById("startTimeText").innerHTML = toJavaScriptDate(response.StartTime);
-                document.getElementById("durationText").innerHTML = response.Duration;
+                document.getElementById("durationText").innerHTML = response.Duration + " Hour(s)";
                 document.getElementById("locationText").innerHTML = createLocationText(response.Restaurant.Location);
             },
             error: function (error) {

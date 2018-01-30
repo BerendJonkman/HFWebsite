@@ -122,6 +122,7 @@ namespace HFWebsiteA7.Controllers
             {
                 string email = vm.Email;
                 string code = GenerateCode();
+
                 List<BaseTicket> tickets = new List<BaseTicket>();
                 List<PassParToutDay> passParToutDays = new List<PassParToutDay>();
                 PassParToutWeek passParToutWeek = new PassParToutWeek();
@@ -155,88 +156,15 @@ namespace HFWebsiteA7.Controllers
 
                 orderRepository.AddOrder(newOrder);
 
+                //Hier halen we de net gemaakte order week uit de db om het id te kunnen gebruiken
                 Order order = orderRepository.GetOrderByEmailCode(email, code);
 
-                foreach (BaseTicket ob in tickets)
-                {
-                    if (ob is ConcertTicket ct)
-                    {
-                        Ticket ticket = new Ticket();
-                        PreTicket pt = ct.Ticket;
+                AddTicketsToDB(tickets, order.Id);
+                AddPassPartoutDaysToDB(passParToutDays, order.Id);
+                AddPassPartoutWeekToDB(passParToutWeek, order.Id);
 
-                        ticket.EventId = pt.EventId;
-                        ticket.OrderId = order.Id;
-
-                        for (int i = 0; i < ct.Ticket.Count; i++)
-                        {
-                            ticket.Comment = "";
-                            ticketRepository.AddTicket(ticket);
-                        }
-
-                        eventRepository.LowerAvailableSeats(ct.Ticket.EventId, ct.Ticket.Count);
-                    }
-                }
-
-                foreach (PassParToutDay pd in passParToutDays)
-                {
-                    List<PassPartoutType> ppttList = passPartoutTypeRepository.GetAllPassPartoutType().ToList();
-
-                    foreach (PassPartoutType type in ppttList)
-                    {
-                        if (type.Name.Equals(pd.Day))
-                        {
-                            pd.Id = type.Id;
-                            break;
-                        }
-                    }
-
-                    PassPartoutOrder passPartoutOrder = new PassPartoutOrder
-                    {
-                        OrderId = order.Id,
-                        PassPartoutId = pd.Id
-                    };
-
-                    for (int i = 0; i < pd.Count; i++)
-                    {
-                        passPartoutOrderRepository.AddPassPartoutOrder(passPartoutOrder);
-                    }
-
-                    Day day = dayRepository.GetDayByName(pd.Day);
-
-                    eventRepository.LowerAvailableSeatsforDay(day.Id, pd.Count);
-                }
-
-                if (passParToutWeek.Count > 0)
-                {
-                    List<PassPartoutType> ppttList = passPartoutTypeRepository.GetAllPassPartoutType().ToList();
-
-                    foreach (PassPartoutType type in ppttList)
-                    {
-                        if (type.Name.Equals(passParToutWeek.Type))
-                        {
-                            passParToutWeek.Id = type.Id;
-                            break;
-                        }
-                    }
-
-                    PassPartoutOrder passPartoutOrderWeek = new PassPartoutOrder
-                    {
-                        OrderId = order.Id,
-                        PassPartoutId = passParToutWeek.Id
-                    };
-
-                    for (int i = 0; i < passParToutWeek.Count; i++)
-                    {
-                        passPartoutOrderRepository.AddPassPartoutOrder(passPartoutOrderWeek);
-                    }
-
-                    eventRepository.LowerAllAvailableSeats(passParToutWeek.Count);
-
-                }
-
+                //Stuur een email met de code om de persoonlijke agenda op te halen
                 SendEmail(vm.Email, code);
-
-               
 
                 //Leeg de session want de items zijn in de database gezet
                 Session["Reservation"] = null;
@@ -245,6 +173,91 @@ namespace HFWebsiteA7.Controllers
             }
 
             return View();
+        }
+
+        private void AddTicketsToDB(List<BaseTicket> tickets, int orderId)
+        {
+            foreach (BaseTicket ob in tickets)
+            {
+                if (ob is ConcertTicket ct)
+                {
+                    Ticket ticket = new Ticket();
+                    PreTicket pt = ct.Ticket;
+
+                    ticket.EventId = pt.EventId;
+                    ticket.OrderId = orderId;
+
+                    for (int i = 0; i < ct.Ticket.Count; i++)
+                    {
+                        ticket.Comment = "";
+                        ticketRepository.AddTicket(ticket);
+                    }
+
+                    eventRepository.LowerAvailableSeats(ct.Ticket.EventId, ct.Ticket.Count);
+                }
+            }
+        }
+
+        private void AddPassPartoutDaysToDB(List<PassParToutDay> passParToutDays, int orderId)
+        {
+            foreach (PassParToutDay pd in passParToutDays)
+            {
+                List<PassPartoutType> ppttList = passPartoutTypeRepository.GetAllPassPartoutType().ToList();
+
+                foreach (PassPartoutType type in ppttList)
+                {
+                    if (type.Name.Equals(pd.Day))
+                    {
+                        pd.Id = type.Id;
+                        break;
+                    }
+                }
+
+                PassPartoutOrder passPartoutOrder = new PassPartoutOrder
+                {
+                    OrderId = orderId,
+                    PassPartoutId = pd.Id
+                };
+
+                for (int i = 0; i < pd.Count; i++)
+                {
+                    passPartoutOrderRepository.AddPassPartoutOrder(passPartoutOrder);
+                }
+
+                Day day = dayRepository.GetDayByName(pd.Day);
+
+                eventRepository.LowerAvailableSeatsforDay(day.Id, pd.Count);
+            }
+        }
+
+        private void AddPassPartoutWeekToDB(PassParToutWeek passParToutWeek, int orderId)
+        {
+            if (passParToutWeek.Count > 0)
+            {
+                List<PassPartoutType> ppttList = passPartoutTypeRepository.GetAllPassPartoutType().ToList();
+
+                foreach (PassPartoutType type in ppttList)
+                {
+                    if (type.Name.Equals(passParToutWeek.Type))
+                    {
+                        passParToutWeek.Id = type.Id;
+                        break;
+                    }
+                }
+
+                PassPartoutOrder passPartoutOrderWeek = new PassPartoutOrder
+                {
+                    OrderId = orderId,
+                    PassPartoutId = passParToutWeek.Id
+                };
+
+                for (int i = 0; i < passParToutWeek.Count; i++)
+                {
+                    passPartoutOrderRepository.AddPassPartoutOrder(passPartoutOrderWeek);
+                }
+
+                eventRepository.LowerAllAvailableSeats(passParToutWeek.Count);
+            }
         }
 
         private void SendEmail(string toEmail, string code)
@@ -260,7 +273,8 @@ namespace HFWebsiteA7.Controllers
                 Credentials = new NetworkCredential("haarlemfestivala7@gmail.com", "haarlemfestiva")
             };
             mail.Subject = "Your Haarlem Festival reservation!";
-            mail.Body = "Use this code to see your personal agenda: " + code;
+            mail.Body = "Hi!, thank you for your purchase! " +
+                        "Use this code to see your personal agenda: " + code;
             client.Send(mail);
         }
 
@@ -416,61 +430,12 @@ namespace HFWebsiteA7.Controllers
 
             if (vmNew.Tickets != null)
             {
-                foreach (BaseTicket newBaseTicket in vmNew.Tickets)
-                {
-                    if (newBaseTicket.Count != 0)
-                    {
-                        foreach (BaseTicket oldBaseTicket in tickets)
-                        {
-                            if (newBaseTicket.Id == oldBaseTicket.Id)
-                            {
-                                oldBaseTicket.Count = newBaseTicket.Count;
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        foreach (BaseTicket oldBaseTicket in tickets)
-                        {
-                            if (newBaseTicket.Id == oldBaseTicket.Id)
-                            {
-                                tickets.Remove(oldBaseTicket);
-                                break;
-                            }
-                        }
-                    }
-                }
+                tickets = SetNewTicketAmount(vmNew.Tickets, tickets);
             }
 
             if (vmNew.Partoutdays != null)
             {
-                foreach (PassParToutDay pd in vmNew.Partoutdays)
-                {
-                    if (pd.Count != 0)
-                    {
-                        foreach (PassParToutDay pdd in passParToutDays)
-                        {
-                            if (pd.Day.Equals(pdd.Day))
-                            {
-                                pdd.Count = pd.Count;
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        foreach (PassParToutDay pdd in passParToutDays)
-                        {
-                            if (pd.Day.Equals(pdd.Day))
-                            {
-                                passParToutDays.Remove(pdd);
-                                break;
-                            }
-                        }
-                    }
-
-                }
+                passParToutDays = SetNewPassParToutAmount(vmNew.Partoutdays, passParToutDays);
             }
 
             if (vmNew.ParToutWeek != null)
@@ -489,6 +454,68 @@ namespace HFWebsiteA7.Controllers
             }
 
             Session["Reservation"] = reservation;
+        }
+
+        private List<BaseTicket> SetNewTicketAmount(List<BaseTicket> newTickets, List<BaseTicket> oldTickets) 
+        {
+            foreach (BaseTicket newBaseTicket in newTickets)
+            {
+                if (newBaseTicket.Count != 0)
+                {
+                    foreach (BaseTicket oldBaseTicket in oldTickets)
+                    {
+                        if (newBaseTicket.Id == oldBaseTicket.Id)
+                        {
+                            oldBaseTicket.Count = newBaseTicket.Count;
+                            break;
+                        }
+                    }                    
+                }
+                else
+                {
+                    foreach (BaseTicket oldBaseTicket in oldTickets)
+                    {
+                        if (newBaseTicket.Id == oldBaseTicket.Id)
+                        {
+                            oldTickets.Remove(oldBaseTicket);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return oldTickets;
+        }
+
+        private List<PassParToutDay> SetNewPassParToutAmount(List<PassParToutDay> newPassParToutDays, List<PassParToutDay> oldPassParToutDays)
+        {
+            foreach (PassParToutDay pd in newPassParToutDays)
+            {
+                if (pd.Count != 0)
+                {
+                    foreach (PassParToutDay pdd in oldPassParToutDays)
+                    {
+                        if (pd.Day.Equals(pdd.Day))
+                        {
+                            pdd.Count = pd.Count;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (PassParToutDay pdd in oldPassParToutDays)
+                    {
+                        if (pd.Day.Equals(pdd.Day))
+                        {
+                            oldPassParToutDays.Remove(pdd);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return oldPassParToutDays;
         }
 
         private string GenerateCode()
