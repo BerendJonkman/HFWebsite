@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using HFWebsiteA7.Models;
-using System.Data.SqlClient;
-using System.Configuration;
 using HFWebsiteA7.ViewModels;
 using HFWebsiteA7.Repositories.Interfaces;
 using HFWebsiteA7.Repositories.Classes;
 using System.Text.RegularExpressions;
+using System.Net.Mail;
+using System.Net;
 
 namespace HFWebsiteA7.Controllers
 {
@@ -235,6 +234,9 @@ namespace HFWebsiteA7.Controllers
 
                 }
 
+                SendEmail(vm.Email, code);
+
+               
 
                 //Leeg de session want de items zijn in de database gezet
                 Session["Reservation"] = null;
@@ -243,6 +245,23 @@ namespace HFWebsiteA7.Controllers
             }
 
             return View();
+        }
+
+        private void SendEmail(string toEmail, string code)
+        {
+            MailMessage mail = new MailMessage("haarlemfestivala7@gmail.com", toEmail);
+            SmtpClient client = new SmtpClient
+            {
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Host = "smtp.gmail.com",
+                Credentials = new NetworkCredential("haarlemfestivala7@gmail.com", "haarlemfestiva")
+            };
+            mail.Subject = "Your Haarlem Festival reservation!";
+            mail.Body = "Use this code to see your personal agenda: " + code;
+            client.Send(mail);
         }
 
         public ActionResult Conformation()
