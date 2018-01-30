@@ -7,7 +7,7 @@
 <div class="container">
     <div class="col-lg-6">
         <h1>Booking a Restaurant</h1>
-        <p>Order your tickets for Grand Café Brinkmann below.</p>
+        <p>Order your tickets for @Model.restaurant.Name below.</p>
         <div class="container" style="padding-left:0" ;>
             <div class="col-sm-4" style="padding-left:0">Amount of tickets </div>
             <div class="col-sm-4">Select your day </div>
@@ -17,40 +17,53 @@
             @Html.TextBox("ticket-amount", null, new { style = "width:120px" })
         </div>
         <div class="col-sm-4" style="padding-left:0; padding-right:20px;">
-            @{
-                List<SelectListItem> listItems = new List<SelectListItem>();
-                foreach(var day in Model.days)
+            @using (Html.BeginForm("ActionMethodName", "ControllerName"))
+            {
+                List<SelectListItem> dayItems = new List<SelectListItem>();
                 {
-
-                    listItems.Add(new SelectListItem
+                    //dropdown for days
+                    
+                    foreach (var day in Model.days)
                     {
 
-                        Text = day.Name,
-                        Value = day.Name
-                });
+                        dayItems.Add(new SelectListItem
+                        {
 
-            }
-            }
+                            Text = day.Name,
+                            Value = day.Id.ToString()
+                        });
 
-            @Html.DropDownListFor(model => model.days, listItems, "[Select a day]")
+                    }
+                }
+
+        @Html.DropDownListFor(model => model.days, dayItems, "[Select a day]", new { required = "required" })
+            }
         </div>
         <div class="col-sm-4" style="padding-left:0; padding-right:20px;">
             @{
-        //DEZE IS VOOR HET AANTAL UREN, LEEF JE UIT
-        //List<SelectListItem> listItems = new List<SelectListItem>();
-        foreach (var day in Model.days)
-        {
-            DateTime timeslot = day.Date.AddMinutes((double)Model.timeslot.First().Duration);
-            listItems.Add(new SelectListItem
-            {
+                //dropdown for timeslot
+                List<SelectListItem> timeslotItems = new List<SelectListItem>();
+                foreach (var timeSlot in Model.timeslot)
+                {
 
-                Text = day.Date.ToString("HH:mm") + (day.Date.AddMinutes((double)Model.timeslot.First().Duration)),
-                Value = "Exemplo1"
-            });
+                    DateTime timeslot = timeSlot.StartTime.AddMinutes((double)Model.timeslot.First().Duration * 45);
 
-        }
+                    timeslotItems.Add(new SelectListItem
+                    {
+
+                        Text = (timeSlot.StartTime.ToString("HH:mm") + "-" + timeslot.ToString("HH:mm")),
+                        Value = timeSlot.EventId.ToString()
+                    });
+
+                }
             }
-            @Html.DropDownListFor(model => model.days, listItems, "[Select a timeslot]")
+            @Html.DropDownListFor(model => model.days, timeslotItems, "[Select a timeslot]", new { required = "required" })
+        </div>
+        <div class="container" style="margin-top:30px; padding-left:0px;">
+            <div class="col-sm-12" style="padding-left:0px;">
+                <p>Please tell us anything we might need to know (I.e allergies)</p>
+                @Html.TextArea("ticket-amount", null, new { style = "width:470px; max-width:470px;" })
+            </div>
         </div>
     </div>
     <div class="col-lg-6" style="margin-top: 25px;">
