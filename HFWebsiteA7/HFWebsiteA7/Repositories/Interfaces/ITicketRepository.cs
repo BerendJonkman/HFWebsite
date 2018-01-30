@@ -12,5 +12,6 @@ namespace HFWebsiteA7.Repositories.Interfaces
         IEnumerable<Ticket> GetAllTickets();
         Ticket GetTicket(int ticketId);
         void AddTicket(Ticket ticket);
+        IEnumerable<Ticket> GetTicketsByOrderId(int orderId);
     }
 }

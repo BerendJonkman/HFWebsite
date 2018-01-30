@@ -13,5 +13,6 @@ namespace HFWebsiteA7.ViewModels
         public AdminBand AdminBand { get; set; }
         public Location Location { get; set; }
         public AdminConcert AdminConcert {get;set;}
+        public AdminRestaurant AdminRestaurant { get; set; }
     }
 }

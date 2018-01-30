@@ -10,5 +10,6 @@ namespace HFWebsiteA7.Models
         public virtual int Id { get; set; }
         public virtual int OrderId { get; set; }
         public virtual int EventId { get; set; }
+        public virtual string Comment { get; set; }
     }
 }

@@ -12,5 +12,6 @@ namespace HFWebsiteA7.Repositories.Interfaces
         IEnumerable<PassPartoutOrder> GetAllPassPartoutOrders();
         PassPartoutOrder GetPassPartoutOrder(int passPartoutOrderId);
         void AddPassPartoutOrder(PassPartoutOrder passPartoutOrder);
+        IEnumerable<PassPartoutOrder> GetPassParToutByOrderId(int orderId);
     }
 }

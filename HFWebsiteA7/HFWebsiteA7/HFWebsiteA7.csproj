@@ -155,8 +155,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AddConcert.cs" />
     <Compile Include="Models\AdminUser.cs" />
+    <Compile Include="Models\BaseTicket.cs" />
     <Compile Include="Models\ConcertTicket.cs" />
     <Compile Include="Models\DayEnum.cs" />
     <Compile Include="Models\DinnerDetails.cs" />
@@ -196,6 +196,7 @@
     <Compile Include="ViewModels\IndexViewModel.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="ViewModels\PersonalAgendaViewModel.cs" />
     <Compile Include="ViewModels\ReservationViewModel.cs" />
     <Compile Include="Models\Restaurant.cs" />
     <Compile Include="Models\RestaurantFoodType.cs" />
@@ -246,6 +247,7 @@
     <Content Include="Content\Content-images\Home\HomeImage2.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage3.jpg" />
     <Content Include="Content\Content-images\Home\HomeImage4.jpg" />
+    <Content Include="Content\Content-images\Home\PersonalAgendaInformation.jpg" />
     <Content Include="Content\Content-images\Home\VerticalLine.jpg" />
     <Content Include="Content\Content-images\JazzImages\BandImages\chrisalain.jpg" />
     <Content Include="Content\Content-images\JazzImages\BandImages\evolve.jpg" />
@@ -298,7 +300,6 @@
     <Content Include="Content\Content-images\RestaurantsImages\Restaurants\thegoldenbull.jpg" />
     <Content Include="Content\Content-images\RestaurantsImages\Restaurants\urbanfrenchybistrotoujours.jpg" />
     <Content Include="Content\Content-images\separatingline.png" />
-    <Content Include="Content\RestaurantsStylesheet.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -363,6 +364,13 @@
     <Content Include="Views\Admin\PartialViews\Location.cshtml" />
     <Content Include="Views\Admin\PartialViews\CreateLocation.cshtml" />
     <Content Include="Views\Admin\PartialViews\CreateConcert.cshtml" />
+    <Content Include="Views\Admin\PartialViews\EditBand.cshtml" />
+    <Content Include="Views\Admin\PartialViews\EditLocation.cshtml" />
+    <Content Include="Views\Admin\PartialViews\EditConcert.cshtml" />
+    <Content Include="Views\Admin\PartialViews\CreateAdminRestaurant.cshtml" />
+    <Content Include="Views\Home\PersonalAgenda.cshtml" />
+    <Content Include="Views\Home\ShowPersonalAgenda.cshtml" />
+    <Content Include="Views\Admin\PartialViews\EditAdminRestaurant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

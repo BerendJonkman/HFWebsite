@@ -25,5 +25,11 @@ namespace HFWebsiteA7.Repositories.Classes
         {
             return db.Tickets.Find(ticketId);
         }
+
+        public IEnumerable<Ticket> GetTicketsByOrderId(int orderId)
+        {
+            List<Ticket> ticketList = GetAllTickets().ToList();
+            return ticketList.Where(x => x.OrderId.Equals(orderId)).ToList();
+        }
     }
 }

@@ -12,5 +12,7 @@ namespace HFWebsiteA7.Repositories.Interfaces
         IEnumerable<Restaurant> GetAllRestaurants();
         Restaurant GetRestaurant(int restaurantId);
         void AddRestaurant(Restaurant restaurant);
+        void UpdateRestaurant(Restaurant restaurant);
+        int GetLastRestaurant();
     }
 }

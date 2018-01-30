@@ -1,8 +1,5 @@
 ﻿@model HFWebsiteA7.ViewModels.ReservationViewModel
 
-@{
-    ViewBag.Title = "Reservation";
-}
 
 <div class="container">
     <h2>Ticket information - @Html.DisplayFor(x => x.Day) </h2>
@@ -40,7 +37,7 @@
                         </tr>
 
                         <tr>
-                            <td>
+                            <td style="width: 8%">
                                 @Html.EditorFor(t => t.PassParToutDay.Count, new { htmlAttributes = new { @class = "form-control left-border-none", @min = "0", @width = "20px", @placeholder = 0 } })
                                 @Html.HiddenFor(t => t.PassParToutDay.Day)
                             </td>
@@ -53,8 +50,9 @@
                         </tr>
 
                         <tr>
-                            <td>
-                                @Html.EditorFor(t => t.PassParToutWeek.count, new { htmlAttributes = new { @class = "form-control left-border-none", @min = "0", @width = "20px", @placeholder = 0 } })
+                            <td style="width: 8%">
+                                @Html.EditorFor(t => t.PassParToutWeek.Count, new { htmlAttributes = new { @class = "form-control left-border-none", @min = "0", @width = "20px", @placeholder = 0 } })
+                                @Html.HiddenFor(t => t.PassParToutWeek.Type)
                             </td>
                             <td>
                                 <p>Passe-partout for Thursday, Friday and Saturday</p>
@@ -90,12 +88,10 @@
                             </th>
                         </tr>
                         @{
-
-                            int i = 0;
                             string bgColor = "white";
-                            foreach (var concertTicket in Model.ConcertTickets.ToList())
+                            for(int i = 0; i < Model.ConcertTickets.Count; i++)
                             {
-                                if (concertTicket.Selected)
+                                if (Model.ConcertTickets[i].Selected)
                                 {
                                     bgColor = "burlywood";
                                 }
@@ -106,14 +102,14 @@
                                 @Html.HiddenFor(x => x.Day)
                                 @Html.HiddenFor(t => t.ConcertTickets[i].Ticket.EventId)
                                 <tr style="background-color : @bgColor">
-                                    <td>
+                                    <td style="width: 8%">
                                         @if (Model.Day.Equals("Sunday"))
                                         {
                                             @Html.EditorFor(t => t.ConcertTickets[i].Ticket.Count, new { htmlAttributes = new { @class = "form-control left-border-none", @min = "0", @width = "20px", @placeholder = 0 } })
                                         }
                                         else
                                         {
-                                            @Html.EditorFor(t => t.ConcertTickets[i].Ticket.Count, new { htmlAttributes = new { @class = "form-control left-border-none", @min = "0", @max = concertTicket.Concert.AvailableSeats, @width = "20px", @placeholder = 0 } })
+                                            @Html.EditorFor(t => t.ConcertTickets[i].Ticket.Count, new { htmlAttributes = new { @class = "form-control left-border-none", @min = "0", @max = Model.ConcertTickets[i].Concert.AvailableSeats, @width = "20px", @placeholder = 0 } })
                                         }
                                     </td>
                                     <td>
@@ -123,7 +119,12 @@
                                         €@Html.DisplayFor(t => t.ConcertTickets[i].Concert.Hall.Price)
                                     </td>
                                     <td>
-                                        @concertTicket.Concert.Day.Date.ToString("dddd dd-MM-yy") | @concertTicket.Concert.StartTime.ToString("HH:mm") - @{ concertTicket.Concert.StartTime += TimeSpan.FromHours((double)concertTicket.Concert.Duration); } @concertTicket.Concert.StartTime.ToString("H:mm")
+                                        @Model.ConcertTickets[i].Concert.Day.Date.ToString("dddd dd-MM-yy") | 
+                                        @Model.ConcertTickets[i].Concert.StartTime.ToString("HH:mm") - 
+                                        @{ 
+                                            Model.ConcertTickets[i].Concert.StartTime += TimeSpan.FromHours((double)Model.ConcertTickets[i].Concert.Duration); 
+                                        } 
+                                        @Model.ConcertTickets[i].Concert.StartTime.ToString("H:mm")
                                     </td>
                                     <td>
                                         @Html.DisplayFor(t => t.ConcertTickets[i].Concert.Location.Name) - @Html.DisplayFor(t => t.ConcertTickets[i].Concert.Hall.Name)
@@ -139,7 +140,6 @@
                                         }
                                     </td>
                                 </tr>
-                                i++;
                             }
                         }
                     </table>

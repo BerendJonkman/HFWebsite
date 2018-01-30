@@ -5,10 +5,9 @@ using System.Web;
 
 namespace HFWebsiteA7.Models
 {
-    public class PassParToutWeek
+    public class BaseTicket
     {
         public int Id { get; set; }
-        public string Type { get; set; }
         public int Count { get; set; }
     }
 }

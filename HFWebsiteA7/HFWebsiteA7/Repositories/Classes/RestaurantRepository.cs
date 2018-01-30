@@ -22,9 +22,28 @@ namespace HFWebsiteA7.Repositories.Classes
             return db.Restaurants.ToList();
         }
 
+        public int GetLastRestaurant()
+        {
+            return GetAllRestaurants().Last().Id;
+        }
+
         public Restaurant GetRestaurant(int restaurantId)
         {
             return db.Restaurants.Find(restaurantId);
+        }
+
+        public void UpdateRestaurant(Restaurant restaurant)
+        {
+            var response = GetRestaurant(restaurant.Id);
+            response.Description = restaurant.Description;
+            response.ImagePath = restaurant.ImagePath;
+            response.LocationId = restaurant.LocationId;
+            response.Name = restaurant.Name;
+            response.Price = restaurant.Price;
+            response.Seats = restaurant.Seats;
+            response.Stars = restaurant.Stars;
+
+            db.SaveChanges();
         }
     }
 }

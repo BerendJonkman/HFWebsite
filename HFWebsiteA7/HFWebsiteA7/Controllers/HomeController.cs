@@ -18,7 +18,10 @@ namespace HFWebsiteA7.Controllers
         IEventRepository eventRepository = new EventRepository();
         IConcertsRepository concertsRepository = new ConcertRepository();
         IPassPartoutTypeRepository passPartoutTypeRepository = new PassPartoutTypeRepository();
+        IPassPartoutOrderRepository passPartoutOrderRepository = new PassPartoutOrderRepository();
         IOrderRepository orderRepository = new OrderRepository();
+        ITicketRepository ticketRepository = new TicketRepository();
+        IDayRepository dayRepository = new DayRepository();
 
         private Reservation reservation;
 
@@ -37,6 +40,73 @@ namespace HFWebsiteA7.Controllers
             return View();
         }
 
+        public ActionResult PersonalAgenda()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult PersonalAgenda(PersonalAgendaViewModel vm)
+        {
+            Session["PersonalAgenda"] = null;
+
+            if (ModelState.IsValid)
+            {
+                Order order = orderRepository.GetOrderByEmailCode(vm.Email, vm.Code);
+
+                if (order != null)
+                {
+                    List<Ticket> concertTickets = ticketRepository.GetTicketsByOrderId(order.Id).ToList();
+                    if (concertTickets != null)
+                    {
+                        vm.EventIdList = concertTickets.Select(x => x.EventId).Distinct().ToList();
+                    }
+
+                    List<PassPartoutOrder> passParToutTickets = passPartoutOrderRepository.GetPassParToutByOrderId(order.Id).ToList();
+                    if (passParToutTickets != null)
+                    {
+                        vm.PassPartoutTypeList = passParToutTickets.Select(x => x.PassPartoutId).Distinct().ToList();
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("notFoundError", "No order was found with this email and code");
+                }
+
+                Session["PersonalAgenda"] = vm;
+                return RedirectToAction("ShowPersonalAgenda", "Home");
+            }
+
+            return View();
+        }
+
+        public ActionResult ShowPersonalAgenda()
+        {
+            if(Session["PersonalAgenda"] != null)
+            {
+                PersonalAgendaViewModel vm = (PersonalAgendaViewModel)Session["PersonalAgenda"];
+                if(vm.EventIdList != null)
+                {
+                    vm.EventList = new List<Event>();
+                    vm.ConcertList = new List<Concert>();
+
+                    foreach (int e in vm.EventIdList)
+                    {
+                        Event evnt = eventRepository.GetEvent(e);
+                        vm.EventList.Add(evnt);
+                        if(evnt.TableType.Equals("Concert"))
+                        {
+                            vm.ConcertList.Add(concertsRepository.GetConcert(e));
+                        }
+                    }
+                }
+
+                return View(vm);
+            }
+
+            return View();
+        }
+
         public ActionResult Checkout()
         {
             CheckoutViewModel vm = new CheckoutViewModel();
@@ -47,22 +117,130 @@ namespace HFWebsiteA7.Controllers
         [HttpPost]
         public ActionResult Checkout(CheckoutViewModel vm)
         {
-            string email = vm.Email;
-            string code = GenerateCode();
-
-            Order newOrder = new Order
+            if (ModelState.IsValid)
             {
-                EmailAddress = email,
-                Code = code
-            };
+                string email = vm.Email;
+                string code = GenerateCode();
+                List<BaseTicket> tickets = new List<BaseTicket>();
+                List<PassParToutDay> passParToutDays = new List<PassParToutDay>();
+                PassParToutWeek passParToutWeek = new PassParToutWeek();
 
-            orderRepository.AddOrder(newOrder);
+                if ((Reservation)Session["Reservation"] != null)
+                {
+                    reservation = (Reservation)Session["Reservation"];
+                }
 
-            Order order = orderRepository.GetOrderByEmailCode(email, code);
-            
+                if (reservation != null)
+                {
+                    if (reservation.Tickets != null)
+                    {
+                        tickets = reservation.Tickets;
+                    }
+                    if (reservation.PassParToutDays != null)
+                    {
+                        passParToutDays = reservation.PassParToutDays;
+                    }
+                    if (reservation.PassParToutWeek != null)
+                    {
+                        passParToutWeek = reservation.PassParToutWeek;
+                    }
+                }
+
+                Order newOrder = new Order
+                {
+                    EmailAddress = email,
+                    Code = code
+                };
+
+                orderRepository.AddOrder(newOrder);
+
+                Order order = orderRepository.GetOrderByEmailCode(email, code);
+
+                foreach (BaseTicket ob in tickets)
+                {
+                    if (ob is ConcertTicket ct)
+                    {
+                        Ticket ticket = new Ticket();
+                        PreTicket pt = ct.Ticket;
+
+                        ticket.EventId = pt.EventId;
+                        ticket.OrderId = order.Id;
+
+                        for (int i = 0; i < ct.Ticket.Count; i++)
+                        {
+                            ticket.Comment = "";
+                            ticketRepository.AddTicket(ticket);
+                        }
+
+                        eventRepository.LowerAvailableSeats(ct.Ticket.EventId, ct.Ticket.Count);
+                    }
+                }
+
+                foreach (PassParToutDay pd in passParToutDays)
+                {
+                    List<PassPartoutType> ppttList = passPartoutTypeRepository.GetAllPassPartoutType().ToList();
+
+                    foreach (PassPartoutType type in ppttList)
+                    {
+                        if (type.Name.Equals(pd.Day))
+                        {
+                            pd.Id = type.Id;
+                            break;
+                        }
+                    }
+
+                    PassPartoutOrder passPartoutOrder = new PassPartoutOrder
+                    {
+                        OrderId = order.Id,
+                        PassPartoutId = pd.Id
+                    };
+
+                    for (int i = 0; i < pd.Count; i++)
+                    {
+                        passPartoutOrderRepository.AddPassPartoutOrder(passPartoutOrder);
+                    }
+
+                    Day day = dayRepository.GetDayByName(pd.Day);
+
+                    eventRepository.LowerAvailableSeatsforDay(day.Id, pd.Count);
+                }
+
+                if (passParToutWeek.Count > 0)
+                {
+                    List<PassPartoutType> ppttList = passPartoutTypeRepository.GetAllPassPartoutType().ToList();
+
+                    foreach (PassPartoutType type in ppttList)
+                    {
+                        if (type.Name.Equals(passParToutWeek.Type))
+                        {
+                            passParToutWeek.Id = type.Id;
+                            break;
+                        }
+                    }
+
+                    PassPartoutOrder passPartoutOrderWeek = new PassPartoutOrder
+                    {
+                        OrderId = order.Id,
+                        PassPartoutId = passParToutWeek.Id
+                    };
+
+                    for (int i = 0; i < passParToutWeek.Count; i++)
+                    {
+                        passPartoutOrderRepository.AddPassPartoutOrder(passPartoutOrderWeek);
+                    }
+
+                    eventRepository.LowerAllAvailableSeats(passParToutWeek.Count);
+
+                }
 
 
-            return RedirectToAction("Conformation", "Home");
+                //Leeg de session want de items zijn in de database gezet
+                Session["Reservation"] = null;
+
+                return RedirectToAction("Conformation", "Home");
+            }
+
+            return View();
         }
 
         public ActionResult Conformation()
@@ -120,13 +298,125 @@ namespace HFWebsiteA7.Controllers
                 {
                     decimal weekPrice = passPartoutTypeRepository.GetPassPartoutType(4).Price;
 
-                    totalPrice += vm.ParToutWeek.count * weekPrice;
+                    totalPrice += vm.ParToutWeek.Count * weekPrice;
                 }
 
                 vm.TotalPrice = (double)totalPrice;
             }
 
             return View(vm);
+        }
+
+        [HttpPost]
+        public ActionResult Basket(BasketViewModel vmNew)
+        {
+            UpdateReservation(vmNew);
+
+            return RedirectToAction("Checkout", "Home");
+        }
+
+        private void UpdateReservation(BasketViewModel vmNew)
+        {
+            List<BaseTicket> tickets = new List<BaseTicket>();
+            List<PassParToutDay> passParToutDays = new List<PassParToutDay>();
+            PassParToutWeek passParToutWeek = new PassParToutWeek();
+
+            if ((Reservation)Session["Reservation"] != null)
+            {
+                reservation = (Reservation)Session["Reservation"];
+            }
+
+            if (reservation != null)
+            {
+                if (reservation.Tickets != null)
+                {
+                    tickets = reservation.Tickets;
+                }
+                if (reservation.PassParToutDays != null)
+                {
+                    passParToutDays = reservation.PassParToutDays;
+                }
+                if (reservation.PassParToutWeek != null)
+                {
+                    passParToutWeek = reservation.PassParToutWeek;
+                }
+            }
+
+            if (vmNew.Tickets != null)
+            {
+                foreach (BaseTicket newBaseTicket in vmNew.Tickets)
+                {
+                    if(newBaseTicket.Count != 0)
+                    {
+                        foreach (BaseTicket oldBaseTicket in tickets)
+                        {
+                            if (newBaseTicket.Id == oldBaseTicket.Id)
+                            {
+                                oldBaseTicket.Count = newBaseTicket.Count;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (BaseTicket oldBaseTicket in tickets)
+                        {
+                            if (newBaseTicket.Id == oldBaseTicket.Id)
+                            {
+                                tickets.Remove(oldBaseTicket);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (vmNew.Partoutdays != null)
+            {
+                foreach (PassParToutDay pd in vmNew.Partoutdays)
+                {
+                    if (pd.Count != 0)
+                    {
+                        foreach (PassParToutDay pdd in passParToutDays)
+                        {
+                            if (pd.Day.Equals(pdd.Day))
+                            {
+                                pdd.Count = pd.Count;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (PassParToutDay pdd in passParToutDays)
+                        {
+                            if (pd.Day.Equals(pdd.Day))
+                            {
+                                passParToutDays.Remove(pdd);
+                                break;
+                            }
+                        }
+                    }
+                    
+                }
+            }
+
+            if (vmNew.ParToutWeek != null)
+            {
+                if (reservation.PassParToutWeek != null)
+                {
+                    passParToutWeek.Count = vmNew.ParToutWeek.Count;
+                }
+                else
+                {
+                    passParToutWeek = new PassParToutWeek
+                    {
+                        Count = vmNew.ParToutWeek.Count
+                    };
+                }
+            }
+
+            Session["Reservation"] = reservation;
         }
 
         private string GenerateCode()

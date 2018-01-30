@@ -16,6 +16,7 @@ namespace HFWebsiteA7.Models
         public virtual Location Location { get; set; }
         public virtual decimal Price { get; set; }
         public virtual decimal ReducedPrice { get; set; }
+        [Range(0, 3)]
         public virtual int Stars { get; set; }
         public virtual int Seats { get; set; }
         public virtual string Description { get; set; }

@@ -1,10 +1,6 @@
 ﻿@model HFWebsiteA7.ViewModels.BasketViewModel
 @using HFWebsiteA7.Models
 
-@{
-    ViewBag.Title = "Basket";
-}
-
 @section Banner {
     <div style="margin-top: 50px; background-image: url(../../Content/Content-images/Home/IndexBanner.jpg); background-repeat: round; height: 300px"></div>
 }
@@ -36,6 +32,9 @@
         </div>
     </div>
 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
     <div>
         <table class="table">
             <tr>
@@ -57,14 +56,15 @@
                 {
                     if (Model.Tickets != null)
                     {
-                        foreach (object ticket in Model.Tickets)
+                        for(int i = 0; i < Model.Tickets.Count; i++)
                         {
-                            if (ticket is ConcertTicket)
+                            if (Model.Tickets[i] is ConcertTicket)
                             {
-                                var t = (ConcertTicket)ticket;
+                                var t = (ConcertTicket)Model.Tickets[i];
                                 <tr>
-                                    <td>
-                                        @t.Ticket.Count
+                                    <td style="width: 8%">
+                                        @Html.EditorFor(Model => Model.Tickets[i].Count, new { htmlAttributes = new { @class = "form-control", @min = "0", @width = "15px", @value = t.Ticket.Count } })
+                                        @Html.HiddenFor(x => x.Tickets[i].Id)
                                     </td>
                                     <td>
                                         @t.Concert.Band.Name
@@ -82,38 +82,44 @@
 
                     if (Model.ParToutWeek != null)
                     {
-                        <tr>
-                            <td>
-                                @Model.ParToutWeek.count
-                            </td>
-                            <td>
-                                Pass par Tout for all concerts
-                            </td>
-                            <td>
-                                The whole week, all concerts
-                            </td>
-                            <td>
-                                @{ var Price = 80 * Model.ParToutWeek.count;} €@Price,00
-                            </td>
-                        </tr>
+                        if(Model.ParToutWeek.Count != 0)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.EditorFor(Model => Model.ParToutWeek.Count, new { htmlAttributes = new { @class = "form-control", @min = "0", @width = "15px", @value = Model.ParToutWeek.Count } })
+                                </td>
+                                <td>
+                                    Pass par Tout for all concerts
+                                </td>
+                                <td>
+                                    The whole week, all concerts
+                                </td>
+                                <td>
+                                    @{ var Price = 80 * Model.ParToutWeek.Count; } €@Price,00
+                                </td>
+                            </tr>
+                        }
                     }
 
                     if (Model.Partoutdays != null)
                     {
-                        foreach (PassParToutDay parToutDay in Model.Partoutdays)
+                        for(int i = 0; i < Model.Partoutdays.Count; i++)
                         {
+                            var p = Model.Partoutdays[i];
+
                             <tr>
                                 <td>
-                                    @parToutDay.Count
+                                    @Html.EditorFor(Model => Model.Partoutdays[i].Count, new { htmlAttributes = new { @class = "form-control", @min = "0", @width = "15px", @value = p.Count } })
                                 </td>
                                 <td>
-                                    Pass par tout for @parToutDay.Day
+                                    Pass par tout for @p.Day
+                                    @Html.HiddenFor(x => x.Partoutdays[i].Day)
                                 </td>
                                 <td>
-                                    All concerts on @parToutDay.Day
+                                    All concerts on @p.Day
                                 </td>
                                 <td>
-                                    @{ var Price = 35 * parToutDay.Count;} €@Price,00
+                                    @{ var Price = 35 * p.Count;} €@Price,00
                                 </td>
                             </tr>
                         }
@@ -121,27 +127,27 @@
                 }
             }
         </table>
-    </div>
+        <div>
+            <i>If you wish to remove a ticket from the list set the amount to zero</i>
+        </div>
 
-    <div class="col-sm-offset-9 col-sm-3">
-        <h4 style="float: right; padding-right: 60px; padding-bottom: 30px">Total price is: €@Model.TotalPrice</h4>
-    </div>
+        <div class="col-sm-offset-9 col-sm-3">
+            <h4 style="float: right; padding-right: 60px; padding-bottom: 30px">Total price is: €@Model.TotalPrice</h4>
+        </div>
 
-    <div>
-        <button class="mLinkButton" onclick="goBack()">Go Back</button>
-        <script>
-            function goBack() {
-                window.history.back();
-            }
-        </script>
-        @Html.ActionLink("Go to checkout", "Checkout", "Home", null, new { @class = "mLinkButtonBasket" })
-
+        <div class="row">
+            <div style="margin-right: 85px">
+                <input type="submit" value="Go to checkout" class="mLinkButtonBasket" />
+            </div>
+        </div>
     </div>
+ }
+
     
     <div>
         <hr style="margin-top: 40px" />
     </div>
-    <div>
+    <div class="row">
         <h4 style="font-size: 15px; text-align: center">Don't forget to checkout our other concerts and make your day complete with nice dinner at one of the participating restaurants:</h4>
     </div>
     <div>
@@ -166,5 +172,6 @@
             <a href="@Url.Action("Index", "Restaurants")" class="mLinkButton">Look at participation restaurants!</a>
         </div>
     </div>
-
 </div>
+
+        

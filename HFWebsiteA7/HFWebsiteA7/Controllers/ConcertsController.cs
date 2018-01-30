@@ -100,6 +100,13 @@ namespace HFWebsiteA7.Controllers
             vm.PassParToutDay = passParToutDay;
 
 
+            PassParToutWeek passParToutWeek  = new PassParToutWeek
+            {
+                Type = "Week"
+            };
+
+            vm.PassParToutWeek = passParToutWeek;
+
             return View(vm);
         }
 
@@ -126,6 +133,9 @@ namespace HFWebsiteA7.Controllers
                         Event = eventRepository.GetEvent(concertTicket.Ticket.EventId),
                         Count = concertTicket.Ticket.Count
                     };
+
+                    concertTicket.Count = concertTicket.Ticket.Count;
+                    concertTicket.Id = concertTicket.Ticket.EventId;
 
                     concertTicket.Ticket = ticket;
                     concertTicket.Concert = concertRepository.GetConcert(concertTicket.Ticket.Event.EventId);
@@ -180,16 +190,16 @@ namespace HFWebsiteA7.Controllers
 
                 if (reservation.PassParToutWeek == null)
                 {
-                    if (reservationViewModel.PassParToutWeek.count != 0)
+                    if (reservationViewModel.PassParToutWeek.Count != 0)
                     {
                         reservation.PassParToutWeek = reservationViewModel.PassParToutWeek;
                     }
                 }
                 else
                 {
-                    if (reservationViewModel.PassParToutWeek.count != 0)
+                    if (reservationViewModel.PassParToutWeek.Count != 0)
                     {
-                        reservation.PassParToutWeek.count += reservationViewModel.PassParToutWeek.count;
+                        reservation.PassParToutWeek.Count += reservationViewModel.PassParToutWeek.Count;
                     }
                 }
             }
@@ -197,7 +207,7 @@ namespace HFWebsiteA7.Controllers
             
             if (reservation.Tickets == null)
             {
-                reservation.Tickets = concertTickets.ToList<object>();
+                reservation.Tickets = concertTickets.ToList<BaseTicket>();
             }
             else
             {

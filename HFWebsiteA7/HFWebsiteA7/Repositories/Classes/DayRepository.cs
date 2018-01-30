@@ -26,5 +26,19 @@ namespace HFWebsiteA7.Repositories.Classes
         {
             return db.Days.Find(dayId);
         }
+
+        public Day GetDayByName(string dayName)
+        {
+            foreach(Day day in GetAllDays())
+            {
+                if (day.Name.Equals(dayName))
+                {
+
+                    return day;
+                }
+            }
+
+            return null;
+        }
     }
 }

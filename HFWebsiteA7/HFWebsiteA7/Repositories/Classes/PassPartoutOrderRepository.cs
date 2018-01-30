@@ -13,6 +13,7 @@ namespace HFWebsiteA7.Repositories.Classes
         public void AddPassPartoutOrder(PassPartoutOrder passPartoutOrder)
         {
             db.PassPartoutOrder.Add(passPartoutOrder);
+            db.SaveChanges();
         }
 
         public IEnumerable<PassPartoutOrder> GetAllPassPartoutOrders()
@@ -23,6 +24,12 @@ namespace HFWebsiteA7.Repositories.Classes
         public PassPartoutOrder GetPassPartoutOrder(int passPartoutOrderId)
         {
             return db.PassPartoutOrder.Find(passPartoutOrderId);
+        }
+
+        public IEnumerable<PassPartoutOrder> GetPassParToutByOrderId(int orderId)
+        {
+            List<PassPartoutOrder> orderList = GetAllPassPartoutOrders().ToList(); 
+            return orderList.Where(x => x.OrderId.Equals(orderId)).ToList();
         }
     }
 }

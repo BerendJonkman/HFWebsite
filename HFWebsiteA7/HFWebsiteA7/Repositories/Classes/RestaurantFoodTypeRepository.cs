@@ -17,6 +17,15 @@ namespace HFWebsiteA7.Repositories.Classes
             db.SaveChanges();
         }
 
+        public void DeleteRestaurantFoodTypes(List<RestaurantFoodType> restaurantFoodTypes)
+        {
+            foreach(var restaurantFoodType in restaurantFoodTypes)
+            {
+                db.RestaurantFoodType.Remove(restaurantFoodType);
+            }
+            db.SaveChanges();
+        }
+
         public IEnumerable<RestaurantFoodType> GetAllRestaurantFoodTypes()
         {
             return db.RestaurantFoodType.ToList();
@@ -39,6 +48,11 @@ namespace HFWebsiteA7.Repositories.Classes
         public RestaurantFoodType GetRestaurantFoodType(int restaurantFoodTypeId)
         {
             return db.RestaurantFoodType.Find(restaurantFoodTypeId);
+        }
+
+        public IEnumerable<RestaurantFoodType> GetRestaurantFoodTypesByRestaurantId(int restaurantId)
+        {
+            return db.RestaurantFoodType.Where(r => r.RestaurantId == restaurantId);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace HFWebsiteA7.ViewModels
 {
     public class BasketViewModel
     {
-        public List<object> Tickets { get; set; }
+        public List<BaseTicket> Tickets { get; set; }
 
         public List<PassParToutDay> Partoutdays { get; set; }
 

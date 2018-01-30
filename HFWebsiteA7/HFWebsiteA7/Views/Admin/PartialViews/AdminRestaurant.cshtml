@@ -6,71 +6,83 @@
     <hr />
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-8">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <h4>Restaurant Name</h4>
-                        <p>@adminRestaurant.Restaurant.Location.Name</p>
+                        <p>@adminRestaurant.Restaurant.Name</p>
                     </div>
-                    <div class="col-md-4">
-                        <h4>Address</h4>
-                        <p>@adminRestaurant.Restaurant.Location.Street, @adminRestaurant.Restaurant.Location.ZipCode, Haarlem, Netherlands</p>
-                    </div>
-                    <div class="col-md-4">
-                        <h4>Cuisines</h4>
-                        <p>
-                            @foreach (FoodType foodType in adminRestaurant.FoodTypes)
-                            {
-                                @foodType
-                            }
-                        </p>
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Address</h5>
+                                <p>@adminRestaurant.Restaurant.Location.Street @adminRestaurant.Restaurant.Location.HouseNumber, @adminRestaurant.Restaurant.Location.ZipCode @adminRestaurant.Restaurant.Location.City</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Cuisines</h5>
+                                <p>
+                                    @foreach (FoodType foodType in adminRestaurant.FoodTypes)
+                                    {
+                                        @foodType.Name
+                                        if (adminRestaurant.FoodTypes.IndexOf(foodType) != adminRestaurant.FoodTypes.Count() - 1)
+                                        {
+                                            @Html.Raw(", ");
+                                        }
+                                    }
+                                </p>
+                            </div>
+                        </div>    
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <h4>Description</h4>
                         <p>@adminRestaurant.Restaurant.Description</p>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div class="row">
                             <div class="col-md-3">
-                                <h4>Sessions</h4>
+                                <h5>Sessions</h5>
                                 <p>@adminRestaurant.Sessions</p>
                             </div>
                             <div class="col-md-3">
-                                <h4>First Session</h4>0
-                                <p></p>
+                                <h5>Start Time</h5>
+                                <p>@Html.DisplayFor(modelItem => adminRestaurant.StartTime)</p>
                             </div>
                             <div class="col-md-6">
-                                <h4>Seats</h4>
-                                <p>@adminRestaurant.Restaurant.Seats</p>
+                                <h5>Duration</h5>
+                                <p>@adminRestaurant.Duration</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-3">
-                                <h4>Duration</h4>
-                                <p>@adminRestaurant.Duration</p>
+                                <h5 style="">Seats</h5>
+                                <p>@adminRestaurant.Restaurant.Seats</p>
                             </div>
                             <div class="col-md-3">
-                                <h4>Stars</h4>
+                                <h5>Stars</h5>
                                 <p>@adminRestaurant.Restaurant.Stars</p>
                             </div>
                             <div class="col-md-3">
-                                <h4>Price</h4>
+                                <h5>Price</h5>
                                 <p>@adminRestaurant.Restaurant.Price</p>
                             </div>
                             <div class="col-md-3">
-                                <h4>Price (12-)</h4>
+                                <h5>Price (12-)</h5>
                                 <p>@adminRestaurant.Restaurant.ReducedPrice</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <h4>Image</h4>
+                <img class="restaurantimage" src="@Url.Content(adminRestaurant.Restaurant.ImagePath)" />
             </div>
-            <div class="col-md-1">
+            <div class="col-md-1" >
+                <div style="margin-top: 90px; width: 50%; margin-left: auto; margin-right:auto">
+                    <img src="~/Content/Content-images/Admin/ic_mode_edit_black_24dp_1x.png" alt="Edit Restaurant" onclick="javascript: showRestaurantDialog(@adminRestaurant.Restaurant.Id)" />
+                </div>
             </div>
         </div>
     </div>
