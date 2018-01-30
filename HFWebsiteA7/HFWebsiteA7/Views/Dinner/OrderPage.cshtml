@@ -1,25 +1,56 @@
 ﻿@using HFWebsiteA7.Models;
-@model HFWebsiteA7.Models.Restaurant
+@model HFWebsiteA7.Models.DinnerOrder
 @{
-    ViewBag.Title = Model.Name;
+    ViewBag.Title = Model.restaurant.Name;
 }
 
 <div class="container">
     <div class="col-lg-6">
-        <h1>@Model.Name</h1>
-        <div class="container" style="float:left;">
-            <div class="row">
-                <div class="col-sm-6 restaurantboldarial">Cuisines: </div>
-                <span class="col-sm-6 restaurantarial">foodtype</span>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 restaurantboldarial">Rating: </div>
-                <span class="col-sm-6 restaurantarial">@Model.Stars/5</span>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 restaurantboldarial">Price:  </div>
-                <span class="restaurantarial">€@Model.Price (or @Model.ReducedPrice for children under 12)</span>
-            </div>
+        <h1>Booking a Restaurant</h1>
+        <p>Order your tickets for Grand Café Brinkmann below.</p>
+        <div class="container" style="padding-left:0" ;>
+            <div class="col-sm-4" style="padding-left:0">Amount of tickets </div>
+            <div class="col-sm-4">Select your day </div>
+            <div class="col-sm-4">Select your timeslot  </div>
+        </div>
+        <div class="col-sm-4" style="padding-left:0; padding-right:20px;">
+            @Html.TextBox("ticket-amount", null, new { style = "width:120px" })
+        </div>
+        <div class="col-sm-4" style="padding-left:0; padding-right:20px;">
+            @{
+                List<SelectListItem> listItems = new List<SelectListItem>();
+                foreach(var day in Model.days)
+                {
+
+                    listItems.Add(new SelectListItem
+                    {
+
+                        Text = day.Name,
+                        Value = day.Name
+                });
+
+            }
+            }
+
+            @Html.DropDownListFor(model => model.days, listItems, "[Select a day]")
+        </div>
+        <div class="col-sm-4" style="padding-left:0; padding-right:20px;">
+            @{
+        //DEZE IS VOOR HET AANTAL UREN, LEEF JE UIT
+        //List<SelectListItem> listItems = new List<SelectListItem>();
+        foreach (var day in Model.days)
+        {
+            DateTime timeslot = day.Date.AddMinutes((double)Model.timeslot.First().Duration);
+            listItems.Add(new SelectListItem
+            {
+
+                Text = day.Date.ToString("HH:mm") + (day.Date.AddMinutes((double)Model.timeslot.First().Duration)),
+                Value = "Exemplo1"
+            });
+
+        }
+            }
+            @Html.DropDownListFor(model => model.days, listItems, "[Select a timeslot]")
         </div>
     </div>
     <div class="col-lg-6" style="margin-top: 25px;">

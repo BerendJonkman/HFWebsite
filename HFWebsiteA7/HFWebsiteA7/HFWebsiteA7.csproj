@@ -160,6 +160,7 @@
     <Compile Include="Models\ConcertTicket.cs" />
     <Compile Include="Models\DayEnum.cs" />
     <Compile Include="Models\DinnerDetails.cs" />
+    <Compile Include="Models\DinnerOrder.cs" />
     <Compile Include="Models\EventTypeEnum.cs" />
     <Compile Include="Models\PassParToutDay.cs" />
     <Compile Include="Models\PassPartoutOrder.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Models\PassParToutWeek.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\RestaurantAndFoodType.cs" />
+    <Compile Include="Models\StartTimes.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Repositories\Classes\AdminUserRepository.cs" />
     <Compile Include="Repositories\Classes\PassPartoutOrderRepository.cs" />

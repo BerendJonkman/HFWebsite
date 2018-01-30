@@ -129,6 +129,42 @@ namespace HFWebsiteA7.Controllers
 
             IEnumerable<FoodType> foodTypeList = restaurantFoodTypeRepository.GetFoodTypeByRestaurantId(Id);
 
+            string foodTypes = foodTypesAsString(Id);
+
+            
+
+            dinnerDetails.foodtype = foodTypesAsString(Id);
+            dinnerDetails.restaurant = restaurantRepository.GetRestaurant(Id);
+            dinnerDetails.duration = (dinnerSession.Duration * 45).ToString();
+            dinnerDetails.startTimes = retrieveStarttimes(Id, true).startTimeString;
+            return View(dinnerDetails);
+        }
+
+        public ActionResult OrderPage(int Id)
+        {
+            DinnerOrder dinnerOrder = new DinnerOrder();
+            List<Day> days = new List<Day>();
+            Restaurant restaurant = restaurantRepository.GetRestaurant(Id);
+            List<DinnerSession> dinnerSessions = dinnerSessionRepository.GetAllDinnerSessionsByRestaurantId(Id).ToList();
+            foreach(DinnerSession dinnerSession in dinnerSessions) {
+                if (!days.Contains(dayRepository.GetDay(dinnerSession.DayId))) {
+                    days.Add(dayRepository.GetDay(dinnerSession.DayId));
+                }
+            }
+
+
+
+            dinnerOrder.days = days;
+            dinnerOrder.restaurant = restaurant;
+            dinnerOrder.timeslot = retrieveStarttimes(Id, false).startTimeSession.ToList();
+            return View(dinnerOrder);
+        }
+
+        //Method to retrieve foodtypes by restaurantId and return them as a concatenated string
+        private string foodTypesAsString(Int32 restaurantId)
+        {
+            IEnumerable<FoodType> foodTypeList = restaurantFoodTypeRepository.GetFoodTypeByRestaurantId(restaurantId);
+
             string foodTypes = "";
 
             foreach (var foodItem in foodTypeList)
@@ -142,53 +178,62 @@ namespace HFWebsiteA7.Controllers
                     foodTypes += ", " + foodItem.Name;
                 }
             }
+            return foodTypes;
 
-            List<DinnerSession> dinnerSessions = dinnerSessionRepository.GetAllDinnerSessionsByRestaurantId(Id).ToList();
+        }
+
+        //Method to retrieve the starttimes.
+        //First parameter is an int restaurantId of which you want to retrieve the start times
+        //Second parameter is a Bool. True returns a string of the start time hours. False returns a list of dinnersessions containing the different start times.
+        public StartTimes retrieveStarttimes(int restaurantId, bool stringOrListAsSession)
+        {
+            List<DinnerSession> dinnerSessions = dinnerSessionRepository.GetAllDinnerSessionsByRestaurantId(restaurantId).ToList();
             List<DateTime> timeCheck = new List<DateTime>();
 
-            string startTimes = "";
+            string startTimesString = "";
+            List<DinnerSession> startTimesDateTime = new List<DinnerSession>();
+
+            StartTimes returnValue = new StartTimes();
 
             foreach (DinnerSession session in dinnerSessions)
             {
-                if(startTimes == "")
+                if (startTimesString == "")
                 {
-                    if (!timeCheck.Contains(session.StartTime)) { 
-                        timeCheck.Add(session.StartTime);
-                        startTimes = session.StartTime.ToString("HH:mm");
+                    if (!timeCheck.Contains(session.StartTime))
+                    {
+                        if (stringOrListAsSession == true)
+                        {
+                            timeCheck.Add(session.StartTime);
+                            startTimesString = session.StartTime.ToString("HH:mm");
+                        }
+                        else
+                        {
+                            timeCheck.Add(session.StartTime);
+                            startTimesDateTime.Add(session);
+                        }
                     }
                 }
                 else
                 {
-                    if (!timeCheck.Contains(session.StartTime)) { 
-                    timeCheck.Add(session.StartTime);
-                    startTimes += ", " + session.StartTime.ToString("HH:mm");
+                    if (!timeCheck.Contains(session.StartTime))
+                    {
+                        if (stringOrListAsSession == true)
+                        {
+                            timeCheck.Add(session.StartTime);
+                            startTimesString += ", " + session.StartTime.ToString("HH:mm");
+                        }
+                        else
+                        {
+                            timeCheck.Add(session.StartTime);
+                            startTimesDateTime.Add(session);
+                        }
                     }
                 }
-                
             }
-
-            dinnerDetails.foodtype = foodTypes;
-            dinnerDetails.restaurant = restaurantRepository.GetRestaurant(Id);
-            dinnerDetails.duration = (dinnerSession.Duration * 45).ToString();
-            dinnerDetails.startTimes = startTimes;
-            return View(dinnerDetails);
+            returnValue.startTimeSession = startTimesDateTime;
+            returnValue.startTimeString = startTimesString;
+            return returnValue;
         }
-
-        public ActionResult OrderPage(int Id)
-        {
-            List<Day> days = new List<Day>();
-            Restaurant restaurant = restaurantRepository.GetRestaurant(Id);
-            List<DinnerSession> dinnerSessions = dinnerSessionRepository.GetAllDinnerSessionsByRestaurantId(Id).ToList();
-            foreach(DinnerSession dinnerSession in dinnerSessions) {
-                days.Add(dayRepository.GetDay(dinnerSession.DayId));
-            }
-
-            return View(restaurant);
-        }
-
-        
-
-
 
         protected override void Dispose(bool disposing)
         {
