@@ -32,20 +32,145 @@
         </div>
     </div>
 
-    @{ 
-        if(Model.ConcertList != null)
-        {
-            foreach (Concert c in Model.ConcertList)
-            {
-                <div>
-                    <p>
-                        @c.Band.Name, @c.StartTime, @c.Location.Name
-                    </p>
-                </div>
+    <div style="text-align: center; margin-bottom: 20px">
+        <button class="mLinkButton" onclick="location.href='@Url.Action("LoadThursday", "Home")'">Thursday</button>
+        <button class="mLinkButton" onclick="location.href='@Url.Action("LoadFriday", "Home")'">Friday</button>
+        <button class="mLinkButton" onclick="location.href='@Url.Action("LoadSaturday", "Home")'">Saturday</button>
+        <button class="mLinkButton" onclick="location.href='@Url.Action("LoadSunday", "Home")'">Sunday</button>
+    </div>
+    <div class="col-sm-6">
+        <table class="table">
+            <tr>
+                <th>
+                    <b>Name</b>
+                </th>
+                <th>
+                    <b>Time</b>
+                </th>
+                <th>
+                    <b>Location</b>
+                </th>
+            </tr>
+            @{
+                if (Model.ConcertList != null)
+                {
+                    foreach (Concert c in Model.ConcertList)
+                    {
+                        if (c.DayId == Model.DayId)
+                        {
+                            <tr onclick="loadConcertInfo(@c.EventId)">
+                                <td>
+                                    @c.Band.Name
+                                </td>
+                                <td>
+                                    @c.StartTime.ToString("HH:mm")
+                                </td>
+                                <td>
+                                    @c.Location.Name
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
             }
+        </table>
+    </div>
 
-        }
-    }
+    <div class="col-sm-6">
+        <div>
+            <h1 style="text-align:center">Event information</h1>
+        </div>
+        <img id="image" src=""/>
+        <div>
+            <b>Name:</b>
+            <p id="nameText"></p>
+        </div>
+        <div>
+            <b>Description:</b>
+            <p id="descriptionText"></p>
+        </div>
+        <div>
+            <b>Start-time:</b>
+            <p id="startTimeText"></p>
+        </div>
+        <div>
+            <b>Duration:</b>
+            <p id="durationText"></p>
+        </div>
+        <div>
+            <b>Location:</b>
+            <p id="locationText"></p>
+        </div>
+    </div>
+
+
 
 </div>
 
+<script type="text/javascript">
+    function loadConcertInfo(eventId) {
+        $.ajax({
+            url: '/Home/GetConcertInfo',
+            type: 'GET',
+            data: { 'eventId': eventId },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                
+                var url = response.Band.ImagePath.substring(1);
+                $("#image").attr("src", url);
+                $("#image").attr("class", "imageConcert");
+                document.getElementById("nameText").innerHTML = response.Band.Name;
+                document.getElementById("descriptionText").innerHTML = response.Band.Description;
+                document.getElementById("startTimeText").innerHTML = toJavaScriptDate(response.StartTime);
+                document.getElementById("durationText").innerHTML = response.Duration;
+                document.getElementById("locationText").innerHTML = createLocationText(response.Location);
+            },
+            error: function (error) {
+               alert(error.statusText);
+            }
+        });
+    }
+
+    function loadRestaurantInfo(eventId) {
+        $.ajax({
+            url: '/Home/GetRestaurantInfo',
+            type: 'GET',
+            data: { 'eventId': eventId },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+                var url = response.Restaurant.ImagePath.substring(1);
+                $("#image").attr("src", url);
+                $("#image").attr("class", "imageDinner");
+                document.getElementById("nameText").innerHTML = response.Restaurant.Name;
+                document.getElementById("descriptionText").innerHTML = response.Restaurant.Description;
+                document.getElementById("startTimeText").innerHTML = toJavaScriptDate(response.StartTime);
+                document.getElementById("durationText").innerHTML = response.Duration;
+                document.getElementById("locationText").innerHTML = createLocationText(response.Restaurant.Location);
+            },
+            error: function (error) {
+                alert(error.statusText);
+            }
+        });
+    }
+
+    function createLocationText(location) {
+        var string = location.Street + " " + location.HouseNumber + ", " + location.City;
+
+        return string;
+    }
+
+    function toJavaScriptDate(value) {
+        var pattern = /Date\(([^)]+)\)/;
+        var results = pattern.exec(value);
+        var dt = new Date(parseFloat(results[1]));
+        var minutes = dt.getMinutes().toString();
+        if (minutes == "0") {
+            minutes = "00";
+        }
+        var startTime = dt.getHours() + ":" + minutes;
+        return (startTime);
+    }
+</script>

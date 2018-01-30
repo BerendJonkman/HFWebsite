@@ -22,6 +22,7 @@ namespace HFWebsiteA7.Controllers
         IOrderRepository orderRepository = new OrderRepository();
         ITicketRepository ticketRepository = new TicketRepository();
         IDayRepository dayRepository = new DayRepository();
+        IDinnerSessionRepository dinnerSessionRepository = new DinnerSessionRepository();
 
         private Reservation reservation;
 
@@ -67,34 +68,35 @@ namespace HFWebsiteA7.Controllers
                     {
                         vm.PassPartoutTypeList = passParToutTickets.Select(x => x.PassPartoutId).Distinct().ToList();
                     }
+
+                    vm.DayId = 1;
+
+                    Session["PersonalAgenda"] = vm;
+                    return RedirectToAction("ShowPersonalAgenda", "Home");
                 }
                 else
                 {
                     ModelState.AddModelError("notFoundError", "No order was found with this email and code");
                 }
-
-                Session["PersonalAgenda"] = vm;
-                return RedirectToAction("ShowPersonalAgenda", "Home");
             }
 
             return View();
         }
 
+
         public ActionResult ShowPersonalAgenda()
         {
-            if(Session["PersonalAgenda"] != null)
+            if (Session["PersonalAgenda"] != null)
             {
                 PersonalAgendaViewModel vm = (PersonalAgendaViewModel)Session["PersonalAgenda"];
-                if(vm.EventIdList != null)
+                if (vm.EventIdList != null)
                 {
-                    vm.EventList = new List<Event>();
                     vm.ConcertList = new List<Concert>();
 
                     foreach (int e in vm.EventIdList)
                     {
                         Event evnt = eventRepository.GetEvent(e);
-                        vm.EventList.Add(evnt);
-                        if(evnt.TableType.Equals("Concert"))
+                        if (evnt.TableType.Equals("Concert"))
                         {
                             vm.ConcertList.Add(concertsRepository.GetConcert(e));
                         }
@@ -104,7 +106,7 @@ namespace HFWebsiteA7.Controllers
                 return View(vm);
             }
 
-            return View();
+            return RedirectToAction("PersonalAgenda", "Home"); ;
         }
 
         public ActionResult Checkout()
@@ -315,6 +317,57 @@ namespace HFWebsiteA7.Controllers
             return RedirectToAction("Checkout", "Home");
         }
 
+        [HttpGet]
+        public ActionResult LoadThursday()
+        {
+            SetDayId(1);
+            return RedirectToAction("ShowPersonalAgenda", "Home");
+        }
+
+        [HttpGet]
+        public ActionResult LoadFriday()
+        {
+            SetDayId(2);
+            return RedirectToAction("ShowPersonalAgenda", "Home");
+        }
+
+        [HttpGet]
+        public ActionResult LoadSaturday()
+        {
+            SetDayId(3);
+            return RedirectToAction("ShowPersonalAgenda", "Home");
+        }
+
+        [HttpGet]
+        public ActionResult LoadSunday()
+        {
+            SetDayId(4);
+            return RedirectToAction("ShowPersonalAgenda", "Home");
+        }
+
+        private void SetDayId(int dayId)
+        {
+            var vm = (PersonalAgendaViewModel)Session["PersonalAgenda"];
+            vm.DayId = dayId;
+            Session["PersonalAgenda"] = vm;
+        }
+
+        [HttpGet]
+        public JsonResult GetConcertInfo(int eventId)
+        {
+            var concert = concertsRepository.GetConcert(eventId);
+
+            return Json(concert, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetRestaurantInfo(int eventId)
+        {
+            var dinnerSession = dinnerSessionRepository.GetDinnerSession(eventId);
+
+            return Json(dinnerSession, JsonRequestBehavior.AllowGet);
+        }
+
         private void UpdateReservation(BasketViewModel vmNew)
         {
             List<BaseTicket> tickets = new List<BaseTicket>();
@@ -346,7 +399,7 @@ namespace HFWebsiteA7.Controllers
             {
                 foreach (BaseTicket newBaseTicket in vmNew.Tickets)
                 {
-                    if(newBaseTicket.Count != 0)
+                    if (newBaseTicket.Count != 0)
                     {
                         foreach (BaseTicket oldBaseTicket in tickets)
                         {
@@ -397,7 +450,7 @@ namespace HFWebsiteA7.Controllers
                             }
                         }
                     }
-                    
+
                 }
             }
 
@@ -431,5 +484,7 @@ namespace HFWebsiteA7.Controllers
 
             return Regex.Replace("XXXXXX", "X", RandomChar);
         }
+
+
     }
 }
