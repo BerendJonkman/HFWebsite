@@ -14,5 +14,6 @@ namespace HFWebsiteA7.Repositories.Interfaces
         void AddRestaurant(Restaurant restaurant);
         void UpdateRestaurant(Restaurant restaurant);
         int GetLastRestaurant();
+        void RemoveRestaurant(Restaurant restaurant);
     }
 }

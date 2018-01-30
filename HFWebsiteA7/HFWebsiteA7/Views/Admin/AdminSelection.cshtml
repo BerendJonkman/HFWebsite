@@ -1,7 +1,7 @@
 ﻿@using HFWebsiteA7.Models
 
 @{
-    ViewBag.Title = "AdminSelection";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 <div class="container">
     <div class="container col-sm-5 adminSelection">
@@ -14,14 +14,12 @@
         <div class="text-center" style="margin-top: 25px">
             <div class="col-sm-6 text-center">
                 <div>
-                    @Html.ActionLink("Concerts", "AdminEventEdit", "Admin", new { Type = EventTypeEnum.Concerts }, new { Style = "width:100px;", @class = "mLinkButton" })
-
-
-                </div>
+                    @Html.ActionLink("Concerts", "EventSelect", "Admin", new { Type = EventTypeEnum.Concerts }, new { Style = "width:100px;", @class = "mLinkButton" })
+                </div>  
             </div>
             <div class="col-sm-6 text-center">
                 <div>
-                    @Html.ActionLink("Dinners", "AdminEventEdit", "Admin", new { Type = EventTypeEnum.Restaurants }, new { Style = "width:100px;", @class = "mLinkButton" })
+                    @Html.ActionLink("Dinners", "EventSelect", "Admin", new { Type = EventTypeEnum.Restaurants }, new { Style = "width:100px;", @class = "mLinkButton" })
                 </div>
             </div>
         </div>
@@ -29,14 +27,14 @@
         <div class="text-center" style="margin-top: 100px">
             <div class="col-sm-6 text-center">
                 <div>
-                    @Html.ActionLink("Bands", "AdminEventEdit", "Admin", new { Type = EventTypeEnum.Bands }, new { Style = "width:100px;", @class = "mLinkButton" })
+                    @Html.ActionLink("Bands", "EventSelect", "Admin", new { Type = EventTypeEnum.Bands }, new { Style = "width:100px;", @class = "mLinkButton" })
 
 
                 </div>
             </div>
             <div class="col-sm-6 text-center">
                 <div>
-                    @Html.ActionLink("Locations", "AdminEventEdit", "Admin", new { Type = EventTypeEnum.Locations }, new { Style = "width:100px;", @class = "mLinkButton" })
+                    @Html.ActionLink("Locations", "EventSelect", "Admin", new { Type = EventTypeEnum.Locations }, new { Style = "width:100px;", @class = "mLinkButton" })
                 </div>
             </div>
         </div>
@@ -50,7 +48,7 @@
             By clicking the Download button you will download an excel file which contains all information about tickets availability and sales. The information per event is distributed over different sheets.
         </p>
         <div class="inner" style="margin-top: 30px">
-            <a class="mLinkButton">Download</a> <!-- Download action toevoegen -->
+            @Html.ActionLink("Download", "GetExcel", "Admin", new { Style = "width:100px;", @class = "mLinkButton" })
         </div>
     </div>
 

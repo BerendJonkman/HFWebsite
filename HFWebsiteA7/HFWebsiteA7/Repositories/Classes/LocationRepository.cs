@@ -18,7 +18,7 @@ namespace HFWebsiteA7.Repositories.Classes
             db.SaveChanges();
         }
 
-        public void DeleteLocation(Location location)
+        public void RemoveLocation(Location location)
         {
             db.Locations.Remove(location);
             db.SaveChanges();

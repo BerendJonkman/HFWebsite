@@ -17,6 +17,7 @@ using System.Text.RegularExpressions;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Diagnostics;
+using System.Text;
 
 namespace HFWebsiteA7.Controllers
 {
@@ -65,16 +66,35 @@ namespace HFWebsiteA7.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index");
+        }
+
         [Authorize]
+        [HttpGet]
+        public ActionResult EventSelect(EventTypeEnum type)
+        {
+            Session["adminEventEditViewModel"] = CreateAdminEventEditViewModel(type);
+            return RedirectToAction("AdminEventEdit");
+        }
+
+        [Authorize]
+        [HttpGet]
         public ActionResult AdminSelection()
         {
             return View();
         }
 
         [Authorize]
-        public ActionResult AdminEventEdit(EventTypeEnum type)
+        [HttpGet]
+        public ActionResult AdminEventEdit()
         {
-            var adminEventEditViewModel = CreateAdminEventEditViewModel(type);
+            var adminEventEditViewModel = (AdminEventEditViewModel)Session["adminEventEditViewModel"];
+            adminEventEditViewModel = CreateAdminEventEditViewModel(adminEventEditViewModel.EventType);
+            Session["adminEventEditViewModel"] = adminEventEditViewModel;
             return View(adminEventEditViewModel);
         }
 
@@ -82,7 +102,6 @@ namespace HFWebsiteA7.Controllers
         [HttpPost]
         public ActionResult CreateBand(AdminBand adminBand)
         {
-            var type = EventTypeEnum.Bands;
             if (ModelState.IsValid)
             {
                 var filename = CreateFileName(adminBand.Band.Name);
@@ -92,44 +111,60 @@ namespace HFWebsiteA7.Controllers
                 sourceimage.Save(path, ImageFormat.Jpeg);
 
                 bandRepository.AddBand(adminBand.Band);
-                var adminEventEditViewModel = CreateAdminEventEditViewModel(type);
-                return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
             }
-            return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
+            else
+            {
+                ModelState.AddModelError("Error", "One or more Fields were empty.");
+            }
+            var adminEventEditViewModel = (AdminEventEditViewModel)Session["adminEventEditViewModel"];
+            adminEventEditViewModel.AdminBand = adminBand;
+            Session["adminEventEditViewModel"] = adminEventEditViewModel;
+            return RedirectToAction("AdminEventEdit");
         }
 
         [Authorize]
         [HttpPost]
         public ActionResult CreateConcert(AdminConcert adminConcert)
         {
-            var type = EventTypeEnum.Concerts;
             adminConcert.Concert.TableType = "Concert";
             adminConcert.Concert.AvailableSeats = hallRepository.GetHall(adminConcert.Concert.HallId).Seats;
             if (ModelState.IsValid)
             {
                 concertRepository.AddConcert(adminConcert.Concert);
             }
-            return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
+            else
+            {
+                ModelState.AddModelError("Error", "One or more Fields were empty.");
+            }
+            var adminEventEditViewModel = (AdminEventEditViewModel)Session["adminEventEditViewModel"];
+            adminEventEditViewModel.AdminConcert = adminConcert;
+            Session["adminEventEditViewModel"] = adminEventEditViewModel;
+            return RedirectToAction("AdminEventEdit");
         }
 
         [Authorize]
         [HttpPost]
         public ActionResult CreateLocation(Location location)
         {
-            var type = EventTypeEnum.Locations;
             if (ModelState.IsValid)
             {
                 locationRepository.AddLocation(location);
             }
-            return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
+            else
+            {
+                ModelState.AddModelError("Error", "One or more Fields were empty.");
+            }
+            var adminEventEditViewModel = (AdminEventEditViewModel)Session["adminEventEditViewModel"];
+            adminEventEditViewModel.Location = location;
+            Session["adminEventEditViewModel"] = adminEventEditViewModel;
+
+            return RedirectToAction("AdminEventEdit");
         }
 
         [Authorize]
         [HttpPost]
         public ActionResult CreateAdminRestaurant(AdminRestaurant adminRestaurant)
         {
-            var type = EventTypeEnum.Restaurants;
-
             if (ModelState.IsValid)
             {
                 var filename = CreateFileName(adminRestaurant.Restaurant.Name);
@@ -159,31 +194,74 @@ namespace HFWebsiteA7.Controllers
                         dinnerSessionRepository.AddDinnerSession(dinnerSession);
                     }
                 }
+
+                foreach (var id in adminRestaurant.FoodTypeIdList)
+                {
+                    RestaurantFoodType restaurantFoodType = new RestaurantFoodType()
+                    {
+                        FoodTypeId = id,
+                        RestaurantId = restaurantRepository.GetLastRestaurant()
+                    };
+                    restaurantFoodTypeRepository.AddRestaurantFoodType(restaurantFoodType);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Error", "One or more Fields were empty.");
             }
 
-            foreach(var id in adminRestaurant.FoodTypeIdList)
-            {
-                RestaurantFoodType restaurantFoodType = new RestaurantFoodType()
-                {
-                    FoodTypeId = id,
-                    RestaurantId = restaurantRepository.GetLastRestaurant()
-                };
-                restaurantFoodTypeRepository.AddRestaurantFoodType(restaurantFoodType);
-            }
-            return View("AdminEventEdit", CreateAdminEventEditViewModel(type));
+
+
+            var adminEventEditViewModel = (AdminEventEditViewModel)Session["adminEventEditViewModel"];
+            adminEventEditViewModel.AdminRestaurant = adminRestaurant;
+            Session["adminEventEditViewModel"] = adminEventEditViewModel;
+
+            return RedirectToAction("AdminEventEdit");
         }
 
-        private Image GetImageFromStream(HttpPostedFileBase file)
+        [Authorize]
+        [HttpGet]
+        public void GetExcel()
         {
-            using (var stream = file.InputStream)
+            var sb = new StringBuilder();
+            var concertList = concertRepository.GetAllConcerts();
+            var list = new List<ExcelItem>();
+            foreach(var concert in concertList)
             {
-                return Image.FromStream(stream);
+                list.Add(new ExcelItem() { Name = concert.Band.Name, AvailableSeats = concert.AvailableSeats, Day = concert.Day.Name, StartTime = concert.StartTime.ToString("HH:mm") });
             }
+
+            var restaurantList = dinnerSessionRepository.GetAllDinnerSessions();
+
+            foreach(var dinnerSession in restaurantList)
+            {
+                list.Add(new ExcelItem() { Name = dinnerSession.Restaurant.Name, AvailableSeats = dinnerSession.AvailableSeats, Day = dinnerSession.Day.Name, StartTime = dinnerSession.StartTime.ToString("HH:mm") });
+            }
+
+            var grid = new System.Web.UI.WebControls.GridView
+            {
+                DataSource = list
+            };
+
+            grid.DataBind();
+            Response.ClearContent();
+            Response.AddHeader("content-disposition", "attachment; filename=EventOverview.xls");
+            Response.ContentType = "application/vnd.ms-excel";
+            StringWriter sw = new StringWriter();
+            System.Web.UI.HtmlTextWriter htw = new System.Web.UI.HtmlTextWriter(sw);
+            grid.RenderControl(htw);
+            Response.Write(sw.ToString());
+            Response.End();
+
+
         }
 
         private string CreateFileName(string name)
         {
-            return Regex.Replace(name, @"\s+", "") + ".jpg".ToLower();
+            name = Regex.Replace(name, @"\s+", "") + ".jpg";
+            name = name.ToLower();
+            name = name.Replace("&", "and");
+            return name;
         }
 
         public AdminEventEditViewModel CreateAdminEventEditViewModel(EventTypeEnum type)
@@ -421,8 +499,13 @@ namespace HFWebsiteA7.Controllers
 
         [Authorize]
         [HttpPost]
-        public void UpdateAdminRestaurant(int restaurantId, int availableSeats, string name, int locationId, decimal price, decimal reducedPrice, int stars, string description, int sessions, string startTime, int[] foodTypeArray, decimal duration)
+        public void UpdateAdminRestaurant(int restaurantId, int availableSeats, string name, int locationId, decimal price, decimal reducedPrice, int stars, string description, int sessions, string startTime, int[] foodTypeArray, decimal duration, bool imageChanged)
         {
+            Restaurant oldRestaurant = restaurantRepository.GetRestaurant(restaurantId);
+            if (oldRestaurant.Name != name && !imageChanged)
+            {
+                System.IO.File.Move(Path.Combine(Server.MapPath(bandImagePath), CreateFileName(oldRestaurant.Name)), Path.Combine(Server.MapPath(bandImagePath), CreateFileName(name)));
+            }
             Restaurant restaurant = new Restaurant()
             {
                 Id = restaurantId,
@@ -544,9 +627,40 @@ namespace HFWebsiteA7.Controllers
         public void RemoveBand(int bandId)
         {
             Band band = bandRepository.GetBand(bandId);
-            bandRepository.removeBand(band);
+            bandRepository.RemoveBand(band);
 
             string fullPath = Request.MapPath(band.ImagePath);
+            if (System.IO.File.Exists(fullPath))
+            {
+                System.IO.File.Delete(fullPath);
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public void RemoveConcert(int concertId)
+        {
+            var concert = concertRepository.GetConcert(concertId);
+            concertRepository.RemoveConcert(concert);
+
+        }
+
+        [Authorize]
+        [HttpGet]
+        public void RemoveLocation(int locationId)
+        {
+            var location = locationRepository.GetLocation(locationId);
+            locationRepository.RemoveLocation(location);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public void RemoveRestaurant(int restaurantId)
+        {
+            var restaurant = restaurantRepository.GetRestaurant(restaurantId);
+            restaurantRepository.RemoveRestaurant(restaurant);
+
+            string fullPath = Request.MapPath(restaurant.ImagePath);
             if (System.IO.File.Exists(fullPath))
             {
                 System.IO.File.Delete(fullPath);

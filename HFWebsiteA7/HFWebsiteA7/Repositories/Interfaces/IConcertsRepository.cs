@@ -20,5 +20,6 @@ namespace HFWebsiteA7.Repositories.Interfaces
         FestivalDay CreateFestivalDay(Day day);
 
         void UpdateConcert(Concert concert);
+        void RemoveConcert(Concert concert);
     }
 }

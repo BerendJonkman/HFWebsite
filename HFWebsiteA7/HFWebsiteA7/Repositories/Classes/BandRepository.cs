@@ -26,7 +26,7 @@ namespace HFWebsiteA7.Repositories
             return db.Bands.Find(bandId);
         }
 
-        public void removeBand(Band band)
+        public void RemoveBand(Band band)
         {
             db.Bands.Remove(band);
             db.SaveChanges();

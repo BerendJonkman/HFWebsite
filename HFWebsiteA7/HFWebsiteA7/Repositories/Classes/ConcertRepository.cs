@@ -81,5 +81,11 @@ namespace HFWebsiteA7.Repositories.Classes
 
             return dayConcerts;
         }
+
+        public void RemoveConcert(Concert concert)
+        {
+            db.Concerts.Remove(concert);
+            db.SaveChanges();
+        }
     }
 }
