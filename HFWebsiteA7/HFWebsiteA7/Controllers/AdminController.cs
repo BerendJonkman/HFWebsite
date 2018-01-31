@@ -43,6 +43,7 @@ namespace HFWebsiteA7.Controllers
             return View();
         }
 
+        //Logs in user if credentials ar correct
         [HttpPost]
         public ActionResult Index(AdminUser user)
         {
@@ -66,6 +67,7 @@ namespace HFWebsiteA7.Controllers
             return View();
         }
 
+        //Logs out user
         [HttpGet]
         public ActionResult LogOff()
         {
@@ -75,19 +77,21 @@ namespace HFWebsiteA7.Controllers
 
         [Authorize]
         [HttpGet]
+        public ActionResult AdminSelection()
+        {
+            return View();
+        }
+
+        //Saves the select EventType to the Session and redirects to the select editpage
+        [Authorize]
+        [HttpGet]
         public ActionResult EventSelect(EventTypeEnum type)
         {
             Session["adminEventEditViewModel"] = CreateAdminEventEditViewModel(type);
             return RedirectToAction("AdminEventEdit");
         }
 
-        [Authorize]
-        [HttpGet]
-        public ActionResult AdminSelection()
-        {
-            return View();
-        }
-
+        //Gets model from the Session and creates edit View
         [Authorize]
         [HttpGet]
         public ActionResult AdminEventEdit()
@@ -98,6 +102,7 @@ namespace HFWebsiteA7.Controllers
             return View(adminEventEditViewModel);
         }
 
+        //Creates a new band in the database
         [Authorize]
         [HttpPost]
         public ActionResult CreateBand(AdminBand adminBand)
@@ -122,6 +127,7 @@ namespace HFWebsiteA7.Controllers
             return RedirectToAction("AdminEventEdit");
         }
 
+        //Creates a new Concert in the database
         [Authorize]
         [HttpPost]
         public ActionResult CreateConcert(AdminConcert adminConcert)
@@ -142,6 +148,7 @@ namespace HFWebsiteA7.Controllers
             return RedirectToAction("AdminEventEdit");
         }
 
+        //Creates a new Location in the database
         [Authorize]
         [HttpPost]
         public ActionResult CreateLocation(Location location)
@@ -161,6 +168,7 @@ namespace HFWebsiteA7.Controllers
             return RedirectToAction("AdminEventEdit");
         }
 
+        //Creates a new Restaurant in the database
         [Authorize]
         [HttpPost]
         public ActionResult CreateAdminRestaurant(AdminRestaurant adminRestaurant)
@@ -173,6 +181,7 @@ namespace HFWebsiteA7.Controllers
                 Image sourceimage = Image.FromStream(adminRestaurant.File.InputStream);
                 sourceimage.Save(path, ImageFormat.Jpeg);
                 restaurantRepository.AddRestaurant(adminRestaurant.Restaurant);
+                //New DinnerSessions are created
                 foreach (var day in dayRepository.GetAllDays())
                 {
                     var startTime = adminRestaurant.StartTime;
@@ -219,6 +228,7 @@ namespace HFWebsiteA7.Controllers
             return RedirectToAction("AdminEventEdit");
         }
 
+        //Creates Excel file for download
         [Authorize]
         [HttpGet]
         public void GetExcel()
@@ -252,10 +262,9 @@ namespace HFWebsiteA7.Controllers
             grid.RenderControl(htw);
             Response.Write(sw.ToString());
             Response.End();
-
-
         }
 
+        //Create a filename for an image so it can savely be saved on the server
         private string CreateFileName(string name)
         {
             name = Regex.Replace(name, @"\s+", "") + ".jpg";
@@ -264,6 +273,7 @@ namespace HFWebsiteA7.Controllers
             return name;
         }
 
+        //Creates a new ViewModel using the selected Type
         public AdminEventEditViewModel CreateAdminEventEditViewModel(EventTypeEnum type)
         {
             AdminEventEditViewModel vm = new AdminEventEditViewModel
@@ -294,6 +304,7 @@ namespace HFWebsiteA7.Controllers
             return vm;
         }
 
+        //Creates a new model for the Dinner page
         private AdminRestaurant CreateAdminRestaurant()
         {
             var adminRestaurant = new AdminRestaurant();
@@ -315,6 +326,7 @@ namespace HFWebsiteA7.Controllers
             return adminRestaurant;
         }
 
+        //Creates a list of Restaurants to be shown on the Dinner page
         private List<object> CreateAdminRestaurantList()
         {
             var dinnerSessions = dinnerSessionRepository.GetAllDinnerSessions();
@@ -347,6 +359,7 @@ namespace HFWebsiteA7.Controllers
             return adminRestaurantList.ToList<object>();
         }
 
+        //Creates a Concert for the Concert page
         private AdminConcert CreateAdminConcert()
         {
             var bandList = bandRepository.GetAllBands().Select(x =>
@@ -385,6 +398,7 @@ namespace HFWebsiteA7.Controllers
             return adminConcert;
         }
 
+        //Gets Band from database by Id
         [Authorize]
         [HttpGet]
         public JsonResult GetBand(int bandId)
@@ -394,6 +408,7 @@ namespace HFWebsiteA7.Controllers
             return Json(adminBand, JsonRequestBehavior.AllowGet);
         }
 
+        //Gets Location from database by Id
         [Authorize]
         [HttpGet]
         public JsonResult GetLocation(int locationId)
@@ -402,6 +417,7 @@ namespace HFWebsiteA7.Controllers
             return Json(location, JsonRequestBehavior.AllowGet);
         }
 
+        //Gets Concert from database by Id
         [Authorize]
         [HttpGet]
         public JsonResult GetConcert(int concertId)
@@ -410,6 +426,7 @@ namespace HFWebsiteA7.Controllers
             return Json(concert, JsonRequestBehavior.AllowGet);
         }
 
+        //Gets Restaurant from database by Id
         [Authorize]
         [HttpGet]
         public JsonResult GetAdminRestaurant(int restaurantId)
@@ -442,7 +459,8 @@ namespace HFWebsiteA7.Controllers
 
             return Json(adminRestaurant, JsonRequestBehavior.AllowGet);
         }
-
+        
+        //Updates Band in de database
         [Authorize]
         [HttpPost]
         public void UpdateBand(int bandId, string name, string description, bool imageChanged)
@@ -462,6 +480,7 @@ namespace HFWebsiteA7.Controllers
             bandRepository.UpdateBand(band);
         }
 
+        //Updates Concert in the database
         [Authorize]
         [HttpPost]
         public void UpdateConcert(int eventId, int locationId, int hallId, decimal duration, string startTime)
@@ -480,6 +499,7 @@ namespace HFWebsiteA7.Controllers
             concertRepository.UpdateConcert(concert);
         }
 
+        //Updates Location in database
         [Authorize]
         [HttpPost]
         public void UpdateLocation(int locationId, string name, string street, string houseNumber, string city, string zipCode)
@@ -497,6 +517,7 @@ namespace HFWebsiteA7.Controllers
             locationRepository.UpdateLocation(location);
         }
 
+        //Update Restaurant in database, as a consequence all Dinnersessions and RestaurantFoodtypes have to be updated as well
         [Authorize]
         [HttpPost]
         public void UpdateAdminRestaurant(int restaurantId, int availableSeats, string name, int locationId, decimal price, decimal reducedPrice, int stars, string description, int sessions, string startTime, int[] foodTypeArray, decimal duration, bool imageChanged)
@@ -525,10 +546,13 @@ namespace HFWebsiteA7.Controllers
             UpdateRestaurantFoodTypes(foodTypeArray, restaurantId);
         }
 
+        //Updates the DinnerSessions
         private void UpdateDinnersSessions(decimal Duration, string StartTime, int RestaurantId, int AvailableSeats, int Sessions)
         {
             var dinnerSessions = dinnerSessionRepository.GetAllDinnerSessionsByRestaurantId(RestaurantId);
             var startDateTime = Convert.ToDateTime(StartTime);
+            //Check if the number of sessions have been changed
+            //If the number is not changed, update the dinner sessions
             if (Sessions == dinnerSessions.Count())
             {
                 foreach (var dinnerSession in dinnerSessions)
@@ -543,6 +567,7 @@ namespace HFWebsiteA7.Controllers
                     dinnerSession.StartTime = startDateTime;
                 }
             }
+            //If the number of sessions has been changed recreate the Dinnersessions
             else
             {
                 dinnerSessionRepository.DeleteDinnerSessions(dinnerSessions.ToList());
@@ -572,10 +597,13 @@ namespace HFWebsiteA7.Controllers
             }
         }
 
+        //Updates RestaurantFoodTypes
         private void UpdateRestaurantFoodTypes(int[] foodTypeArray, int restaurantId)
         {
+            //First remove all FoodTypes
             restaurantFoodTypeRepository.DeleteRestaurantFoodTypes(restaurantFoodTypeRepository.GetRestaurantFoodTypesByRestaurantId(restaurantId).ToList());
 
+            //Create the new FoodTypes
             foreach (var id in foodTypeArray)
             {
                 var restaurantFoodType = new RestaurantFoodType()
@@ -588,6 +616,8 @@ namespace HFWebsiteA7.Controllers
             }
         }
 
+
+        //Uploads the Image of the Band to the server
         [Authorize]
         [HttpPost]
         public void UploadBandImage()
@@ -605,6 +635,7 @@ namespace HFWebsiteA7.Controllers
             }
         }
 
+        //Uploads the image of the Restaurant to the server
         [Authorize]
         [HttpPost]
         public void UploadRestaurantImage()
@@ -622,6 +653,7 @@ namespace HFWebsiteA7.Controllers
             }
         }
 
+        //Removes selected Band (As a consequence all Concerts and Tickets are removed as well)
         [Authorize]
         [HttpGet]
         public void RemoveBand(int bandId)
@@ -636,6 +668,7 @@ namespace HFWebsiteA7.Controllers
             }
         }
 
+        //Removes selected Concert (As a consequence all related Tickets are removed as well)
         [Authorize]
         [HttpGet]
         public void RemoveConcert(int concertId)
@@ -645,6 +678,7 @@ namespace HFWebsiteA7.Controllers
 
         }
 
+        //Removes selected Location(As a consequence all related Concerts and or Restaurants are removed as well)
         [Authorize]
         [HttpGet]
         public void RemoveLocation(int locationId)
@@ -653,6 +687,7 @@ namespace HFWebsiteA7.Controllers
             locationRepository.RemoveLocation(location);
         }
 
+        //Removes selected Restaurant (As a consequence all related Tickets are removed as well)
         [Authorize]
         [HttpGet]
         public void RemoveRestaurant(int restaurantId)
