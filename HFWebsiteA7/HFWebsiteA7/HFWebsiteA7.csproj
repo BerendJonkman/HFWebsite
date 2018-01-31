@@ -163,6 +163,7 @@
     <Compile Include="Models\DinnerOrder.cs" />
     <Compile Include="Models\DinnerTicket.cs" />
     <Compile Include="Models\EventTypeEnum.cs" />
+    <Compile Include="Models\ExcelItem.cs" />
     <Compile Include="Models\PassParToutDay.cs" />
     <Compile Include="Models\PassPartoutOrder.cs" />
     <Compile Include="Models\PassPartoutType.cs" />
@@ -305,7 +306,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\AdminScript.js" />
+    <Content Include="Scripts\adminScript.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -336,12 +337,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Admin\Create.cshtml" />
-    <Content Include="Views\Admin\Delete.cshtml" />
-    <Content Include="Views\Admin\Details.cshtml" />
-    <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\Dinner.cshtml" />
     <Content Include="Views\Concerts\Index.cshtml" />
     <Content Include="Views\Concerts\Reservation.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
@@ -373,6 +369,7 @@
     <Content Include="Views\Home\PersonalAgenda.cshtml" />
     <Content Include="Views\Home\ShowPersonalAgenda.cshtml" />
     <Content Include="Views\Admin\PartialViews\EditAdminRestaurant.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

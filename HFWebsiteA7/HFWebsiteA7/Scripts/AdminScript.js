@@ -1,23 +1,10 @@
-﻿window.onload = function () {
+﻿var id = 0;
+var imageChanged = false;
+var formData;
+
+window.onload = function () {
     $("body").css("cursor", "default");
 
-}
-
-function cancelRemoveDialog() {
-    var removeDialog = document.getElementById('removeDialog');
-    removeDialog.close();
-}
-
-function cancelAddDialog() {
-    var addDialog = document.getElementById('addDialog');
-    addDialog.close();
-}
-
-function showRemoveDialog(adminBandId) {
-    console.log(adminBandId);
-    id = adminBandId;
-    var removeDialog = document.getElementById('removeDialog');
-    removeDialog.showModal();
 }
 
 function removeBand() {
@@ -26,23 +13,47 @@ function removeBand() {
         url: '/Admin/RemoveBand',
         data: { 'bandId': id },
     }).done(function () {
-        location.reload();
+        window.location.reload();
     }).fail(function (xhr, status, errorThrown) {
         alert(status);
     });
 }
 
-function showDiv() {
-    if (document.getElementById('divCreate').style.display == "none") {
-        document.getElementById('divCreate').style.display = "block";
-        document.getElementById('newButton').textContent = "Close";
-    } else {
-        document.getElementById('divCreate').style.display = "none";
-        document.getElementById('newButton').textContent = "New";
-    }
+function removeLocation() {
+    $.ajax({
+        type: "GET",
+        url: '/Admin/RemoveLocation',
+        data: { 'locationId': id },
+    }).done(function () {
+        window.location.reload();
+    }).fail(function (xhr, status, errorThrown) {
+        alert(status);
+    });
 }
 
-var id = 0;
+function removeRestaurant() {
+    $.ajax({
+        type: "GET",
+        url: '/Admin/RemoveRestaurant',
+        data: { 'restaurantId': id },
+    }).done(function () {
+        window.location.reload();
+    }).fail(function (xhr, status, errorThrown) {
+        alert(status);
+    });
+}
+
+function removeConcert() {
+    $.ajax({
+        type: "GET",
+        url: '/Admin/RemoveConcert',
+        data: { 'concertId': id },
+    }).done(function () {
+        window.location.reload();
+    }).fail(function (xhr, status, errorThrown) {
+        alert(status);
+    });
+}
 
 function showBandDialog(selectedId) {
     id = selectedId;
@@ -55,7 +66,6 @@ function showBandDialog(selectedId) {
         success: function (response) {
             var url = response.ImagePath.substring(1);
 
-            console.log(url);
             $("#bandImage").attr("src", url);
             document.getElementById("Name").value = response.Name;
             document.getElementById("Description").value = response.Description;
@@ -78,7 +88,6 @@ function showLocationDialog(selectedId) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
-            console.log(response);
             document.getElementById("DialogName").value = response.Name;
             document.getElementById("DialogStreet").value = response.Street;
             document.getElementById("DialogHouseNumber").value = response.HouseNumber;
@@ -94,12 +103,6 @@ function showLocationDialog(selectedId) {
         }
     });
 }
-
-function setImageChanged() {
-    imageChanged = true;
-}
-
-var imageChanged = false;
 
 function showConcertDialog(selectedId) {
     id = selectedId;
@@ -162,80 +165,51 @@ function showRestaurantDialog(selectedId) {
     });
 }
 
-function setFoodTypesSelected(foodTypeList) {
-    $("#FoodTypeSelect").val(foodTypeList).trigger("chosen:updated");
-}
-
-function toJavaScriptDate(value) {
-    var pattern = /Date\(([^)]+)\)/;
-    var results = pattern.exec(value);
-    var dt = new Date(parseFloat(results[1]));
-    var minutes = dt.getMinutes().toString();
-    if (minutes == "0") {
-        minutes = "00";
-    }
-    var startTime = dt.getHours() + ":" + minutes;
-    return (startTime);
-}
-
-function newBandImage() {
-    formData = new FormData();
-    var totalFiles = document.getElementById("BandImageFile").files.length;
-    for (var i = 0; i < totalFiles; i++) {
-        var file = document.getElementById("BandImageFile").files[i];
-        formData.append("bandImage", file);
-    }
-    console.log(formData)
-}
-var formData;
-
-function saveLocationData() {
-
-}
-
 function saveBandData() {
-    var name = document.getElementById("Name").value;
-    var description = document.getElementById("Description").value;
+    var name = document.getElementById("Name");
+    var description = document.getElementById("Description");
 
-    $.ajax({
-        type: "POST",
-        url: '/Admin/UpdateBand',
-        data: { 'bandId': id, 'name': name, 'description': description, 'imageChanged': imageChanged },
-    }).done(function () {
-        var totalFiles = document.getElementById("BandImageFile").files.length;
-        if (totalFiles != 0 && imageChanged) {
-            formData = new FormData();
-            for (var i = 0; i < totalFiles; i++) {
-                var file = document.getElementById("BandImageFile").files[i];
-                fileName = name.replace(/\s/g, '') + ".jpg";
+    var childeren = [];
+    childeren.push(name);
+    childeren.push(description);
 
-                file.name = fileName;
-                formData.append("bandImage", file, fileName);
+    if (checkValues(childeren)) {
+        $.ajax({
+            type: "POST",
+            url: '/Admin/UpdateBand',
+            data: {
+                'bandId': id,
+                'name': name.value,
+                'description': description.value,
+                'imageChanged': imageChanged
+            },
+        }).done(function () {
+            var totalFiles = document.getElementById("BandImageFile").files.length;
+            if (totalFiles !== 0 && imageChanged) {
+                formData = new FormData();
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById("BandImageFile").files[i];
+                    fileName = name.replace(/\s/g, '') + ".jpg";
+
+                    file.name = fileName;
+                    formData.append("bandImage", file, fileName);
+                }
+                saveBandImage();
+            } else {
+                location.reload();
             }
-            saveBandImage();
-        } else {
-            location.reload();
-        }
 
-    }).fail(function (xhr, status, errorThrown) {
-        alert(status);
-    });
-}
+        }).fail(function (xhr, status, errorThrown) {
+            alert(status);
+        });
+    }
 
-function closeDialog(snackbarText, dialogId) {
-    var addDialog = document.getElementById(dialogId);
-    addDialog.close();
-
-    var x = document.getElementById("snackbar");
-    x.textContent = snackbarText;
-    x.className = "show";
-    setTimeout(function () { x.className = x.className.replace("show", "");; }, 3000);
 }
 
 function saveBandImage() {
     $.ajax({
         type: "POST",
-        url: '/Admin/`oadBandImage',
+        url: '/Admin/UploadBandImage',
         data: formData,
         contentType: false,
         processData: false
@@ -248,40 +222,72 @@ function saveBandImage() {
 
 function saveLocationData() {
 
-    var name = document.getElementById("DialogName").value;
-    var street = document.getElementById("DialogStreet").value;
-    var houseNumber = document.getElementById("DialogHouseNumber").value;
-    var city = document.getElementById("DialogCity").value;
-    var zipCode = document.getElementById("DialogZipCode").value;
-    $.ajax({
-        type: "POST",
-        url: '/Admin/UpdateLocation',
-        data: { 'locationId': id, 'name': name, 'street': street, 'houseNumber': houseNumber, 'city': city, 'zipCode': zipCode },
-    }).done(function () {
-        location.reload();
-    }).fail(function (xhr, status, errorThrown) {
-        alert(status);
-    });
+    var name = document.getElementById("DialogName");
+    var street = document.getElementById("DialogStreet");
+    var houseNumber = document.getElementById("DialogHouseNumber");
+    var city = document.getElementById("DialogCity");
+    var zipCode = document.getElementById("DialogZipCode");
+
+    var childeren = [];
+    childeren.push(name);
+    childeren.push(street);
+    childeren.push(houseNumber);
+    childeren.push(city);
+    childeren.push(zipCode);
+
+    if (checkValues(childeren)) {
+        $.ajax({
+            type: "POST",
+            url: '/Admin/UpdateLocation',
+            data: {
+                'locationId': id,
+                'name': name.value,
+                'street': street.value,
+                'houseNumber': houseNumber.value,
+                'city': city.value,
+                'zipCode': zipCode.value
+            },
+        }).done(function () {
+            location.reload();
+        }).fail(function (xhr, status, errorThrown) {
+            alert(status);
+        });
+    }
 }
 
 function saveConcertData() {
-    var locationId = document.getElementById("LocationSelect").value;
-    var hallId = document.getElementById("HallSelect").value;
-    var duration = document.getElementById("DurationTextBox").value;
-    var startTime = document.getElementById("StartTimeTextBox").value;
-    $.ajax({
-        type: "POST",
-        url: '/Admin/UpdateConcert',
-        data: { 'eventId': id, 'locationId': locationId, 'hallId': hallId, 'duration': duration, 'startTime': startTime },
-    }).done(function () {
-        location.reload();
-    }).fail(function (xhr, status, errorThrown) {
-        alert(status);
-    });
+    var locationId = document.getElementById("LocationSelect");
+    var hallId = document.getElementById("HallSelect");
+    var duration = document.getElementById("DurationTextBox");
+    var startTime = document.getElementById("StartTimeTextBox");
+
+    var childeren = [];
+    childeren.push(locationId);
+    childeren.push(hallId);
+    childeren.push(duration);
+    childeren.push(startTime);
+
+    if (checkValues(childeren)) {
+        $.ajax({
+            type: "POST",
+            url: '/Admin/UpdateConcert',
+            data: {
+                'eventId': id,
+                'locationId': locationId.value,
+                'hallId': hallId.value,
+                'duration': duration.value,
+                'startTime': startTime.value
+            },
+        }).done(function () {
+            location.reload();
+        }).fail(function (xhr, status, errorThrown) {
+            alert(status);
+        });
+    }
+   
 }
 
 function saveRestaurantData() {
-
     var name = document.getElementById("NameTextBox").value;
     var location = document.getElementById("LocationSelect").value;
     var description = document.getElementById("DescriptonTextArea").value;
@@ -293,28 +299,57 @@ function saveRestaurantData() {
     var price = document.getElementById("PriceTextBox").value;
     var reducedPrice = document.getElementById("LessPriceTextBox").value;
     var foodTypes = document.getElementById("FoodTypeSelect").value;
-    $("body").css("cursor", "progress");
-    $.ajax({
-        type: "POST",
-        url: '/Admin/UpdateAdminRestaurant',
-        data: { 'restaurantId': id, 'availableSeats': seats, 'name': name, 'locationId': location, 'price': price, 'reducedPrice': reducedPrice, 'stars': stars, 'description': description, 'sessions': sessions, 'startTime': startTime, 'foodTypeArray': foodTypes, 'duration': duration },
-    }).done(function () {
-        var totalFiles = document.getElementById("RestaurantImageFile").files.length;
-        if (totalFiles != 0 && imageChanged) {
-            formData = new FormData();
-            for (var i = 0; i < totalFiles; i++) {
-                var file = document.getElementById("RestaurantImageFile").files[i];
-                fileName = name.replace(/\s/g, '') + ".jpg";
 
-                file.name = fileName;
-                formData.append("restaurantImage", file, fileName);
+    var childeren = [];
+    childeren.push(name);
+    childeren.push(location);
+    childeren.push(description);
+    childeren.push(sessions);
+    childeren.push(startTime);
+    childeren.push(duration);
+    childeren.push(seats);
+    childeren.push(stars);
+    childeren.push(reducedPrice);
+    childeren.push(foodTypes);
+
+    if (checkValues(childeren)) {
+        $("body").css("cursor", "progress");
+        $.ajax({
+            type: "POST",
+            url: '/Admin/UpdateAdminRestaurant',
+            data: {
+                'restaurantId': id,
+                'availableSeats': seats.value,
+                'name': name.value,
+                'locationId': location.value,
+                'price': price.value,
+                'reducedPrice': reducedPrice.value,
+                'stars': stars.value,
+                'description': description.value,
+                'sessions': sessions.value,
+                'startTime': startTime.value,
+                'foodTypeArray': foodTypes.value,
+                'duration': duration.value,
+                'imageChanged': imageChanged
+            },
+        }).done(function () {
+            var totalFiles = document.getElementById("RestaurantImageFile").files.length;
+            if (totalFiles !== 0 && imageChanged) {
+                formData = new FormData();
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById("RestaurantImageFile").files[i];
+                    fileName = name.replace(/\s/g, '') + ".jpg";
+
+                    file.name = fileName;
+                    formData.append("restaurantImage", file, fileName);
+                }
+                saveRestaurantImage();
+
             }
-            saveRestaurantImage();
-
-        }
-    }).fail(function (xhr, status, errorThrown) {
-        alert(status);
-    });
+        }).fail(function (xhr, status, errorThrown) {
+            alert(status);
+        });
+    }
 }
 
 function saveRestaurantImage() {
@@ -329,4 +364,111 @@ function saveRestaurantImage() {
     }).fail(function (xhr, status, errorThrown) {
         alert(xhr + ', ' + status + ', ' + errorThrown);
     });
+
+    
+}
+function checkValues(childeren) {
+    for (var i = 0; i < childeren.length; i++) {
+        if (childeren[i].value) {
+            if (childeren[i].type === "number") {
+                var regex = /^[0-9]+$/;
+                if (!childeren[i].value.match(regex)) {
+                    showSnackbar("One or more fields contain letters where they only should contain numbers.")
+                    return false;
+                }
+            }
+        } else {
+            showSnackbar("One or more fields are empty")
+            return false;
+        }
+    }
+    return true;
+}
+
+function cancelRemoveDialog() {
+    var removeDialog = document.getElementById('removeDialog');
+    removeDialog.close();
+}
+
+function cancelAddDialog() {
+    var addDialog = document.getElementById('addDialog');
+    addDialog.close();
+}
+
+function showSnackbar(snackbarText) {
+    var snackbar = document.getElementById("snackbar");
+    snackbar.textContent = snackbarText;
+    snackbar.className = "show";
+    setTimeout(function () { snackbar.className = snackbar.className.replace("show", "");; }, 3000);
+}
+
+function showRemoveBandDialog(adminBandId, bandName) {
+    id = adminBandId;
+    document.getElementById('RemoveItemButton').addEventListener("click", removeBand);
+    document.getElementById('RemoveText').innerHTML = "Do you really want to remove " + bandName + " ?";
+    var removeDialog = document.getElementById('removeDialog');
+    removeDialog.showModal();
+}
+
+function showRemoveConcertDialog(concertId, bandName) {
+    id = concertId;
+    document.getElementById('RemoveItemButton').addEventListener("click", removeConcert);
+    document.getElementById('RemoveText').innerHTML = "Do you really want to remove " + bandName + " ?";
+    var removeDialog = document.getElementById('removeDialog');
+    removeDialog.showModal();
+}
+
+function showRemoveRestaurantDialog(restaurantId, restaurantName) {
+    id = restaurantId;
+    document.getElementById('RemoveItemButton').addEventListener("click", removeRestaurant);
+    document.getElementById('RemoveText').innerHTML = "Do you really want to remove " + restaurantName + " ?";
+    var removeDialog = document.getElementById('removeDialog');
+    removeDialog.showModal();
+}
+
+function showRemoveLocationDialog(locationId, locationName) {
+    id = locationId;
+    document.getElementById('RemoveItemButton').addEventListener("click", removeLocation);
+    document.getElementById('RemoveText').innerHTML = "Do you really want to remove " + locationName + " ?";
+    var removeDialog = document.getElementById('removeDialog');
+    removeDialog.showModal();
+}
+
+function showDiv() {
+    if (document.getElementById('divCreate').style.display === "none") {
+        document.getElementById('divCreate').style.display = "block";
+        document.getElementById('newButton').textContent = "Close";
+    } else {
+        document.getElementById('divCreate').style.display = "none";
+        document.getElementById('newButton').textContent = "New";
+    }
+}
+
+function setImageChanged() {
+    imageChanged = true;
+}
+
+function setFoodTypesSelected(foodTypeList) {
+    $("#FoodTypeSelect").val(foodTypeList).trigger("chosen:updated");
+}
+
+function toJavaScriptDate(value) {
+    var pattern = /Date\(([^)]+)\)/;
+    var results = pattern.exec(value);
+    var dt = new Date(parseFloat(results[1]));
+    var minutes = dt.getMinutes().toString();
+    if (minutes === "0") {
+        minutes = "00";
+    }
+    var startTime = dt.getHours() + ":" + minutes;
+    return (startTime);
+}
+
+function newBandImage() {
+    formData = new FormData();
+    var totalFiles = document.getElementById("BandImageFile").files.length;
+    for (var i = 0; i < totalFiles; i++) {
+        var file = document.getElementById("BandImageFile").files[i];
+        formData.append("bandImage", file);
+    }
 }

@@ -38,7 +38,8 @@
             @Html.DisplayFor(modelItem => location.ZipCode)
         </td>
         <td>
-            <img src="~/Content/Content-images/Admin/ic_mode_edit_black_24dp_1x.png" alt="Edit Band" style="margin-right: 5px" onclick="javascript: showLocationDialog(@location.Id)" />
+            <img src="~/Content/Content-images/Admin/ic_mode_edit_black_24dp_1x.png" alt="Edit Band" style="margin-right: 5px" onclick="javascript: showLocationDialog(@location.Id)" /> | 
+            <img src="~/Content/Content-images/Admin/ic_clear_black_24dp_1x.png" alt="Remove Location" onclick="javascript: showRemoveLocationDialog(@location.Id, '@location.Name')" />
         </td>
     </tr>
 }

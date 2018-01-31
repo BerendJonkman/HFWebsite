@@ -13,6 +13,6 @@ namespace HFWebsiteA7.Repositories.Interfaces
         Location GetLocation(int locationId);
         void AddLocation(Location location);
         void UpdateLocation(Location location);
-        void DeleteLocation(Location location);
+        void RemoveLocation(Location location);
     }
 }

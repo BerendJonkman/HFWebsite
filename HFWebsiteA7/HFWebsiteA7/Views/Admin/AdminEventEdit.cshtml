@@ -3,7 +3,7 @@
 @model HFWebsiteA7.ViewModels.AdminEventEditViewModel
 
 @{
-    ViewBag.Title = "AdminEventEdit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 
@@ -21,7 +21,7 @@
 
     <div class="container">
 
-
+        @Html.ValidationSummary()
         <div class="container-fluid" style="display:none" id="divCreate">
             @if (Model.EventType.Equals(EventTypeEnum.Bands))
             {
@@ -60,7 +60,7 @@
 </div>
 
 <dialog id="addDialog">
-    <div style="margin:10px">
+    <div id="parent" style="margin:10px">
         @if (Model.EventType.Equals(EventTypeEnum.Bands))
         {
             @Html.Partial("PartialViews/EditBand");
@@ -84,13 +84,13 @@
 </dialog>
 <dialog id="removeDialog" style="padding:10px">
     <div class="row">
-        <h3 style="margin-left:5px; margin-right:5px">
-            Do you really want to remove the band?
+        <h3 id="RemoveText" style="margin-left:5px; margin-right:5px">
+
         </h3>
     </div>
     <div class="row" style="margin-left: 20px">
         <div class="col-md-4">
-            <button onclick="removeBand()" class="mLinkButton">Remove</button>
+            <button id="RemoveItemButton" class="mLinkButton">Remove</button>
         </div>
         <div class="col-md-4"></div>
         <div class="col-md-4">
@@ -101,4 +101,4 @@
 
 <div id="snackbar">The data has been saved</div>
 
-<script type="text/javascript" src="~/Scripts/AdminScript.js"></script>
+<script type="text/javascript" src="~/Scripts/adminScript.js"></script>
