@@ -314,9 +314,18 @@ namespace HFWebsiteA7.Controllers
 
                 if (vm.Tickets != null)
                 {
-                    foreach (ConcertTicket ct in vm.Tickets)
+                    foreach (BaseTicket bt in vm.Tickets)
                     {
-                        totalPrice += ct.Ticket.Count * ct.Concert.Hall.Price;
+                        if (bt is ConcertTicket)
+                        {
+                            ConcertTicket ct = bt as ConcertTicket;
+                            totalPrice += ct.Ticket.Count * ct.Concert.Hall.Price;
+                        }
+                        if (bt is DinnerTicket)
+                        {
+                            DinnerTicket dt = bt as DinnerTicket;
+                            totalPrice += dt.Ticket.Count * dt.Restaurant.Price;
+                        }
                     }
                 }
 

@@ -50,5 +50,9 @@ namespace HFWebsiteA7.Repositories.Classes
         {
             return db.DinnerSessions.FirstOrDefault(d => d.RestaurantId == restaurantId);
         }
+        public IEnumerable<DinnerSession> getDinnerSessionsByRestaurantAndStartTime(int restaurantId, DateTime startTime)
+        {
+            return db.DinnerSessions.Where(d => d.RestaurantId == restaurantId && d.StartTime == startTime);
+        }
     }
 }

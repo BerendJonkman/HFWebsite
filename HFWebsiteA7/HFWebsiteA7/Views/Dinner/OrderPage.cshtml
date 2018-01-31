@@ -13,58 +13,68 @@
             <div class="col-sm-4">Select your day </div>
             <div class="col-sm-4">Select your timeslot  </div>
         </div>
-        <div class="col-sm-4" style="padding-left:0; padding-right:20px;">
-            @Html.TextBox("ticket-amount", null, new { style = "width:120px" })
-        </div>
-        <div class="col-sm-4" style="padding-left:0; padding-right:20px;">
-            @using (Html.BeginForm("ActionMethodName", "ControllerName"))
-            {
-                List<SelectListItem> dayItems = new List<SelectListItem>();
-                {
-                    //dropdown for days
-                    
-                    foreach (var day in Model.days)
+        @using (Html.BeginForm("Reservation", "Dinner"))
+        {
+            @Html.AntiForgeryToken()
+            <div class="col-sm-4" style="padding-left:0; padding-right:20px;">
+                @Html.TextBox("ticket-amount", null, new { style = "width:120px", required = "required", @type = "number" })
+            </div>
+            <div class="col-sm-4" style="padding-left:0; padding-right:20px;">
+                @{
+                    List<SelectListItem> dayItems = new List<SelectListItem>();
+                    {
+                        //dropdown for days
+
+                        foreach (var day in Model.days)
+                        {
+                            dayItems.Add(new SelectListItem
+                            {
+
+                                Text = day.Name,
+                                Value = day.Id.ToString()
+                            });
+                        }
+                    }
+
+                    @Html.DropDownListFor(model => model.days, dayItems, "[Select a day]", new { required = "required", Name = "day" })
+                }
+            </div>
+            <div class="col-sm-4" style="padding-left:0; padding-right:20px;">
+                @{
+                    //dropdown for timeslot
+                    List<SelectListItem> timeslotItems = new List<SelectListItem>();
+                    foreach (var timeSlot in Model.timeslot)
                     {
 
-                        dayItems.Add(new SelectListItem
+                        DateTime timeslot = timeSlot.StartTime.AddMinutes((double)Model.timeslot.First().Duration * 45);
+
+                        timeslotItems.Add(new SelectListItem
                         {
 
-                            Text = day.Name,
-                            Value = day.Id.ToString()
+                            Text = (timeSlot.StartTime.ToString("HH:mm") + "-" + timeslot.ToString("HH:mm")),
+                            Value = timeSlot.StartTime.ToString()
                         });
 
                     }
+                    @Html.DropDownListFor(model => model.days, timeslotItems, "[Select a timeslot]", new { required = "required", Name = "timeslot" })
+                    <input type="hidden" value=@Model.restaurant.Id name="restaurantId" />
                 }
 
-        @Html.DropDownListFor(model => model.days, dayItems, "[Select a day]", new { required = "required" })
-            }
-        </div>
-        <div class="col-sm-4" style="padding-left:0; padding-right:20px;">
-            @{
-                //dropdown for timeslot
-                List<SelectListItem> timeslotItems = new List<SelectListItem>();
-                foreach (var timeSlot in Model.timeslot)
-                {
-
-                    DateTime timeslot = timeSlot.StartTime.AddMinutes((double)Model.timeslot.First().Duration * 45);
-
-                    timeslotItems.Add(new SelectListItem
-                    {
-
-                        Text = (timeSlot.StartTime.ToString("HH:mm") + "-" + timeslot.ToString("HH:mm")),
-                        Value = timeSlot.EventId.ToString()
-                    });
-
-                }
-            }
-            @Html.DropDownListFor(model => model.days, timeslotItems, "[Select a timeslot]", new { required = "required" })
-        </div>
-        <div class="container" style="margin-top:30px; padding-left:0px;">
-            <div class="col-sm-12" style="padding-left:0px;">
-                <p>Please tell us anything we might need to know (I.e allergies)</p>
-                @Html.TextArea("ticket-amount", null, new { style = "width:470px; max-width:470px;" })
             </div>
-        </div>
+            <br />
+            <div class="container" style="margin-top:30px; padding-left:0px;">
+                <div class="col-sm-12" style="padding-left:0px;">
+                    <p>Please tell us anything we might need to know (I.e allergies)</p>
+                    @Html.TextArea("remarks", null, new { style = "width:470px; max-width:470px;" })
+                </div>
+            </div>
+            <div class="col-sm-5" style="padding: 0px; margin-top: 20px;">
+                @Html.ActionLink("Back to restaurant information", "Index", "Dinner", "", new { @class = "mLinkButton"} )
+            </div>
+            <div class="col-sm-2 col-lg-offset-3"  style="padding-left:38px; padding-top:0px;">
+                <input type="submit" value="Add to basket" class="mLinkButton" />
+            </div>
+        }
     </div>
     <div class="col-lg-6" style="margin-top: 25px;">
         <img src="~/Content/Content-images/RestaurantsImages/Restaurants/Inside/brinkman-inside.png" style="width:525px; "/>

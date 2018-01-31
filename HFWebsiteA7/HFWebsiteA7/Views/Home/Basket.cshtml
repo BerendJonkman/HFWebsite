@@ -77,6 +77,26 @@
                                     </td>
                                 </tr>
                             }
+
+                            if(Model.Tickets[i] is DinnerTicket)
+                            {
+                                 var t = (DinnerTicket)Model.Tickets[i];
+                                 <tr>
+                                    <td style="width: 8%">
+                                        @Html.EditorFor(Model => Model.Tickets[i].Count, new { htmlAttributes = new { @class = "form-control", @min = "0", @width = "15px", @value = t.Ticket.Count } })
+                                        @Html.HiddenFor(x => x.Tickets[i].Id)
+                                    </td>
+                                    <td>
+                                        @t.Restaurant.Name
+                                    </td>
+                                    <td>
+                                        @t.Ticket.Event.Day.Date.DayOfWeek -  @t.Ticket.Event.Day.Date.ToString("dd/MM/yy")
+                                    </td>
+                                    <td>
+                                        @{ var Price = t.Restaurant.Price * t.Ticket.Count;} €@Price,00
+                                    </td>
+                                </tr>
+                            }
                         }
                     }
 
