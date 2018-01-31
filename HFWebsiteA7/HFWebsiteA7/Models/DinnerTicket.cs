@@ -9,5 +9,6 @@ namespace HFWebsiteA7.Models
     {
         public PreTicket Ticket { get; set; }
         public Restaurant Restaurant { get; set; }
+        public string Remarks { get; set; }
     }
 }

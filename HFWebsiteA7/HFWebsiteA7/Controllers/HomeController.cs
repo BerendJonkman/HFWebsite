@@ -22,6 +22,7 @@ namespace HFWebsiteA7.Controllers
         ITicketRepository ticketRepository = new TicketRepository();
         IDayRepository dayRepository = new DayRepository();
         IDinnerSessionRepository dinnerSessionRepository = new DinnerSessionRepository();
+        IRestaurantRepository restaurantRepository = new RestaurantRepository();
 
         private Reservation reservation;
 
@@ -91,6 +92,7 @@ namespace HFWebsiteA7.Controllers
                 if (vm.EventIdList != null)
                 {
                     vm.ConcertList = new List<Concert>();
+                    vm.RestaurantList = new List<DinnerSession>();
 
                     foreach (int e in vm.EventIdList)
                     {
@@ -98,6 +100,10 @@ namespace HFWebsiteA7.Controllers
                         if (evnt.TableType.Equals("Concert"))
                         {
                             vm.ConcertList.Add(concertsRepository.GetConcert(e));
+                        }
+                        if(evnt.TableType.Equals("DinnerSession"))
+                        {
+                            vm.RestaurantList.Add(dinnerSessionRepository.GetDinnerSession(e));
                         }
                     }
                 }
@@ -194,6 +200,19 @@ namespace HFWebsiteA7.Controllers
                     }
 
                     eventRepository.LowerAvailableSeats(ct.Ticket.EventId, ct.Ticket.Count);
+                }
+                if(ob is DinnerTicket dt)
+                {
+                    Ticket ticket = new Ticket();
+                    PreTicket pt = dt.Ticket;
+                    ticket.EventId = pt.EventId;
+                    ticket.OrderId = orderId;
+
+                    for( int i = 0; i <dt.Ticket.Count; i++)
+                    {
+                        ticket.Comment = dt.Remarks;
+                        ticketRepository.AddTicket(ticket);
+                    }
                 }
             }
         }

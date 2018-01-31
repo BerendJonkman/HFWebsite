@@ -86,6 +86,7 @@ namespace HFWebsiteA7.Controllers
             DateTime timeSlot = Convert.ToDateTime(collection.Get("timeslot"));
             int restaurantId = Convert.ToInt32(collection.Get("restaurantId"));
             Restaurant restaurant = restaurantRepository.GetRestaurant(restaurantId);
+            string remarks = collection.Get("remarks");
 
             List<DinnerSession> dinnerSession = dinnerSessionRepository.getDinnerSessionsByRestaurantAndStartTime(restaurantId, timeSlot).ToList();
             foreach (DinnerSession session in dinnerSession)
@@ -106,6 +107,7 @@ namespace HFWebsiteA7.Controllers
                     Count = amount
                 },
                 Restaurant = restaurant,
+                Remarks = remarks,
                 Count = amount,
                 Id = selectedDinnerSession.EventId
             };
