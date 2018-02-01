@@ -14,12 +14,12 @@
         <div class="text-center" style="margin-top: 25px">
             <div class="col-sm-6 text-center">
                 <div>
-                    @Html.ActionLink("Concerts", "EventSelect", "Admin", new { Type = EventTypeEnum.Concerts }, new { Style = "width:100px;", @class = "mLinkButton" })
+                    <button class="mLinkButton" value="Concerts" style="width: 100px" onclick="location.href='@Url.Action("EventSelect", "Admin", new { Type = EventTypeEnum.Concerts })'">Concerts</button>
                 </div>  
             </div>
             <div class="col-sm-6 text-center">
                 <div>
-                    @Html.ActionLink("Dinners", "EventSelect", "Admin", new { Type = EventTypeEnum.Restaurants }, new { Style = "width:100px;", @class = "mLinkButton" })
+                    <button class="mLinkButton" value="Dinners" style="width: 100px" onclick="location.href='@Url.Action("EventSelect", "Admin", new { Type = EventTypeEnum.Restaurants })'" >Dinners</button>
                 </div>
             </div>
         </div>
@@ -27,14 +27,12 @@
         <div class="text-center" style="margin-top: 100px">
             <div class="col-sm-6 text-center">
                 <div>
-                    @Html.ActionLink("Bands", "EventSelect", "Admin", new { Type = EventTypeEnum.Bands }, new { Style = "width:100px;", @class = "mLinkButton" })
-
-
+                    <button class="mLinkButton" value="Bands" style="width: 100px" onclick="location.href='@Url.Action("EventSelect", "Admin", new { Type = EventTypeEnum.Bands })'">Bands</button>
                 </div>
             </div>
             <div class="col-sm-6 text-center">
                 <div>
-                    @Html.ActionLink("Locations", "EventSelect", "Admin", new { Type = EventTypeEnum.Locations }, new { Style = "width:100px;", @class = "mLinkButton" })
+                    <button class="mLinkButton" value="Locations" style="width: 100px" onclick="location.href='@Url.Action("EventSelect", "Admin", new { Type = EventTypeEnum.Locations })'">Locations</button>
                 </div>
             </div>
         </div>

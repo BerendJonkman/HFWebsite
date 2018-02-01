@@ -58,7 +58,7 @@
                     {
                         if (c.DayId == Model.DayId)
                         {
-                            <tr onclick="loadConcertInfo(@c.EventId)">
+                            <tr onclick="loadConcertInfo(@c.EventId)" style="cursor: pointer">
                                 <td>
                                     @c.Band.Name
                                 </td>
@@ -78,7 +78,7 @@
                     {
                         if (r.DayId == Model.DayId)
                         {
-                            <tr onclick="loadRestaurantInfo(@r.EventId)">
+                            <tr onclick="loadRestaurantInfo(@r.EventId)" style="cursor: pointer">
                                     <td>
                                         @r.Restaurant.Name
                                     </td>

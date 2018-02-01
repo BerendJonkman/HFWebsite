@@ -61,6 +61,7 @@ namespace HFWebsiteA7.Controllers
             return View(concertRepository.CreateFestivalDay(day));
         }
 
+        //Als de reservatie pagina geopend wordt de dag gebruikt om de juiste items in te laden, welke alvast gevult worden met 0 count tickets
         public ActionResult Reservation(int dayId, int? concertId)
         {
             ReservationViewModel vm = new ReservationViewModel
@@ -217,9 +218,8 @@ namespace HFWebsiteA7.Controllers
                     bool found = false;
                     foreach(object ticket in reservation.Tickets)
                     {
-                        if (ticket is ConcertTicket)
+                        if (ticket is ConcertTicket t)
                         {
-                            var t = (ConcertTicket)ticket;
                             if (ct.Concert.EventId == t.Concert.EventId)
                             {
                                 found = true;
