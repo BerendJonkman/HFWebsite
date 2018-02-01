@@ -39,11 +39,11 @@ namespace HFWebsiteA7.Controllers
                 RestaurantList = new List<RestaurantAndFoodType>()
             };
 
-
+            //list for foreach to loop through
             tempRestaurantList = restaurantRepository.GetAllRestaurants().ToList();
             List<String> FoodTypes = new List<string>();
 
-
+            //retrieve foodtypelist from repository and concatenate these into a string for viewing
             foreach (var item in tempRestaurantList) {
                 IEnumerable<FoodType> foodTypeList = restaurantFoodTypeRepository.GetFoodTypeByRestaurantId(item.Id);
                 RestaurantAndFoodType restaurandAndFoodType = new RestaurantAndFoodType();
@@ -60,6 +60,7 @@ namespace HFWebsiteA7.Controllers
                         foodTypes += ", " + foodItem.Name;
                     }
                 }
+                //add restaurant and foodtypes to model restaurantfoodtype and add restaurantandfoodtype to the restaurantlist in the ViewModel 
                 restaurandAndFoodType.restaurant = item;
                 restaurandAndFoodType.foodType = foodTypes;
                 vm.RestaurantList.Add(restaurandAndFoodType);
@@ -67,10 +68,12 @@ namespace HFWebsiteA7.Controllers
             return vm;
         }
 
+        //process reservation
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Reservation(FormCollection collection)
         {
+            //check if session is already set and set of new reservation or load from session
             if (Session["Reservation"] != null)
             {
                 reservation = (Reservation)Session["Reservation"];
@@ -80,15 +83,22 @@ namespace HFWebsiteA7.Controllers
                 reservation = new Reservation();
             }
 
+            
             DinnerSession selectedDinnerSession = new DinnerSession();
+
+            //get input from user from the Collection that's passed from the view
             int amount = Convert.ToInt32(collection.Get("ticket-amount"));
             int dayId = Convert.ToInt32(collection.Get("day"));
             DateTime timeSlot = Convert.ToDateTime(collection.Get("timeslot"));
             int restaurantId = Convert.ToInt32(collection.Get("restaurantId"));
-            Restaurant restaurant = restaurantRepository.GetRestaurant(restaurantId);
             string remarks = collection.Get("remarks");
 
+            Restaurant restaurant = restaurantRepository.GetRestaurant(restaurantId);
+
+            //get dinnerSessions by restaurantId and timeslot the customer selected
             List<DinnerSession> dinnerSession = dinnerSessionRepository.getDinnerSessionsByRestaurantAndStartTime(restaurantId, timeSlot).ToList();
+
+            //check for each session in the dinnersession list if the dayId matches the selected dayId by the customer
             foreach (DinnerSession session in dinnerSession)
             {
                 if(session.DayId == dayId)
@@ -96,7 +106,8 @@ namespace HFWebsiteA7.Controllers
                     selectedDinnerSession = session;
                 }
             }
-
+            
+            //fill dinnerTicket and PreTicket
             DinnerTicket dinnerTicket = new DinnerTicket
             {
                 Ticket = new PreTicket
@@ -112,6 +123,7 @@ namespace HFWebsiteA7.Controllers
                 Id = selectedDinnerSession.EventId
             };
 
+            //create new list of Tickets if reservation doesn't contain any.
             if (reservation.Tickets == null)
             {
                 reservation.Tickets = new List<BaseTicket>();
@@ -150,6 +162,8 @@ namespace HFWebsiteA7.Controllers
             List<Day> days = new List<Day>();
             Restaurant restaurant = restaurantRepository.GetRestaurant(Id);
             List<DinnerSession> dinnerSessions = dinnerSessionRepository.GetAllDinnerSessionsByRestaurantId(Id).ToList();
+            
+            //filter all days from dinnerSessions per restaurant so only new days are add to days list
             foreach(DinnerSession dinnerSession in dinnerSessions) {
                 if (!days.Contains(dayRepository.GetDay(dinnerSession.DayId))) {
                     days.Add(dayRepository.GetDay(dinnerSession.DayId));

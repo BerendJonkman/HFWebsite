@@ -17,7 +17,7 @@
         {
             @Html.AntiForgeryToken()
             <div class="col-sm-4" style="padding-left:0; padding-right:20px;">
-                @Html.TextBox("ticket-amount", null, new { style = "width:120px", required = "required", @type = "number" })
+                @Html.TextBox("ticket-amount", null, new { style = "width:120px", required = "required", @type = "number",  @min = "0"  })
             </div>
             <div class="col-sm-4" style="padding-left:0; padding-right:20px;">
                 @{
@@ -42,6 +42,7 @@
             <div class="col-sm-4" style="padding-left:0; padding-right:20px;">
                 @{
                     //dropdown for timeslot
+
                     List<SelectListItem> timeslotItems = new List<SelectListItem>();
                     foreach (var timeSlot in Model.timeslot)
                     {
