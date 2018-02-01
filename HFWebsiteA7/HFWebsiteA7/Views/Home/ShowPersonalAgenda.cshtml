@@ -72,6 +72,26 @@
                         }
                     }
                 }
+                if(Model.RestaurantList != null)
+                {
+                    foreach (DinnerSession r in Model.RestaurantList)
+                    {
+                        if (r.DayId == Model.DayId)
+                        {
+                            <tr onclick="loadRestaurantInfo(@r.EventId)">
+                                    <td>
+                                        @r.Restaurant.Name
+                                    </td>
+                                    <td>
+                                        @r.StartTime.ToString("HH:mm")
+                                    </td>
+                                    <td>
+                                        @r.Restaurant.Location.Street @r.Restaurant.Location.HouseNumber
+                                    </td>
+                                </tr>
+                        }
+                    }
+                }
             }
         </table>
     </div>

@@ -161,6 +161,7 @@
     <Compile Include="Models\DayEnum.cs" />
     <Compile Include="Models\DinnerDetails.cs" />
     <Compile Include="Models\DinnerOrder.cs" />
+    <Compile Include="Models\DinnerTicket.cs" />
     <Compile Include="Models\EventTypeEnum.cs" />
     <Compile Include="Models\ExcelItem.cs" />
     <Compile Include="Models\PassParToutDay.cs" />

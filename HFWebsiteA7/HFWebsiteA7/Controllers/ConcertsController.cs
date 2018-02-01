@@ -217,12 +217,15 @@ namespace HFWebsiteA7.Controllers
                     bool found = false;
                     foreach(object ticket in reservation.Tickets)
                     {
-                        var t = (ConcertTicket)ticket;
-                        if (ct.Concert.EventId == t.Concert.EventId)
+                        if (ticket is ConcertTicket)
                         {
-                            found = true;
-                            t.Ticket.Count += ct.Ticket.Count;
-                            break;
+                            var t = (ConcertTicket)ticket;
+                            if (ct.Concert.EventId == t.Concert.EventId)
+                            {
+                                found = true;
+                                t.Ticket.Count += ct.Ticket.Count;
+                                break;
+                            }
                         }
                     }
                     if (!found)

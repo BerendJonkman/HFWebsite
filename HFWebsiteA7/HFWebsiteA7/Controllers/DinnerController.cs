@@ -21,7 +21,9 @@ namespace HFWebsiteA7.Controllers
         private IRestaurantRepository restaurantRepository = new RestaurantRepository();
         private IRestaurantFoodTypeRepository restaurantFoodTypeRepository = new RestaurantFoodTypeRepository();
         private IDayRepository dayRepository = new DayRepository();
+        private IEventRepository eventRepository = new EventRepository();
         private List<Restaurant> tempRestaurantList = new List<Restaurant>();
+        private Reservation reservation;
 
 
         // GET: Dinner
@@ -32,7 +34,6 @@ namespace HFWebsiteA7.Controllers
 
         private RestaurantViewModel CreateIndexViewModel()
         {
-            //List<RestaurantAndFoodType> restaurants = new List<RestaurantAndFoodType>();
             RestaurantViewModel vm = new RestaurantViewModel
             {
                 RestaurantList = new List<RestaurantAndFoodType>()
@@ -41,13 +42,13 @@ namespace HFWebsiteA7.Controllers
 
             tempRestaurantList = restaurantRepository.GetAllRestaurants().ToList();
             List<String> FoodTypes = new List<string>();
-            
-            
-            foreach (var item in tempRestaurantList){
+
+
+            foreach (var item in tempRestaurantList) {
                 IEnumerable<FoodType> foodTypeList = restaurantFoodTypeRepository.GetFoodTypeByRestaurantId(item.Id);
                 RestaurantAndFoodType restaurandAndFoodType = new RestaurantAndFoodType();
                 string foodTypes = "";
-                
+
                 foreach (var foodItem in foodTypeList)
                 {
                     if (foodTypes == "")
@@ -62,65 +63,67 @@ namespace HFWebsiteA7.Controllers
                 restaurandAndFoodType.restaurant = item;
                 restaurandAndFoodType.foodType = foodTypes;
                 vm.RestaurantList.Add(restaurandAndFoodType);
-                //FoodTypes.Add(foodTypes);
             }
             return vm;
         }
 
-        
-    
-
-        // GET: Dinner/Details/5
-       
-
-        // GET: Dinner/Create
-        public ActionResult Create()
-        {
-            ViewBag.DayId = new SelectList(db.Days, "Id", "Name");
-            ViewBag.RestaurantId = new SelectList(db.Restaurants, "Id", "Description");
-            return View();
-        }
-
-        // POST: Dinner/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EventId,DayId,AvailableSeats,Discriminator,RestaurantId,Duration,StartTime")] DinnerSession dinnerSession)
+        public ActionResult Reservation(FormCollection collection)
         {
-            if (ModelState.IsValid)
+            if (Session["Reservation"] != null)
             {
-                db.Events.Add(dinnerSession);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                reservation = (Reservation)Session["Reservation"];
+            }
+            else
+            {
+                reservation = new Reservation();
             }
 
-            ViewBag.DayId = new SelectList(db.Days, "Id", "Name", dinnerSession.DayId);
-            ViewBag.RestaurantId = new SelectList(db.Restaurants, "Id", "Description", dinnerSession.RestaurantId);
-            return View(dinnerSession);
-        }
+            DinnerSession selectedDinnerSession = new DinnerSession();
+            int amount = Convert.ToInt32(collection.Get("ticket-amount"));
+            int dayId = Convert.ToInt32(collection.Get("day"));
+            DateTime timeSlot = Convert.ToDateTime(collection.Get("timeslot"));
+            int restaurantId = Convert.ToInt32(collection.Get("restaurantId"));
+            Restaurant restaurant = restaurantRepository.GetRestaurant(restaurantId);
+            string remarks = collection.Get("remarks");
 
-        // GET: Dinner/Edit/5
-        
-        
-
-        // POST: Dinner/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EventId,DayId,AvailableSeats,Discriminator,RestaurantId,Duration,StartTime")] DinnerSession dinnerSession)
-        {
-            if (ModelState.IsValid)
+            List<DinnerSession> dinnerSession = dinnerSessionRepository.getDinnerSessionsByRestaurantAndStartTime(restaurantId, timeSlot).ToList();
+            foreach (DinnerSession session in dinnerSession)
             {
-                db.Entry(dinnerSession).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if(session.DayId == dayId)
+                {
+                    selectedDinnerSession = session;
+                }
             }
-            ViewBag.DayId = new SelectList(db.Days, "Id", "Name", dinnerSession.DayId);
-            ViewBag.RestaurantId = new SelectList(db.Restaurants, "Id", "Description", dinnerSession.RestaurantId);
-            return View(dinnerSession);
+
+            DinnerTicket dinnerTicket = new DinnerTicket
+            {
+                Ticket = new PreTicket
+                {
+                    Id = 1,
+                    EventId = selectedDinnerSession.EventId,
+                    Event = eventRepository.GetEvent(selectedDinnerSession.EventId),
+                    Count = amount
+                },
+                Restaurant = restaurant,
+                Remarks = remarks,
+                Count = amount,
+                Id = selectedDinnerSession.EventId
+            };
+
+            if (reservation.Tickets == null)
+            {
+                reservation.Tickets = new List<BaseTicket>();
+            }
+
+            reservation.Tickets.Add(dinnerTicket);
+
+            Session["Reservation"] = reservation;
+
+            return RedirectToAction("Basket", "Home");
         }
+
 
         public ActionResult DetailsPage(int Id)
         {
@@ -137,6 +140,7 @@ namespace HFWebsiteA7.Controllers
             dinnerDetails.restaurant = restaurantRepository.GetRestaurant(Id);
             dinnerDetails.duration = (dinnerSession.Duration * 45).ToString();
             dinnerDetails.startTimes = retrieveStarttimes(Id, true).startTimeString;
+
             return View(dinnerDetails);
         }
 
@@ -151,12 +155,11 @@ namespace HFWebsiteA7.Controllers
                     days.Add(dayRepository.GetDay(dinnerSession.DayId));
                 }
             }
-
-
-
+            
             dinnerOrder.days = days;
             dinnerOrder.restaurant = restaurant;
             dinnerOrder.timeslot = retrieveStarttimes(Id, false).startTimeSession.ToList();
+
             return View(dinnerOrder);
         }
 
@@ -179,7 +182,6 @@ namespace HFWebsiteA7.Controllers
                 }
             }
             return foodTypes;
-
         }
 
         //Method to retrieve the starttimes.
@@ -232,6 +234,7 @@ namespace HFWebsiteA7.Controllers
             }
             returnValue.startTimeSession = startTimesDateTime;
             returnValue.startTimeString = startTimesString;
+
             return returnValue;
         }
 
