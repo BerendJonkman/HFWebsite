@@ -61,6 +61,7 @@ namespace HFWebsiteA7.Controllers
             return View(concertRepository.CreateFestivalDay(day));
         }
 
+        //Als de reservatie pagina geopend wordt de dag gebruikt om de juiste items in te laden, welke alvast gevult worden met 0 count tickets
         public ActionResult Reservation(int dayId, int? concertId)
         {
             ReservationViewModel vm = new ReservationViewModel
