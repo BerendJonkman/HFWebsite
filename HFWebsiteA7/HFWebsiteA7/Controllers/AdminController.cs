@@ -97,8 +97,16 @@ namespace HFWebsiteA7.Controllers
         public ActionResult AdminEventEdit()
         {
             var adminEventEditViewModel = (AdminEventEditViewModel)Session["adminEventEditViewModel"];
-            adminEventEditViewModel = CreateAdminEventEditViewModel(adminEventEditViewModel.EventType);
-            Session["adminEventEditViewModel"] = adminEventEditViewModel;
+            if(adminEventEditViewModel != null)
+            {
+                adminEventEditViewModel = CreateAdminEventEditViewModel(adminEventEditViewModel.EventType);
+                Session["adminEventEditViewModel"] = adminEventEditViewModel;
+            }
+            else
+            {
+                RedirectToAction("Index");
+            }
+
             return View(adminEventEditViewModel);
         }
 
