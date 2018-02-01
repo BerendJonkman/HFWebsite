@@ -50,8 +50,8 @@
             @Html.DisplayFor(modelItem => concert.Location.Name)
         </td>
         <td>
-            <img src="~/Content/Content-images/Admin/ic_mode_edit_black_24dp_1x.png" alt="Edit Band" style="margin-right: 5px" onclick="javascript: showConcertDialog(@concert.EventId)" /> | 
-            <img src="~/Content/Content-images/Admin/ic_clear_black_24dp_1x.png" alt="Remove Concert" onclick="javascript: showRemoveConcertDialog(@concert.EventId, '@concert.Band.Name')" />
+            <img src="~/Content/Content-images/Admin/ic_mode_edit_black_24dp_1x.png" alt="Edit Band" style="margin-right: 5px; cursor: pointer;" onclick="javascript: showConcertDialog(@concert.EventId)"/> | 
+            <img src="~/Content/Content-images/Admin/ic_clear_black_24dp_1x.png" alt="Remove Concert" onclick="javascript: showRemoveConcertDialog(@concert.EventId, '@concert.Band.Name')" style="cursor: pointer"/>
         </td>
     </tr>
 }

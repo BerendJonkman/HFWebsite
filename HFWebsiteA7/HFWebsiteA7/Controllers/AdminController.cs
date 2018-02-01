@@ -278,6 +278,7 @@ namespace HFWebsiteA7.Controllers
             name = Regex.Replace(name, @"\s+", "") + ".jpg";
             name = name.ToLower();
             name = name.Replace("&", "and");
+            name = name.Replace(".", "");
             return name;
         }
 
