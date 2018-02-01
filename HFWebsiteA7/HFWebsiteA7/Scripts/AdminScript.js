@@ -2,11 +2,13 @@
 var imageChanged = false;
 var formData;
 
+//Sets cursos to normal
 window.onload = function () {
     $("body").css("cursor", "default");
 
 }
 
+//Call to controller to remove Band
 function removeBand() {
     $.ajax({
         type: "GET",
@@ -19,6 +21,7 @@ function removeBand() {
     });
 }
 
+//Call to controller to remove Location
 function removeLocation() {
     $.ajax({
         type: "GET",
@@ -31,6 +34,7 @@ function removeLocation() {
     });
 }
 
+//Call to controller to remove Restaurant
 function removeRestaurant() {
     $.ajax({
         type: "GET",
@@ -43,6 +47,7 @@ function removeRestaurant() {
     });
 }
 
+//Call to controller to remove Concert
 function removeConcert() {
     $.ajax({
         type: "GET",
@@ -55,6 +60,7 @@ function removeConcert() {
     });
 }
 
+//Get the selected Band and show it in the editdialog
 function showBandDialog(selectedId) {
     id = selectedId;
     $.ajax({
@@ -79,6 +85,7 @@ function showBandDialog(selectedId) {
     });
 }
 
+//Get the selected Loaction and show it in the editdialog
 function showLocationDialog(selectedId) {
     id = selectedId;
     $.ajax({
@@ -104,6 +111,7 @@ function showLocationDialog(selectedId) {
     });
 }
 
+//Get the selected Concert and show it in the editdialog
 function showConcertDialog(selectedId) {
     id = selectedId;
 
@@ -131,6 +139,7 @@ function showConcertDialog(selectedId) {
     });
 }
 
+//Get the selected Restaurant and show it in the editdialog
 function showRestaurantDialog(selectedId) {
     id = selectedId;
     $.ajax({
@@ -165,6 +174,7 @@ function showRestaurantDialog(selectedId) {
     });
 }
 
+//Saves the updated Band data
 function saveBandData() {
     var name = document.getElementById("Name");
     var description = document.getElementById("Description");
@@ -206,20 +216,7 @@ function saveBandData() {
 
 }
 
-function saveBandImage() {
-    $.ajax({
-        type: "POST",
-        url: '/Admin/UploadBandImage',
-        data: formData,
-        contentType: false,
-        processData: false
-    }).done(function () {
-        location.reload()
-    }).fail(function (xhr, status, errorThrown) {
-        alert(xhr + ', ' + status + ', ' + errorThrown);
-    });
-}
-
+//Saves the updated Location data
 function saveLocationData() {
 
     var name = document.getElementById("DialogName");
@@ -255,6 +252,7 @@ function saveLocationData() {
     }
 }
 
+//Saves the updated Concert data
 function saveConcertData() {
     var locationId = document.getElementById("LocationSelect");
     var hallId = document.getElementById("HallSelect");
@@ -287,6 +285,7 @@ function saveConcertData() {
    
 }
 
+//Saves the updated Restaurant data
 function saveRestaurantData() {
     var name = document.getElementById("NameTextBox").value;
     var location = document.getElementById("LocationSelect").value;
@@ -352,6 +351,22 @@ function saveRestaurantData() {
     }
 }
 
+//Saves image from Band to server
+function saveBandImage() {
+    $.ajax({
+        type: "POST",
+        url: '/Admin/UploadBandImage',
+        data: formData,
+        contentType: false,
+        processData: false
+    }).done(function () {
+        location.reload()
+    }).fail(function (xhr, status, errorThrown) {
+        alert(xhr + ', ' + status + ', ' + errorThrown);
+    });
+}
+
+//Saves image from Restaurant to server
 function saveRestaurantImage() {
     $.ajax({
         type: "POST",
@@ -363,9 +378,7 @@ function saveRestaurantImage() {
         location.reload()
     }).fail(function (xhr, status, errorThrown) {
         alert(xhr + ', ' + status + ', ' + errorThrown);
-    });
-
-    
+    }); 
 }
 function checkValues(childeren) {
     for (var i = 0; i < childeren.length; i++) {
@@ -385,16 +398,19 @@ function checkValues(childeren) {
     return true;
 }
 
+//Closes the remove dialog
 function cancelRemoveDialog() {
     var removeDialog = document.getElementById('removeDialog');
     removeDialog.close();
 }
 
+//Closes the edit dialog
 function cancelAddDialog() {
     var addDialog = document.getElementById('addDialog');
     addDialog.close();
 }
 
+//Show a snackbar with chosen text
 function showSnackbar(snackbarText) {
     var snackbar = document.getElementById("snackbar");
     snackbar.textContent = snackbarText;
@@ -402,6 +418,7 @@ function showSnackbar(snackbarText) {
     setTimeout(function () { snackbar.className = snackbar.className.replace("show", "");; }, 3000);
 }
 
+//Shows the remove dialog for the chosen Band
 function showRemoveBandDialog(adminBandId, bandName) {
     id = adminBandId;
     document.getElementById('RemoveItemButton').addEventListener("click", removeBand);
@@ -410,6 +427,7 @@ function showRemoveBandDialog(adminBandId, bandName) {
     removeDialog.showModal();
 }
 
+//Shows the remove dialog for the chosen Concert
 function showRemoveConcertDialog(concertId, bandName) {
     id = concertId;
     document.getElementById('RemoveItemButton').addEventListener("click", removeConcert);
@@ -418,6 +436,7 @@ function showRemoveConcertDialog(concertId, bandName) {
     removeDialog.showModal();
 }
 
+//Shows the remove dialog for the chosen Restaurant
 function showRemoveRestaurantDialog(restaurantId, restaurantName) {
     id = restaurantId;
     document.getElementById('RemoveItemButton').addEventListener("click", removeRestaurant);
@@ -426,6 +445,7 @@ function showRemoveRestaurantDialog(restaurantId, restaurantName) {
     removeDialog.showModal();
 }
 
+//Shows the remove dialog for the chosen Location
 function showRemoveLocationDialog(locationId, locationName) {
     id = locationId;
     document.getElementById('RemoveItemButton').addEventListener("click", removeLocation);
@@ -434,6 +454,7 @@ function showRemoveLocationDialog(locationId, locationName) {
     removeDialog.showModal();
 }
 
+//Shows the create new item div
 function showDiv() {
     if (document.getElementById('divCreate').style.display === "none") {
         document.getElementById('divCreate').style.display = "block";
@@ -444,14 +465,17 @@ function showDiv() {
     }
 }
 
+//Sets a boolean which can be send to the controller to check if the image has been changed
 function setImageChanged() {
     imageChanged = true;
 }
 
+//Sets the selected foodtypes to selected
 function setFoodTypesSelected(foodTypeList) {
     $("#FoodTypeSelect").val(foodTypeList).trigger("chosen:updated");
 }
 
+//Changes the date to a date to a more readable one
 function toJavaScriptDate(value) {
     var pattern = /Date\(([^)]+)\)/;
     var results = pattern.exec(value);
@@ -462,13 +486,4 @@ function toJavaScriptDate(value) {
     }
     var startTime = dt.getHours() + ":" + minutes;
     return (startTime);
-}
-
-function newBandImage() {
-    formData = new FormData();
-    var totalFiles = document.getElementById("BandImageFile").files.length;
-    for (var i = 0; i < totalFiles; i++) {
-        var file = document.getElementById("BandImageFile").files[i];
-        formData.append("bandImage", file);
-    }
 }
