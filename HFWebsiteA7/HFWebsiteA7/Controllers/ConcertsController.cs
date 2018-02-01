@@ -218,9 +218,8 @@ namespace HFWebsiteA7.Controllers
                     bool found = false;
                     foreach(object ticket in reservation.Tickets)
                     {
-                        if (ticket is ConcertTicket)
+                        if (ticket is ConcertTicket t)
                         {
-                            var t = (ConcertTicket)ticket;
                             if (ct.Concert.EventId == t.Concert.EventId)
                             {
                                 found = true;
